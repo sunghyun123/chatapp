@@ -19,19 +19,20 @@ class ChattActivity : AppCompatActivity() {
     private  lateinit var messageAdapter: MessageAdapter
     private  lateinit var messageList: ArrayList<Message>
     private  lateinit var mDbRef: DatabaseReference
-    //ㄴㅁ러ㅏㅁ나ㅣㄹㄴ머ㅣㅏ럼닒너
+
     var receiverRoom: String? = null
     var senderRoom: String? = null
 
+    //유니티 wakeup같은 기능을 하는 함수 앱 실행시 단 1번만 실행
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_chatt)
 
-        val name = intent.getStringExtra("name")
-        val receiverUid = intent.getStringExtra("uid")
+        val name = intent.getStringExtra("name") // UserAdapter 액티비티의 31번째 줄의 데이터를 받는 함수
+        val receiverUid = intent.getStringExtra("uid") // UserAdapter 액티비티의 32번째 줄의 데이터를 받는 함수
 
-        val senderUid = FirebaseAuth.getInstance().currentUser?.uid
-        mDbRef = FirebaseDatabase.getInstance().getReference()
+        val senderUid = FirebaseAuth.getInstance().currentUser?.uid //Firebase 인증 객체 초기화
+        mDbRef = FirebaseDatabase.getInstance().getReference() //Firebase에 데이터를 추가하거나 조회하기 위한 코드, 정의
 
         senderRoom = receiverUid + senderUid
         receiverRoom = senderUid + receiverUid
@@ -39,14 +40,14 @@ class ChattActivity : AppCompatActivity() {
 
         supportActionBar?.title = name // 채팅방 상단에 상대방 이름 표시
 
-
+        //findViewById(R.id.~)를 하게되면 xml 레이아웃에서 id가 ~인 객체에 접근하여 값을 변경할 수 있다
         chatRecyclerView = findViewById(R.id.chatRecyclerView)
         messageBox = findViewById(R.id.messageBox)
         sendButton = findViewById(R.id.sentButton)
         messageList = ArrayList()
         messageAdapter = MessageAdapter(this,messageList)
 
-        chatRecyclerView.layoutManager = LinearLayoutManager(this)
+        chatRecyclerView.layoutManager = LinearLayoutManager(this) // 수직(상하)로 리스트를 보여줌
         chatRecyclerView.adapter = messageAdapter
 
 
