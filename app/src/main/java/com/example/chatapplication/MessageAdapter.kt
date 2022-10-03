@@ -15,6 +15,10 @@ class MessageAdapter(val context: Context, val messageList: ArrayList<Message>):
     val ITEM_SENT = 2
 
 
+    //채팅방 생성 코드
+    //ViewHolder 객체를 생성한다(리스트를 생성한다). 단, 생성되는 객체는 데이터의 전체길이를 초과하지 않는다
+    //viewType에 따라 sentroom일지 receiveroom 일지 결정된다
+    //리턴값은 리스트를 만들기위함임. 데이터의 전체길이 초과시 리턴되지 않음
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
 
         if(viewType == 1){
@@ -27,10 +31,10 @@ class MessageAdapter(val context: Context, val messageList: ArrayList<Message>):
             return SentViewHolder(view)
         }
 
-
-
     }
 
+    //뷰홀더에 데이터를 바인딩해주는 함수
+    //새롭게 생성되는 메세지에 현재 포지션값을 할당해준다. 그리고 뷰홀더를 샌트룸에 만들건지 리시버룸에 만들건지 정한다
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
 
         val currentMessage = messageList[position]
@@ -50,6 +54,8 @@ class MessageAdapter(val context: Context, val messageList: ArrayList<Message>):
 
     }
 
+    //onCreateViewHolder함수의 viewType을 정해주는 함수
+    //파이어베이스에 현재 로그인된 사용자와 현재 메세지를 보낸 Id가 일치한다면 샌트룸이 생성
     override fun getItemViewType(position: Int): Int {
 
         val currentMessage = messageList[position]
@@ -61,10 +67,12 @@ class MessageAdapter(val context: Context, val messageList: ArrayList<Message>):
         }
     }
 
+    //리사이클뷰를 이용하기위해 필요한 데이터의 전체 길이를 리턴해준다.
     override fun getItemCount(): Int {
         return messageList.size
     }
 
+    //sentMessage,receiveMessage 객체를 생성
     class SentViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView){
         val sentMessage = itemView.findViewById<TextView>(R.id.txt_sent_message)
     }
