@@ -56,11 +56,13 @@ class MainActivity : AppCompatActivity() {
         })
     }
 
+    //함수가 호출될때 한번만 실행됨, 상태표시줄에 메뉴가 추가됨
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        menuInflater.inflate(R.menu.menu, menu)
-        return super.onCreateOptionsMenu(menu)
+        menuInflater.inflate(R.menu.menu, menu) // 생성된 메뉴를 객체화
+        return super.onCreateOptionsMenu(menu) // 부모클래스의 onCreateOptionsMenu에 접근, 즉 재귀호출
     }
 
+    //메뉴가 선택되었을때 호출되는 함수, 화면 전환
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
 
         if(item.itemId == R.id.logout){
