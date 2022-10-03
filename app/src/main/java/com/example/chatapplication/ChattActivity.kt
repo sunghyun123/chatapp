@@ -12,7 +12,9 @@ import com.google.firebase.database.*
 
 //채팅창 클래스, 채팅방 생성, 채팅한 메세지 표시 등의 기능을 수행하는 액티비티
 class ChattActivity : AppCompatActivity() {
-
+//테스트11
+    //테스트 22
+    //테스트 33
     private  lateinit var chatRecyclerView: RecyclerView
     private  lateinit var messageBox: EditText
     private  lateinit var sendButton: ImageView
