@@ -54,16 +54,24 @@ class Login : AppCompatActivity() {
     //login함수 signInWithEmailAndPassword를 이용하여 firebase에 입력한 이메일과 비밀번호 전달, 인증이 성공되면 메인엑티비티로 화면 전환
     //addOnCompleteListener는 통신이 완료된 뒤 성공유무를 확인 할 수 있다.
     private fun login(email: String, password: String){
-        mAuth.signInWithEmailAndPassword(email, password)
-            .addOnCompleteListener(this) { task ->
-                if (task.isSuccessful) {
+        if(email.isNotEmpty() && password.isNotEmpty()) { //이메일과 비밀번호가 비어있지 않을때만
+            mAuth.signInWithEmailAndPassword(email, password)
+                .addOnCompleteListener(this) { task ->
+                    if (task.isSuccessful) {
 
-                    val intent = Intent(this@Login, MainActivity::class.java)
-                    finish()
-                    startActivity(intent)
-                } else {
-                    Toast.makeText(this@Login, "User does not exist", Toast.LENGTH_SHORT).show() // 인증이 실패하면 토스트 메세지 출력
+                        val intent = Intent(this@Login, MainActivity::class.java)
+                        finish()
+                        startActivity(intent)
+                    } else {
+                        Toast.makeText(this@Login, "User does not exist", Toast.LENGTH_SHORT)
+                            .show() // 인증이 실패하면 토스트 메세지 출력
+                    }
                 }
-            }
+        }
+        else{//이메일과 비밀번호값이 비어있으면 안된다는 메세지 출력
+            Toast.makeText(this,
+                "Email and password cannot be empty",
+                Toast.LENGTH_SHORT).show()
+        }
     }
 }
