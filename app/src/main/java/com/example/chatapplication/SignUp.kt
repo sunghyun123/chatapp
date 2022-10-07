@@ -15,10 +15,10 @@ class SignUp : AppCompatActivity() {
     private lateinit var edtName: EditText
     private lateinit var edtEmail: EditText
     private lateinit var edtPassword: EditText
-    private lateinit var benchWight: EditText
-    private lateinit var squtWight: EditText
-    private lateinit var pullUpCount: EditText
-    private lateinit var level:EditText
+    private lateinit var benchWight: EditText//벤치 무게
+    private lateinit var squtWight: EditText//스쿼트 무게
+    private lateinit var pullUpCount: EditText// 풀업 갯수
+    private lateinit var level:EditText// 운동수준
     private lateinit var btnSignUp: Button
     private  lateinit var  mAuth: FirebaseAuth
     private lateinit var mDbRef: DatabaseReference
@@ -53,7 +53,7 @@ class SignUp : AppCompatActivity() {
             signUp(name, email,password,benchWeight_,squtWeight_,pullUpCount_,level_)
         }
     }
-    // signup 함수, createUserWithEmailAndPassword(매크로같은거일듯) 입력한 이름과 이메일, 비밀번호를 firebase에 전달 후 성공 유무를 확인하여 화면을 전환시키거나 메세지를 출력한다
+    // signup 함수, createUserWithEmailAndPassword(매크로같은거일듯) 입력한 이름과 이메일, 비밀번호,uid, 각종 운동 무게및 갯수, 운동레벨 를 firebase에 전달 후 성공 유무를 확인하여 화면을 전환시키거나 메세지를 출력한다
     private  fun signUp(name:String, email: String, password: String,benchWeight: String,squtWeight: String,pullUpCount:String,level:String){
         mAuth.createUserWithEmailAndPassword(email, password)
             .addOnCompleteListener(this) { task ->
