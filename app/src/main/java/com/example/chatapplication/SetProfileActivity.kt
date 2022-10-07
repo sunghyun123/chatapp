@@ -10,11 +10,10 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 
-class SignUp : AppCompatActivity() {
+
+class SetProfileActivity : AppCompatActivity() {
 
     private lateinit var edtName: EditText
-    private lateinit var edtEmail: EditText
-    private lateinit var edtPassword: EditText
     private lateinit var benchWight: EditText
     private lateinit var squtWight: EditText
     private lateinit var pullUpCount: EditText
@@ -25,7 +24,7 @@ class SignUp : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_sign_up)
+        setContentView(R.layout.activity_set_profile)
 
         supportActionBar?.hide() // 상태 표시줄 숨기기
 
@@ -33,8 +32,6 @@ class SignUp : AppCompatActivity() {
 
         //findViewById(R.id.~)를 하게되면 xml 레이아웃에서 id가 ~인 객체에 접근하여 값을 변경할 수 있다
         edtName = findViewById(R.id.edt_name)
-        edtEmail = findViewById(R.id.edt_email)
-        edtPassword = findViewById(R.id.edt_password)
         benchWight = findViewById(R.id.edt_BenchPower)
         squtWight = findViewById(R.id.edt_SqutPower)
         pullUpCount = findViewById(R.id.edt_PullUpPower)
@@ -44,20 +41,17 @@ class SignUp : AppCompatActivity() {
         //회원가입 버튼에 온클릭 이벤트 추가(입력된 이름과 이메일과 비밀번호를 String으로 받아와 signup 함수 실행)
         btnSignUp.setOnClickListener {
             val name = edtName.text.toString()
-            val email = edtEmail.text.toString()
-            val password = edtPassword.text.toString()
-            val benchWeight_ =benchWight.text.toString()
-            val squtWeight_ =squtWight.text.toString()
-            val pullUpCount_ = pullUpCount.text.toString()
-            val level_ =  level.text.toString()
-            signUp(name, email,password,benchWeight_,squtWeight_,pullUpCount_,level_)
+            var user =  mAuth.currentUser;
+            val email = user?.email.toString();
+            val benchWights = benchWight.text.toString()
+            val squtWights = squtWight.text.toString()
+            val pullUpCounts = pullUpCount.text.toString()
+            val levels = level.text.toString()
+            signUp(name,email, benchWights, squtWights, pullUpCounts, levels)
         }
     }
     // signup 함수, createUserWithEmailAndPassword(매크로같은거일듯) 입력한 이름과 이메일, 비밀번호를 firebase에 전달 후 성공 유무를 확인하여 화면을 전환시키거나 메세지를 출력한다
-    private  fun signUp(name:String, email: String, password: String,benchWeight: String,squtWeight: String,pullUpCount:String,level:String){
-        mAuth.createUserWithEmailAndPassword(email, password)
-            .addOnCompleteListener(this) { task ->
-                if (task.isSuccessful) {
+    private  fun signUp(name:String, email: String,benchWeight: String,squtWeight: String,pullUpCount:String,level:String){
 
                     addUserToDatabase(
                         name,
@@ -69,14 +63,10 @@ class SignUp : AppCompatActivity() {
                         level,
 
                     )
-                    val intent = Intent(this@SignUp, MainActivity::class.java)
+                    val intent = Intent(this@SetProfileActivity, MainActivity::class.java)
                     finish()
                     startActivity(intent)
 
-                } else {
-                    Toast.makeText(this@SignUp, "Some error occurred", Toast.LENGTH_SHORT).show()
-                }
-            }
     }
 
 
@@ -91,7 +81,9 @@ class SignUp : AppCompatActivity() {
         level:String
     ){
         mDbRef = FirebaseDatabase.getInstance().getReference()
-
         mDbRef.child("user").child(uid).setValue(User(name,email,uid,benchWeight,squtWeight,pullUpCount,level))
     }
-}
+    }
+
+
+    //회원가입이 완료된 유저의 데이터베이스를 생성한다
