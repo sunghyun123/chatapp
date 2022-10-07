@@ -26,6 +26,7 @@ class MainActivity : AppCompatActivity() {
 
         //유저,리얼타임데이터베이스에 접근 해서 값얻을수있는 통로뚥기 저 두변수가 길이다.
         mAuth = FirebaseAuth.getInstance()// 나자신의 유저정보 m이 my의 약자다
+
         mDbRef = FirebaseDatabase.getInstance().getReference()
         //userList 생성자 호출
         userList = ArrayList()
@@ -33,7 +34,7 @@ class MainActivity : AppCompatActivity() {
         adapter = UserAdapter(this, userList)
         //리사이클러뷰 찾아서 잡아주기
         userRecyclerView = findViewById(R.id.userRecyclerView)
-        //유저 리사이클러뷰를 어떤식으로 보이게할지 LinearLayout형식으로
+        //유저 리사이클러뷰를 어떤식으로 보이게할지 LinearLayout형식으로 
         userRecyclerView.layoutManager = LinearLayoutManager(this)
         //어뎁터를 넣어준다. 이거때문에 포지션값이 알아서 정의되는거일지도
         userRecyclerView.adapter = adapter
@@ -81,15 +82,14 @@ class MainActivity : AppCompatActivity() {
             startActivity(intent)
             return true
         }
+        if(item.itemId == R.id.setProfile){
+            val intent = Intent(this@MainActivity, SetProfileActivity::class.java)
+            finish()
+            startActivity(intent)
+            return true
+        }
         //여기서 처리
-//        if(item.itemId == R.id.setProfile){
 //
-//            mAuth.signOut()
-//            val intent = Intent(this@MainActivity, Login::class.java)
-//            finish()
-//            startActivity(intent)
-//            return true
-//        }
         return true
     }
 }
