@@ -8,7 +8,10 @@ import android.view.MenuItem
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.ktx.auth
 import com.google.firebase.database.*
+import com.google.firebase.database.ktx.getValue
+import com.google.firebase.ktx.Firebase
 
 class MainActivity : AppCompatActivity() {
 
@@ -40,6 +43,7 @@ class MainActivity : AppCompatActivity() {
 
 
 
+
         mDbRef.child("user").addValueEventListener(object: ValueEventListener{// 파이어베이스에서 데이터 읽고 쓸수있는 리스너
             override fun onDataChange(snapshot: DataSnapshot) {
 
@@ -48,9 +52,11 @@ class MainActivity : AppCompatActivity() {
 
                     val currentUser = postSnapshot.getValue(User::class.java)//user 데이터 베이스에있는 값을 첫번째 유저 부터 가져옴
                     //위의 for문을 볼 때 반복문임.
+                    //val user = snapshot.getValue<User>()
 
                     if(mAuth.currentUser?.uid != currentUser?.uid){//내가 현재 참조된 유저가 아니면
-                        userList.add(currentUser!!)//유저리스트에 내자신은 없다. 유저리스트에 참조된 유저 넣기
+                        userList.add(currentUser!!)//유저리스트에 내자신은 없다. 유저리스트에 참조된 유저 넣기, 이 코드 두번 쓰면 중복출력
+                        //userList.add(user!!)
                     }
                 }
                 adapter.notifyDataSetChanged()//어뎁터에게 새로운 유저정보가 리스트에 들어와서 리스트의 크기와 정보가 바뀔거라는 알림.
@@ -62,6 +68,7 @@ class MainActivity : AppCompatActivity() {
             }
 
         })
+
     }
 
     //함수가 호출될때 한번만 실행됨, 상태표시줄에 메뉴가 추가됨
@@ -92,4 +99,7 @@ class MainActivity : AppCompatActivity() {
 //        }
         return true
     }
+
 }
+
+

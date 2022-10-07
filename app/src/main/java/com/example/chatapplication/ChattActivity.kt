@@ -8,7 +8,9 @@ import android.widget.ImageView
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.ktx.auth
 import com.google.firebase.database.*
+import com.google.firebase.ktx.Firebase
 
 //채팅창 클래스, 채팅방 생성, 채팅한 메세지 표시 등의 기능을 수행하는 액티비티
 class ChattActivity : AppCompatActivity() {
@@ -51,6 +53,7 @@ class ChattActivity : AppCompatActivity() {
         chatRecyclerView.adapter = messageAdapter
 
 
+
         mDbRef.child("chats").child(senderRoom!!).child("messages")
             .addValueEventListener(object: ValueEventListener{
                 //확실하진 않지만 리얼타임 데이터베이스 값을 읽어오는 함수인듯??
@@ -72,6 +75,7 @@ class ChattActivity : AppCompatActivity() {
                 }
 
             })
+
 
         // 메세지 데이터베이스 추가, 메세지 보내기 버튼 클릭시 이벤트 발생 함수
         sendButton.setOnClickListener{
