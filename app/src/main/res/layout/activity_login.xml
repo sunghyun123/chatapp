@@ -10,9 +10,9 @@
         android:id="@+id/app_logo"
         android:layout_width="150dp"
         android:layout_height="150dp"
-        android:src="@drawable/kt2"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="70dp"/>
+        android:layout_marginTop="70dp"
+        android:src="@drawable/kt2" />
     <!--이메일 입력 칸-->
     <EditText
         android:id="@+id/edt_email"

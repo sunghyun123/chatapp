@@ -1,14 +1,19 @@
 package com.example.chatapplication
 
 import android.content.Intent
+import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Button
 import android.widget.EditText
+import android.widget.ImageView
 import android.widget.Toast
+import androidx.core.net.toUri
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.storage.FirebaseStorage
+import java.net.URI
 
 
 class SetProfileActivity : AppCompatActivity() {
@@ -20,7 +25,10 @@ class SetProfileActivity : AppCompatActivity() {
     private lateinit var level:EditText
     private lateinit var btnSignUp: Button
     private  lateinit var  mAuth: FirebaseAuth
+    private lateinit var  storage: FirebaseStorage
     private lateinit var mDbRef: DatabaseReference
+    private lateinit var selectImage: Uri
+    private lateinit var ProfileImg : ImageView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -29,7 +37,7 @@ class SetProfileActivity : AppCompatActivity() {
         supportActionBar?.hide() // 상태 표시줄 숨기기
 
         mAuth = FirebaseAuth.getInstance() //파이어베이스에 데이터를 추가하거나 조회하기 위해 변수 선언(정의)
-
+        storage = FirebaseStorage.getInstance()
         //findViewById(R.id.~)를 하게되면 xml 레이아웃에서 id가 ~인 객체에 접근하여 값을 변경할 수 있다
         edtName = findViewById(R.id.edt_name)
         benchWight = findViewById(R.id.edt_BenchPower)
@@ -37,7 +45,19 @@ class SetProfileActivity : AppCompatActivity() {
         pullUpCount = findViewById(R.id.edt_PullUpPower)
         level = findViewById(R.id.edt_Level)
         btnSignUp = findViewById(R.id.btnSignUp)
+        ProfileImg = findViewById(R.id.ProfileImg)
 
+        ProfileImg.setOnClickListener{
+            var intent = Intent()
+            intent.action = Intent.ACTION_GET_CONTENT
+            //intent.type = "image/*"
+            selectImage = intent.action!!.toUri()
+            if(selectImage!=null){// 스토리지 데이터 베이스에 입력.
+                val reference = storage!!.reference.child("Profile")
+                    .child(mAuth.currentUser?.uid!!)
+                reference.putFile(selectImage)
+            }
+        }
         //회원가입 버튼에 온클릭 이벤트 추가(입력된 이름과 이메일과 비밀번호를 String으로 받아와 signup 함수 실행)
         btnSignUp.setOnClickListener {
             val name = edtName.text.toString()
@@ -49,23 +69,28 @@ class SetProfileActivity : AppCompatActivity() {
             val levels = level.text.toString()
             signUp(name,email, benchWights, squtWights, pullUpCounts, levels)
         }
+
     }
     // signup 함수, createUserWithEmailAndPassword(매크로같은거일듯) 입력한 이름과 이메일, 비밀번호를 firebase에 전달 후 성공 유무를 확인하여 화면을 전환시키거나 메세지를 출력한다
     private  fun signUp(name:String, email: String,benchWeight: String,squtWeight: String,pullUpCount:String,level:String){
+        if(name.isNotEmpty() && benchWeight.isNotEmpty() && squtWeight.isNotEmpty() && pullUpCount.isNotEmpty() && level.isNotEmpty()) {
+            addUserToDatabase(
+                name,
+                email,
+                mAuth.currentUser?.uid!!,
+                benchWeight,
+                squtWeight,
+                pullUpCount,
+                level,
 
-                    addUserToDatabase(
-                        name,
-                        email,
-                        mAuth.currentUser?.uid!!,
-                        benchWeight,
-                        squtWeight,
-                        pullUpCount,
-                        level,
-
-                    )
-                    val intent = Intent(this@SetProfileActivity, MainActivity::class.java)
-                    finish()
-                    startActivity(intent)
+                )
+            val intent = Intent(this@SetProfileActivity, MainActivity::class.java)
+            finish()
+            startActivity(intent)
+        }
+        else{
+            Toast.makeText(this,"there is empty space", Toast.LENGTH_SHORT).show()
+        }
 
     }
 
@@ -81,8 +106,9 @@ class SetProfileActivity : AppCompatActivity() {
         level:String
     ){
         mDbRef = FirebaseDatabase.getInstance().getReference()
-        mDbRef.child("user").child(uid).setValue(User(name,email,uid,benchWeight,squtWeight,pullUpCount,level))
+        mDbRef.child("user").child(uid).setValue(User(name,email,uid,benchWeight,squtWeight,pullUpCount,level,selectImage!!.toString()))
     }
+
     }
 
 

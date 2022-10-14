@@ -9,7 +9,8 @@
     <!--로고-->
 
     <ImageView
-        android:id="@+id/app_logo"
+
+        android:id="@+id/ProfileImg"
         android:layout_width="150dp"
         android:layout_height="150dp"
         android:layout_centerHorizontal="true"
@@ -20,7 +21,7 @@
         android:id="@+id/edt_name"
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:layout_below="@+id/app_logo"
+        android:layout_below="@+id/ProfileImg"
         android:layout_marginTop="10dp"
         android:hint="Name"
         android:paddingLeft="13dp"

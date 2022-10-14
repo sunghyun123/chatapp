@@ -7,7 +7,9 @@ import android.os.Bundle
 import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
+import androidx.core.app.ActivityCompat
 import com.google.firebase.auth.FirebaseAuth
+import java.util.jar.Manifest
 
 class Login : AppCompatActivity() {
 
@@ -22,8 +24,7 @@ class Login : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
-
-        supportActionBar?.hide() //상태 표시 줄을 감춘다(로그아웃기능 감춤)
+      supportActionBar?.hide() //상태 표시 줄을 감춘다(로그아웃기능 감춤)
 
         mAuth = FirebaseAuth.getInstance() //파이어베이스에 데이터를 추가하거나 조회하기 위해 변수 선언(정의)
 
