@@ -24,7 +24,7 @@ class SetProfileActivity : AppCompatActivity() {
     private lateinit var pullUpCount: EditText
     private lateinit var level:EditText
     private lateinit var btnSignUp: Button
-    private  lateinit var  mAuth: FirebaseAuth
+    private  lateinit var mAuth: FirebaseAuth
     private lateinit var  storage: FirebaseStorage
     private lateinit var mDbRef: DatabaseReference
     private lateinit var selectImage: Uri
