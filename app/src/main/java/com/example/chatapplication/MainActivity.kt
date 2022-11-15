@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.auth.FirebaseAuth
@@ -91,19 +92,30 @@ class MainActivity : AppCompatActivity() {
         }
         if(item.itemId == R.id.setProfile){
             val intent = Intent(this@MainActivity, SetProfileActivity::class.java)
-            finish()
+
             startActivity(intent)
             return true
         }
         if(item.itemId == R.id.pedometerBtn){
             val intent = Intent(this@MainActivity, pedometerActivity::class.java)
-            finish()
+
             startActivity(intent)
             return true
         }
         //여기서 처리
 //
         return true
+    }
+
+    var waitTime = 0L
+
+    override fun onBackPressed() {
+        if(System.currentTimeMillis() - waitTime >=1500 ) {
+            waitTime = System.currentTimeMillis()
+            Toast.makeText(this,"뒤로가기 버튼을 한번 더 누르면 종료됩니다.",Toast.LENGTH_SHORT).show()
+        } else {
+            finish() // 액티비티 종료
+        }
     }
 
 }
