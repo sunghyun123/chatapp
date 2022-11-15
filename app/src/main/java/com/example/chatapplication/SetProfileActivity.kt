@@ -108,8 +108,17 @@ class SetProfileActivity : AppCompatActivity() {
         mDbRef = FirebaseDatabase.getInstance().getReference()
         mDbRef.child("user").child(uid).setValue(User(name,email,uid,benchWeight,squtWeight,pullUpCount,level,selectImage!!.toString()))
     }
+    var waitTime = 0L
 
+    override fun onBackPressed() {
+        if(System.currentTimeMillis() - waitTime >=1500 ) {
+            waitTime = System.currentTimeMillis()
+            Toast.makeText(this,"뒤로가기 버튼을 한번 더 누르면 종료됩니다.",Toast.LENGTH_SHORT).show()
+        } else {
+            finish() // 액티비티 종료
+        }
     }
+}
 
 
     //회원가입이 완료된 유저의 데이터베이스를 생성한다

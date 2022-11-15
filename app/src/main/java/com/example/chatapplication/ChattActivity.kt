@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.EditText
 import android.widget.ImageView
+import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.auth.FirebaseAuth
@@ -91,6 +92,16 @@ class ChattActivity : AppCompatActivity() {
                 } // 보낸 메세지가 성공적으로 Db에 등록될 시 receiverRoom에도(DB) 똑같은 값을 보낸다.
             messageBox.setText("") // 메세지를 보내면 메세지 박스 초기화
 
+        }
+    }
+    var waitTime = 0L
+
+    override fun onBackPressed() {
+        if(System.currentTimeMillis() - waitTime >=1500 ) {
+            waitTime = System.currentTimeMillis()
+            Toast.makeText(this,"뒤로가기 버튼을 한번 더 누르면 종료됩니다.", Toast.LENGTH_SHORT).show()
+        } else {
+            finish() // 액티비티 종료
         }
     }
 }
