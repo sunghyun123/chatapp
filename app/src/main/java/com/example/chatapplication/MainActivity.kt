@@ -97,7 +97,7 @@ class MainActivity : AppCompatActivity() {
         }
         if(item.itemId == R.id.pedometerBtn){
             val intent = Intent(this@MainActivity, pedometerActivity::class.java)
-            finish()
+
             startActivity(intent)
             return true
         }
