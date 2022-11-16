@@ -1,5 +1,7 @@
 package com.example.chatapplication
 
+import android.net.Uri
+
 class User {
     var name: String? = null
     var email: String? = null
@@ -11,7 +13,7 @@ class User {
     var profileImage_:String? = null
     constructor(){}
 
-    constructor(name: String?, email: String?, uid: String?, benchWeight: String?, squtWeight : String?, pullUpCount : String?,level: String?,profileImage_: String?){
+    constructor(name: String?, email: String?, uid: String?, benchWeight: String?, squtWeight : String?, pullUpCount : String?,level: String?,profileImage_: String){
         this.name = name
         this.email = email
         this.uid = uid
