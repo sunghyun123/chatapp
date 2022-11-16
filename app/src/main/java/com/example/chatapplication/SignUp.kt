@@ -32,6 +32,8 @@ class SignUp : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_sign_up)
+        supportActionBar?.hide() //상태 표시 줄을 감춘다(로그아웃기능 감춤)
+        selectImage =Uri.parse("android.resource://" + "com.example.chatapplication" + "/" + R.drawable.profile);
         edtName = findViewById(R.id.edt_name)
         edtEmail = findViewById(R.id.edt_email)
         edtPassword = findViewById(R.id.edt_password)

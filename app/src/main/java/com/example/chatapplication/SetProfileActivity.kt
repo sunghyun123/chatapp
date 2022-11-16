@@ -52,7 +52,8 @@ class SetProfileActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_set_profile)
-
+        supportActionBar?.hide() //상태 표시 줄을 감춘다(로그아웃기능 감춤)
+        selectImage = Uri.parse("android.resource://" + "com.example.chatapplication" + "/" + R.drawable.profile);
         supportActionBar?.hide() // 상태 표시줄 숨기기
 
         mAuth = FirebaseAuth.getInstance() //파이어베이스에 데이터를 추가하거나 조회하기 위해 변수 선언(정의)
@@ -156,9 +157,9 @@ class SetProfileActivity : AppCompatActivity() {
     // signup 함수, createUserWithEmailAndPassword(매크로같은거일듯) 입력한 이름과 이메일, 비밀번호를 firebase에 전달 후 성공 유무를 확인하여 화면을 전환시키거나 메세지를 출력한다
     private  fun signUp(name:String, email: String,benchWeight: String,squtWeight: String,pullUpCount:String,level:String){
         if(name.isNotEmpty() && benchWeight.isNotEmpty() && squtWeight.isNotEmpty() && pullUpCount.isNotEmpty() && level.isNotEmpty()) {
-            if (selectImage != null) {// 이미지가 null이 아닐시 즉 앨범에서 얻어오는게 성공했을 시 실행.
-                uploadPhoto(selectImage)
-            }
+           // 이미지가 null이 아닐시 즉 앨범에서 얻어오는게 성공했을 시 실행.
+            uploadPhoto(selectImage)
+
             addUserToDatabase(
                 name,
                 email,
@@ -207,17 +208,12 @@ class SetProfileActivity : AppCompatActivity() {
         mDbRef.child("user").child(uid).setValue(User(name,email,uid,benchWeight,squtWeight,pullUpCount,level,selectImage.toString()))
     }
 
-
-
-
-
-
     var waitTime = 0L
 
     override fun onBackPressed() {
         if(System.currentTimeMillis() - waitTime >=1500 ) {
             waitTime = System.currentTimeMillis()
-            Toast.makeText(this,"뒤로가기 버튼을 한번 더 누르면 종료됩니다.",Toast.LENGTH_SHORT).show()
+            Toast.makeText(this,"뒤로가기 버튼을 한번 더 누르면 메인화면으로 돌아갑니다.",Toast.LENGTH_SHORT).show()
         } else {
             finish() // 액티비티 종료
         }

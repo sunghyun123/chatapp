@@ -14,7 +14,7 @@
         android:id="@+id/img_rv_photo"
         android:layout_width="100dp"
         android:layout_height="100dp"
-        android:background="@drawable/blacklogo"
+        android:background="@drawable/profile"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"/>

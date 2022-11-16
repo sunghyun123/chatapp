@@ -14,10 +14,10 @@
         android:id="@+id/title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="프로필"
-        android:textSize="50dp"
         android:layout_marginTop="70dp"
-        android:gravity="center"/>
+        android:gravity="center"
+        android:text="프로필"
+        android:textSize="50dp" />
 
     <ImageView
         android:id="@+id/ProfileImg"
@@ -26,8 +26,8 @@
         android:layout_below="@+id/title"
         android:layout_centerHorizontal="true"
 
-        android:layout_marginBottom="30dp"
-        android:layout_marginTop="70dp"
+       
+        android:layout_marginBottom="20dp"
         android:src="@drawable/upload" />
     <!--이름 입력 칸-->
     <EditText
