@@ -1,27 +1,49 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!--유저리스트 디자인, 색깔, 폰트 등을 조절 할 수 있다.-->
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:paddingHorizontal="20dp"
+    android:paddingVertical="10dp"
+    android:background="@drawable/backgroundimagestroke"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:ignore="ExtraText">
 
 
-        <TextView
-            android:layout_marginTop="5dp"
-            android:id="@+id/txt_name"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="ChoSungHyun"
-            android:textSize="30sp"
-            android:textStyle="bold"
-            android:layout_marginLeft="10dp"/>
+    <ImageView
+        android:id="@+id/img_rv_photo"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:background="@drawable/blacklogo"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"/>
 
-        <View
-            android:layout_below="@+id/txt_name"
-            android:layout_marginTop="5dp"
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="@color/black"/>
+    <TextView
+        android:id="@+id/txt_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="이름"
+        android:textStyle="bold"
+        android:layout_marginLeft="20dp"
+        android:textSize="24sp"
+        android:textColor="@color/black"
+        app:layout_constraintLeft_toRightOf="@id/img_rv_photo"
+        app:layout_constraintTop_toTopOf="parent"/>
+
+    <TextView
+        android:id="@+id/tv_rv_activity"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="activity"
+        android:layout_marginTop="40dp"
+        android:layout_marginLeft="-50dp"
+        android:textSize="18sp"
+        android:textColor="@color/black"
+        app:layout_constraintLeft_toRightOf="@id/img_rv_photo"
+        />
+
+</LinearLayout>
 
 
-</RelativeLayout>
+

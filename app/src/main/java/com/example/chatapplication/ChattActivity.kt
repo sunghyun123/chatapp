@@ -94,14 +94,15 @@ class ChattActivity : AppCompatActivity() {
 
         }
     }
-    var waitTime = 0L
-
-    override fun onBackPressed() {
-        if(System.currentTimeMillis() - waitTime >=1500 ) {
-            waitTime = System.currentTimeMillis()
-            Toast.makeText(this,"뒤로가기 버튼을 한번 더 누르면 종료됩니다.", Toast.LENGTH_SHORT).show()
-        } else {
-            finish() // 액티비티 종료
-        }
-    }
+//    뒤로가기 버튼 2번 눌러야 이전 액티비티로 넘어가는 코드(일단은 비활성화 시켜놓음)
+//    var waitTime = 0L
+//
+//    override fun onBackPressed() {
+//        if(System.currentTimeMillis() - waitTime >=1500 ) {
+//            waitTime = System.currentTimeMillis()
+//            Toast.makeText(this,"뒤로가기 버튼을 한번 더 누르면 종료됩니다.", Toast.LENGTH_SHORT).show()
+//        } else {
+//            finish() // 액티비티 종료
+//        }
+//    }
 }
