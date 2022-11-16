@@ -1,11 +1,14 @@
 package com.example.chatapplication
 
 import android.content.Intent
+import android.content.pm.PackageManager
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.Toast
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.auth.FirebaseAuth
@@ -13,6 +16,7 @@ import com.google.firebase.auth.ktx.auth
 import com.google.firebase.database.*
 import com.google.firebase.database.ktx.getValue
 import com.google.firebase.ktx.Firebase
+import java.util.jar.Manifest
 
 class MainActivity : AppCompatActivity() {
 
@@ -22,6 +26,8 @@ class MainActivity : AppCompatActivity() {
     private lateinit var  mAuth: FirebaseAuth // 파이어베이스 유저관련 접속하기위한 변수
     private  lateinit var mDbRef: DatabaseReference// 파이어베이스 리얼타임베이스 접근하기위한 변수
 
+
+    val MY_PERMISSION_ACCESS_ALL = 100
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)//
@@ -71,6 +77,20 @@ class MainActivity : AppCompatActivity() {
 
         })
 
+
+            if(ContextCompat.checkSelfPermission(this, android.Manifest.permission.ACTIVITY_RECOGNITION) == PackageManager.PERMISSION_GRANTED
+                && ContextCompat.checkSelfPermission(this, android.Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED){
+
+            }
+
+
+            val permissions: Array<String> = arrayOf(
+                android.Manifest.permission.ACTIVITY_RECOGNITION,
+                android.Manifest.permission.READ_EXTERNAL_STORAGE)
+
+            ActivityCompat.requestPermissions(this, permissions, 0)
+
+
     }
 
     //함수가 호출될때 한번만 실행됨, 상태표시줄에 메뉴가 추가됨
@@ -107,14 +127,43 @@ class MainActivity : AppCompatActivity() {
         return true
     }
 
-    var waitTime = 0L
 
-    override fun onBackPressed() {
-        if(System.currentTimeMillis() - waitTime >=1500 ) {
-            waitTime = System.currentTimeMillis()
-            Toast.makeText(this,"뒤로가기 버튼을 한번 더 누르면 종료됩니다.",Toast.LENGTH_SHORT).show()
-        } else {
-            finish() // 액티비티 종료
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+
+        when(requestCode){
+            0 -> {
+                if (grantResults.isNotEmpty()){
+                    var isAllGranted = true
+                    // 요청한 권한 허용/거부 상태 한번에 체크
+                    for (grant in grantResults) {
+                        if (grant != PackageManager.PERMISSION_GRANTED) {
+                            isAllGranted = false
+                            break;
+                        }
+                    }
+
+                    // 요청한 권한을 모두 허용했음.
+                    if (isAllGranted) {
+                        // 다음 step으로 ~
+                    }
+                    // 허용하지 않은 권한이 있음. 필수권한/선택권한 여부에 따라서 별도 처리를 해주어야 함.
+                    else {
+                        if(!ActivityCompat.shouldShowRequestPermissionRationale(this,
+                                android.Manifest.permission.READ_EXTERNAL_STORAGE)
+                            || !ActivityCompat.shouldShowRequestPermissionRationale(this,
+                                android.Manifest.permission.ACTIVITY_RECOGNITION)){
+                            // 다시 묻지 않기 체크하면서 권한 거부 되었음.
+                        } else {
+                            // 접근 권한 거부하였음.
+                        }
+                    }
+                }
+            }
         }
     }
 

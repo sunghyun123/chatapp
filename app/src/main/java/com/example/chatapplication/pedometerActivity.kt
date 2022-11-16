@@ -4,6 +4,7 @@ import android.Manifest
 import androidx.appcompat.app.AppCompatActivity
 import android.content.Context
 import android.content.pm.PackageManager
+import android.content.pm.PackageManager.PERMISSION_GRANTED
 import android.hardware.Sensor
 import android.hardware.SensorEvent
 import android.hardware.SensorEventListener
@@ -14,6 +15,7 @@ import android.util.Log
 import android.widget.TextView
 import android.widget.Toast
 import androidx.annotation.RequiresApi
+import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 
 class pedometerActivity : AppCompatActivity(),SensorEventListener {
@@ -41,6 +43,8 @@ class pedometerActivity : AppCompatActivity(),SensorEventListener {
     // 걸음 수들과 그것은 0f의 값이 주어진다
     private var previousTotalSteps = 0f
 
+
+
     @RequiresApi(Build.VERSION_CODES.M)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -54,6 +58,8 @@ class pedometerActivity : AppCompatActivity(),SensorEventListener {
         // Adding a context of SENSOR_SERVICE aas Sensor Manager
         //Sensor_Service의 context를 sensor Manager에게 추가
         sensorManager = getSystemService(Context.SENSOR_SERVICE) as SensorManager
+
+
     }
 
     override fun onResume() {
@@ -144,6 +150,10 @@ class pedometerActivity : AppCompatActivity(),SensorEventListener {
     override fun onAccuracyChanged(sensor: Sensor?, accuracy: Int) {
         // We do not have to write anything in this function for this app
     }
+
+
+
+
     var waitTime = 0L
 
     override fun onBackPressed() {
