@@ -2,5 +2,5 @@
 <!--로그인, 비밀번호 입력 창등의 배경-->
 <shape xmlns:android="http://schemas.android.com/apk/res/android">
     <corners android:radius="20dp"/>
-    <stroke android:color="@color/green" android:width="1dp"/>
+    <stroke android:color="@color/teal_200" android:width="1dp"/>
 </shape>

@@ -16,7 +16,7 @@
         android:layout_marginTop="290dp"
         android:text="걸음 수"
         android:textSize="45sp"
-        android:textColor="@color/black"
+        android:textColor="@color/green"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -31,7 +31,7 @@
         android:layout_marginTop="30dp"
         android:text="0"
         android:textSize="37sp"
-        android:textColor="@color/black"
+        android:textColor="@color/green"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/steps" />
