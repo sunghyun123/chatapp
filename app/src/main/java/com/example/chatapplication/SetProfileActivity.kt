@@ -206,6 +206,12 @@ class SetProfileActivity : AppCompatActivity() {
         mDbRef = FirebaseDatabase.getInstance().getReference()
         mDbRef.child("user").child(uid).setValue(User(name,email,uid,benchWeight,squtWeight,pullUpCount,level,selectImage.toString()))
     }
+
+
+
+
+
+
     var waitTime = 0L
 
     override fun onBackPressed() {

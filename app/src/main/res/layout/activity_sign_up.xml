@@ -18,16 +18,18 @@
         android:textSize="50dp"
         android:layout_marginTop="70dp"
         android:gravity="center"/>
+
     <ImageView
-        android:layout_below="@+id/title"
         android:id="@+id/ProfileImg"
         android:layout_width="150dp"
         android:layout_height="150dp"
+        android:layout_below="@+id/title"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="50dp"
-        android:layout_marginBottom="30dp"
-        android:src="@drawable/profile" />
 
+        android:layout_marginBottom="30dp"
+        android:layout_marginTop="70dp"
+        android:src="@drawable/upload" />
+    <!--이름 입력 칸-->
     <EditText
         android:id="@+id/edt_name"
         android:layout_width="match_parent"
