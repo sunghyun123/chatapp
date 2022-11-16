@@ -65,9 +65,8 @@ class SignUpLast : AppCompatActivity() {
         mAuth.createUserWithEmailAndPassword(email, password)
             .addOnCompleteListener(this) { task ->
                 if (task.isSuccessful) {
-                    if (selectImage != null) {// 이미지가 null이 아닐시 즉 앨범에서 얻어오는게 성공했을 시 실행.
                         uploadPhoto(selectImage)
-                    }
+
                     addUserToDatabase(
                         name,
                         email,

@@ -46,12 +46,12 @@
         android:layout_width="150dp"
         android:layout_height="wrap_content"
         android:layout_below="@+id/edt_password"
-        android:text="로그인"
-        android:background="@drawable/btn_background"
-        android:textColor="@color/white"
-        android:textSize="20dp"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="10dp"/>
+        android:layout_marginTop="10dp"
+        android:background="@drawable/btn_background"
+        android:text="Log in"
+        android:textColor="@color/white"
+        android:textSize="20dp" />
     <!--회원가입 버튼-->
     <Button
         android:id="@+id/btnSignUp"

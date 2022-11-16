@@ -5,13 +5,16 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:gravity="center"
+
     tools:context=".SignUp">
     <!--로고-->
     <TextView
+        android:layout_marginTop="120dp"
         android:gravity="center"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textSize="60dp"
-        android:text="로딩중..."/>
+        android:text="로딩중..."
+
+        />
 </RelativeLayout>

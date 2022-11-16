@@ -37,6 +37,7 @@ class SignUp2 : AppCompatActivity() {
     @RequiresApi(Build.VERSION_CODES.M)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        supportActionBar?.hide() //상태 표시 줄을 감춘다(로그아웃기능 감춤)
         setContentView(R.layout.activity_sign_up2)
         benchWight = findViewById(R.id.edt_BenchPower)
         squatWight = findViewById(R.id.edt_SqutPower)
