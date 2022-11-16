@@ -144,13 +144,13 @@ class SetProfileActivity : AppCompatActivity() {
                 .load(File(profilefile.absolutePath))
                 .into(ProfileImg);
         }
-        //값들얻어오는거 구현하다맘 금방할듯.
-        mDbRef.child("user").child(fileName).child("name").get().toString()
-        mDbRef.child("user").child(fileName).child("email").get().toString()
-        mDbRef.child("user").child(fileName).child("name").get().toString()
-        mDbRef.child("user").child(fileName).child("name").get().toString()
-        mDbRef.child("user").child(fileName).child("name").get().toString()
-        mDbRef.child("user").child(fileName).child("name").get().toString()
+//        //값들얻어오는거 구현하다맘 금방할듯.
+//        mDbRef.child("user").child(fileName).child("name").get().toString()
+//        mDbRef.child("user").child(fileName).child("email").get().toString()
+//        mDbRef.child("user").child(fileName).child("name").get().toString()
+//        mDbRef.child("user").child(fileName).child("name").get().toString()
+//        mDbRef.child("user").child(fileName).child("name").get().toString()
+//        mDbRef.child("user").child(fileName).child("name").get().toString()
     }
 
     // signup 함수, createUserWithEmailAndPassword(매크로같은거일듯) 입력한 이름과 이메일, 비밀번호를 firebase에 전달 후 성공 유무를 확인하여 화면을 전환시키거나 메세지를 출력한다
