@@ -3,6 +3,7 @@ package com.example.chatapplication
 import android.Manifest
 import android.app.Activity
 import android.content.ContentValues
+import android.content.ContentValues.TAG
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
@@ -25,8 +26,8 @@ import androidx.core.net.toUri
 import com.bumptech.glide.Glide
 import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.database.DatabaseReference
-import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.*
+import com.google.firebase.database.ktx.getValue
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
 import java.io.File
@@ -37,7 +38,7 @@ class SetProfileActivity : AppCompatActivity() {
 
     private lateinit var edtName: EditText
     private lateinit var benchWight: EditText
-    private lateinit var squtWight: EditText
+    private lateinit var squatWeight: EditText
     private lateinit var pullUpCount: EditText
     private lateinit var level:EditText
     private lateinit var btnSignUp: Button
@@ -58,16 +59,15 @@ class SetProfileActivity : AppCompatActivity() {
 
         mAuth = FirebaseAuth.getInstance() //파이어베이스에 데이터를 추가하거나 조회하기 위해 변수 선언(정의)
         storage = FirebaseStorage.getInstance()
-
+        mDbRef = FirebaseDatabase.getInstance().getReference()
         //findViewById(R.id.~)를 하게되면 xml 레이아웃에서 id가 ~인 객체에 접근하여 값을 변경할 수 있다
         edtName = findViewById(R.id.edt_name)
         benchWight = findViewById(R.id.edt_BenchPower)
-        squtWight = findViewById(R.id.edt_SqutPower)
+        squatWeight = findViewById(R.id.edt_SqutPower)
         pullUpCount = findViewById(R.id.edt_PullUpPower)
         level = findViewById(R.id.edt_Level)
         btnSignUp = findViewById(R.id.btnSignUp)
         ProfileImg = findViewById(R.id.ProfileImg)
-        loadProfile();
         ProfileImg.setOnClickListener{
             val d = Log.d(ContentValues.TAG, "addImageButton called!!")
             when {
@@ -96,12 +96,12 @@ class SetProfileActivity : AppCompatActivity() {
             var user =  mAuth.currentUser;
             val email = user?.email.toString();
             val benchWights = benchWight.text.toString()
-            val squtWights = squtWight.text.toString()
+            val squtWights = squatWeight.text.toString()
             val pullUpCounts = pullUpCount.text.toString()
             val levels = level.text.toString()
             signUp(name,email, benchWights, squtWights, pullUpCounts, levels)
         }
-
+        loadProfile();
     }
     private fun getImageFromAlbum() {
         var intent = Intent()
@@ -111,7 +111,7 @@ class SetProfileActivity : AppCompatActivity() {
     }
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        if(resultCode != Activity.RESULT_OK) {
+        if(resultCode !=  Activity.RESULT_OK) {
             Toast.makeText(this,"잘못된 접근입니다", Toast.LENGTH_SHORT).show()
             return
         }
@@ -145,13 +145,68 @@ class SetProfileActivity : AppCompatActivity() {
                 .load(File(profilefile.absolutePath))
                 .into(ProfileImg);
         }
+
 //        //값들얻어오는거 구현하다맘 금방할듯.
-//        mDbRef.child("user").child(fileName).child("name").get().toString()
-//        mDbRef.child("user").child(fileName).child("email").get().toString()
-//        mDbRef.child("user").child(fileName).child("name").get().toString()
-//        mDbRef.child("user").child(fileName).child("name").get().toString()
-//        mDbRef.child("user").child(fileName).child("name").get().toString()
-//        mDbRef.child("user").child(fileName).child("name").get().toString()
+        mDbRef.child("user").child(fileName).child("name").addValueEventListener(object : ValueEventListener {
+                override fun onDataChange(dataSnapshot: DataSnapshot) {
+                    // This method is called once with the initial value and again
+                    // whenever data at this location is updated.
+                    edtName.hint = dataSnapshot.getValue<String>()
+                }
+
+                override fun onCancelled(error: DatabaseError) {
+                    // Failed to read value
+                    Log.w(TAG, "Failed to read value.", error.toException())
+                }
+            })
+        mDbRef.child("user").child(fileName).child("benchWeight").addValueEventListener(object : ValueEventListener {
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                // This method is called once with the initial value and again
+                // whenever data at this location is updated.
+                benchWight.hint = dataSnapshot.getValue<String>()
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+                // Failed to read value
+                Log.w(TAG, "Failed to read value.", error.toException())
+            }
+        })
+        mDbRef.child("user").child(fileName).child("squatWeight").addValueEventListener(object : ValueEventListener {
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                // This method is called once with the initial value and again
+                // whenever data at this location is updated.
+                squatWeight.hint = dataSnapshot.getValue<String>()
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+                // Failed to read value
+                Log.w(TAG, "Failed to read value.", error.toException())
+            }
+        })
+        mDbRef.child("user").child(fileName).child("pullUpCount").addValueEventListener(object : ValueEventListener {
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                // This method is called once with the initial value and again
+                // whenever data at this location is updated.
+                pullUpCount.hint = dataSnapshot.getValue<String>()
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+                // Failed to read value
+                Log.w(TAG, "Failed to read value.", error.toException())
+            }
+        })
+        mDbRef.child("user").child(fileName).child("level").addValueEventListener(object : ValueEventListener {
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                // This method is called once with the initial value and again
+                // whenever data at this location is updated.
+                level.hint = dataSnapshot.getValue<String>()
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+                // Failed to read value
+                Log.w(TAG, "Failed to read value.", error.toException())
+            }
+        })
     }
 
     // signup 함수, createUserWithEmailAndPassword(매크로같은거일듯) 입력한 이름과 이메일, 비밀번호를 firebase에 전달 후 성공 유무를 확인하여 화면을 전환시키거나 메세지를 출력한다
@@ -204,7 +259,7 @@ class SetProfileActivity : AppCompatActivity() {
         pullUpCount: String,
         level:String
     ){
-        mDbRef = FirebaseDatabase.getInstance().getReference()
+
         mDbRef.child("user").child(uid).setValue(User(name,email,uid,benchWeight,squtWeight,pullUpCount,level,selectImage.toString()))
     }
 

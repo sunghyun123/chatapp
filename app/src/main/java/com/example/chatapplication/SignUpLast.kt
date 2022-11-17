@@ -49,30 +49,29 @@ class SignUpLast : AppCompatActivity() {
             val name = intent.getStringExtra("uName2").toString()
             val email = intent.getStringExtra("uEmail2").toString()
             val password = intent.getStringExtra("uPw2").toString()
-            val benchWeight_ =intent.getStringExtra("photo2").toString()
-            val squtWeight_ =intent.getStringExtra("squatWight2").toString()
-            val pullUpCount_ = intent.getStringExtra("pullUpCount2").toString()
-            val level_ =  intent.getStringExtra("level2").toString()
+            val benchWeight =intent.getStringExtra("benchWight2").toString()
+            val squatWeight =intent.getStringExtra("squatWight2").toString()
+            val pullUpCount = intent.getStringExtra("pullUpCount2").toString()
+            val level =  intent.getStringExtra("level2").toString()
             var a =  intent.getStringExtra("photo2")
 
             selectImage = Uri.parse(a);
 
-            signUp(name, email,password,benchWeight_,squtWeight_,pullUpCount_,level_)
+            signUp(name, email,password,benchWeight,squatWeight,pullUpCount,level)
 
     }
     // signup 함수, createUserWithEmailAndPassword(매크로같은거일듯) 입력한 이름과 이메일, 비밀번호,uid, 각종 운동 무게및 갯수, 운동레벨 를 firebase에 전달 후 성공 유무를 확인하여 화면을 전환시키거나 메세지를 출력한다
-    private  fun signUp(name:String, email: String, password: String,benchWeight: String,squtWeight: String,pullUpCount:String,level:String){
+    private  fun signUp(name:String, email: String, password: String,benchWeight: String,squatWeight: String,pullUpCount:String,level:String){
         mAuth.createUserWithEmailAndPassword(email, password)
             .addOnCompleteListener(this) { task ->
                 if (task.isSuccessful) {
                         uploadPhoto(selectImage)
-
                     addUserToDatabase(
                         name,
                         email,
                         mAuth.currentUser?.uid!!,
                         benchWeight,
-                        squtWeight,
+                        squatWeight,
                         pullUpCount,
                         level,
                     )
@@ -102,17 +101,18 @@ class SignUpLast : AppCompatActivity() {
     }
 
 
+
     //회원가입이 완료된 유저의 데이터베이스를 생성한다
     private fun addUserToDatabase(
         name: String,
         email: String,
         uid: String,
         benchWeight: String,
-        squtWeight: String,
+        squatWeight: String,
         pullUpCount: String,
         level:String
     ){
         mDbRef = FirebaseDatabase.getInstance().getReference()
-        mDbRef.child("user").child(uid).setValue(User(name,email,uid,benchWeight,squtWeight,pullUpCount,level,selectImage.toString()))
+        mDbRef.child("user").child(uid).setValue(User(name,email,uid,benchWeight,squatWeight,pullUpCount,level,selectImage.toString()))
     }
 }
