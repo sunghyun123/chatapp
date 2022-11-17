@@ -6,15 +6,18 @@
     android:layout_height="match_parent"
     tools:context=".Login">
     <!--로고-->
+
     <ImageView
-        android:background="@drawable/backgroundimagestroke"
+
         android:id="@+id/app_logo"
         android:layout_width="150dp"
         android:layout_height="150dp"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="70dp"
-        android:padding="2dp"
-        android:src="@drawable/mainlogo" />
+        android:src="@drawable/mainlogo"
+        android:background="@drawable/backgroundimagestroke"
+        android:padding="3dp"
+        />
     <!--이메일 입력 칸-->
     <EditText
         android:id="@+id/edt_email"
@@ -58,12 +61,12 @@
         android:layout_width="150dp"
         android:layout_height="wrap_content"
         android:layout_below="@+id/btnLogin"
-        android:text="회원가입"
-        android:background="@drawable/btn_background"
-        android:textColor="@color/white"
-        android:textSize="20dp"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="10dp"/>
+        android:layout_marginTop="10dp"
+        android:background="@drawable/btn_background"
+        android:text="회원가입"
+        android:textColor="@color/white"
+        android:textSize="20dp" />
 
 
 </RelativeLayout>

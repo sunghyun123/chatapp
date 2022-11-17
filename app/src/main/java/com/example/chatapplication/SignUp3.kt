@@ -43,11 +43,11 @@ class SignUp3 : AppCompatActivity() {
         nextIntent.putExtra("uName2", intent.getStringExtra("uName1").toString())
         nextIntent.putExtra("uEmail2", intent.getStringExtra("uEmail1").toString())
         nextIntent.putExtra("uPw2", intent.getStringExtra("uPw1").toString())
-        nextIntent.putExtra("photo2", intent.getStringExtra("photo1"))
+        nextIntent.putExtra("photo2", intent.getStringExtra("photo1").toString())
         nextIntent.putExtra("benchWight2",intent.getStringExtra("benchWight1").toString())
         nextIntent.putExtra("squatWight2", intent.getStringExtra("squatWight1").toString())
         nextIntent.putExtra("pullUpCount2", intent.getStringExtra("pullUpCount1").toString())
-        nextIntent.putExtra("level2", level.toString())
+        nextIntent.putExtra("level2", level.text.toString())
         startActivity(nextIntent)
     }
 }

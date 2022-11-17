@@ -22,12 +22,12 @@
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:layout_below="@+id/ProfileImg"
-        android:layout_marginTop="10dp"
-        android:hint="Name"
-        android:paddingLeft="13dp"
-        android:background="@drawable/edt_background"
         android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp" />
+        android:layout_marginTop="10dp"
+        android:layout_marginRight="20dp"
+        android:background="@drawable/edt_background"
+        android:hint="Name"
+        android:paddingLeft="13dp" />
     <!--이메일 입력 칸-->
     <EditText
         android:id="@+id/edt_BenchPower"

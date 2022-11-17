@@ -29,10 +29,7 @@ class SignUp2 : AppCompatActivity() {
     private lateinit var squatWight: EditText//스쿼트 무게
     private lateinit var pullUpCount: EditText// 풀업 갯수
     private lateinit var btnSignUp: Button
-    private lateinit var edtName: String
-    private lateinit var edtEmail: String
-    private lateinit var edtPassword: String
-    private lateinit var selectImage: Uri
+
 
     @RequiresApi(Build.VERSION_CODES.M)
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -53,10 +50,10 @@ class SignUp2 : AppCompatActivity() {
         nextIntent.putExtra("uName1", intent.getStringExtra("uName").toString())
         nextIntent.putExtra("uEmail1", intent.getStringExtra("uEmail").toString())
         nextIntent.putExtra("uPw1", intent.getStringExtra("uPw").toString())
-        nextIntent.putExtra("photo1", intent.getStringExtra("photo"))
-        nextIntent.putExtra("benchWight1", benchWight.toString())
-        nextIntent.putExtra("squatWight1", squatWight.toString())
-        nextIntent.putExtra("pullUpCount1", pullUpCount.toString())
+        nextIntent.putExtra("photo1", intent.getStringExtra("photo").toString())
+        nextIntent.putExtra("benchWight1", benchWight.text.toString())
+        nextIntent.putExtra("squatWight1", squatWight.text.toString())
+        nextIntent.putExtra("pullUpCount1", pullUpCount.text.toString())
         startActivity(nextIntent)
     }
 }
