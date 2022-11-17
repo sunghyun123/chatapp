@@ -24,6 +24,7 @@ class Login : AppCompatActivity() {
     private var auth : FirebaseAuth? = null
 
 
+
     //유니티 wakeup같은 기능을 하는 함수 앱 실행시 단 1번만 실행
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -59,7 +60,7 @@ class Login : AppCompatActivity() {
     }
     public override fun onStart() { //로그인 액티비티가 처음 실행되면 실행되는 함수
         super.onStart()
-        moveMainPage(auth?.currentUser) //현재 로그인된 유저의 정보를 매개변수로 하여 movemain 액티비티로 넘겨줌
+        moveMainPage(auth?.currentUser) //현재 로그인된 유저의 정보를 매개변수로 하여 movemain 함수로 넘겨줌
     }
 
     //login함수 signInWithEmailAndPassword를 이용하여 firebase에 입력한 이메일과 비밀번호 전달, 인증이 성공되면 메인엑티비티로 화면 전환

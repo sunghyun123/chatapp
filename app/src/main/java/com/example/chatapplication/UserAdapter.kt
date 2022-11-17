@@ -31,14 +31,6 @@ class UserAdapter(val context: Context, val userList: ArrayList<User>):
 
         holder.textName.text = currentUser.name//커런트유터 데이터에서 화면인 홀더로 이름을 넘겨줘서 띄울수있게함
 
-
-
-        if (user != null) {
-            holder.textActivity.text = "온라인"
-        } else {
-            holder.textActivity.text = "오프라인"
-        }
-
         holder.itemView.setOnClickListener {//목록의 뷰를 누를시
             val intent = Intent(context,ChattActivity::class.java)// 화면전환할 액티비티 정의
 
@@ -58,8 +50,8 @@ class UserAdapter(val context: Context, val userList: ArrayList<User>):
 
     class UserViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView){// 누를수있는 뷰로 만들기
         val textName = itemView.findViewById<TextView>(R.id.txt_name)
-        val textActivity = itemView.findViewById<TextView>(R.id.tv_rv_activity)
-    }
 
+
+    }
 
 }

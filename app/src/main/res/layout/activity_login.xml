@@ -6,16 +6,19 @@
     android:layout_height="match_parent"
     tools:context=".Login">
     <!--로고-->
-    <ImageView
-        android:background="@drawable/backgroundimagestroke"
-        android:id="@+id/app_logo"
-        android:layout_width="150dp"
-        android:layout_height="150dp"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="70dp"
-        android:padding="2dp"
-        android:src="@drawable/mainlogo" />
-    <!--이메일 입력 칸-->
+    <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/app_logo"
+
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="70dp"
+            app:civ_border_color="@color/green"
+            app:civ_border_overlay="true"
+            app:civ_border_width="3dp"
+            android:src="@drawable/mainlogo" />
+
+        <!--이메일 입력 칸-->
     <EditText
         android:id="@+id/edt_email"
         android:layout_width="match_parent"

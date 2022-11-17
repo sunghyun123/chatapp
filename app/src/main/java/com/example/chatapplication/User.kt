@@ -1,6 +1,9 @@
 package com.example.chatapplication
 
+import android.content.Context
 import android.net.Uri
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.ktx.Firebase
 
 class User {
     var name: String? = null
@@ -11,6 +14,7 @@ class User {
     var pullUpCount_:String? = null
     var level_: String? = null
     var profileImage_:String? = null
+    //var UserStatment : String = "오프라인"
     constructor(){}
 
     constructor(name: String?, email: String?, uid: String?, benchWeight: String?, squtWeight : String?, pullUpCount : String?,level: String?,profileImage_: String){
