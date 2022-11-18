@@ -151,7 +151,7 @@ class SetProfileActivity : AppCompatActivity() {
                 override fun onDataChange(dataSnapshot: DataSnapshot) {
                     // This method is called once with the initial value and again
                     // whenever data at this location is updated.
-                    edtName.hint = dataSnapshot.getValue<String>()
+                    edtName.hint = "이름 : "+ dataSnapshot.getValue<String>()
                 }
 
                 override fun onCancelled(error: DatabaseError) {
@@ -163,7 +163,7 @@ class SetProfileActivity : AppCompatActivity() {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
                 // This method is called once with the initial value and again
                 // whenever data at this location is updated.
-                benchWight.hint = dataSnapshot.getValue<String>()
+                benchWight.hint = "벤치 무게 : "+dataSnapshot.getValue<String>()
             }
 
             override fun onCancelled(error: DatabaseError) {
@@ -175,7 +175,7 @@ class SetProfileActivity : AppCompatActivity() {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
                 // This method is called once with the initial value and again
                 // whenever data at this location is updated.
-                squatWeight.hint = dataSnapshot.getValue<String>()
+                squatWeight.hint = "스쿼트 무게 : "+dataSnapshot.getValue<String>()
             }
 
             override fun onCancelled(error: DatabaseError) {
@@ -187,7 +187,7 @@ class SetProfileActivity : AppCompatActivity() {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
                 // This method is called once with the initial value and again
                 // whenever data at this location is updated.
-                pullUpCount.hint = dataSnapshot.getValue<String>()
+                pullUpCount.hint = "풀업 갯수 : "+dataSnapshot.getValue<String>()
             }
 
             override fun onCancelled(error: DatabaseError) {
@@ -199,7 +199,7 @@ class SetProfileActivity : AppCompatActivity() {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
                 // This method is called once with the initial value and again
                 // whenever data at this location is updated.
-                level.hint = dataSnapshot.getValue<String>()
+                level.hint = "운동 수준 : "+dataSnapshot.getValue<String>()
             }
 
             override fun onCancelled(error: DatabaseError) {
@@ -223,7 +223,7 @@ class SetProfileActivity : AppCompatActivity() {
                 squtWeight,
                 pullUpCount,
                 level,
-
+                "ON"
                 )
             val intent = Intent(this@SetProfileActivity, MainActivity::class.java)
             finish()
@@ -257,10 +257,11 @@ class SetProfileActivity : AppCompatActivity() {
         benchWeight: String,
         squtWeight: String,
         pullUpCount: String,
-        level:String
+        level:String,
+        state:String
     ){
 
-        mDbRef.child("user").child(uid).setValue(User(name,email,uid,benchWeight,squtWeight,pullUpCount,level,selectImage.toString()))
+        mDbRef.child("user").child(uid).setValue(User(name,email,uid,benchWeight,squtWeight,pullUpCount,level,selectImage.toString(),state))
     }
 
     var waitTime = 0L

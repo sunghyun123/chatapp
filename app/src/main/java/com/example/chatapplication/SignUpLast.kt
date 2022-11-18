@@ -74,6 +74,7 @@ class SignUpLast : AppCompatActivity() {
                         squatWeight,
                         pullUpCount,
                         level,
+                        "ON"
                     )
 
                     val intent = Intent(this@SignUpLast, MainActivity::class.java)
@@ -110,9 +111,10 @@ class SignUpLast : AppCompatActivity() {
         benchWeight: String,
         squatWeight: String,
         pullUpCount: String,
-        level:String
+        level:String,
+        state:String
     ){
         mDbRef = FirebaseDatabase.getInstance().getReference()
-        mDbRef.child("user").child(uid).setValue(User(name,email,uid,benchWeight,squatWeight,pullUpCount,level,selectImage.toString()))
+        mDbRef.child("user").child(uid).setValue(User(name,email,uid,benchWeight,squatWeight,pullUpCount,level,selectImage.toString(),state))
     }
 }

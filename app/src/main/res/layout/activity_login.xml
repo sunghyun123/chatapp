@@ -7,18 +7,18 @@
     tools:context=".Login">
     <!--로고-->
 
+
     <de.hdodenhof.circleimageview.CircleImageView
-            android:id="@+id/app_logo"
-
-            android:layout_width="150dp"
-            android:layout_height="150dp"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="70dp"
-            app:civ_border_color="@color/green"
-            app:civ_border_overlay="true"
-            app:civ_border_width="3dp"
-            android:src="@drawable/mainlogo" />
-
+        android:id="@+id/app_logo"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="70dp"
+        app:civ_border_color="@color/green"
+        app:civ_border_overlay="true"
+        app:civ_border_width="3dp"
+        android:src="@drawable/mainlogo"
+        tools:ignore="MissingClass" />
         <!--이메일 입력 칸-->
 
 
