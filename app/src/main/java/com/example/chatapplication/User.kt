@@ -4,7 +4,7 @@ import android.content.Context
 import android.net.Uri
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
-
+import java.io.Serializable
 class User {
     var name: String? = null
     var email: String? = null

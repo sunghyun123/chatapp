@@ -46,14 +46,19 @@ class SignUp2 : AppCompatActivity() {
     }
 
     private fun myStartActivity() {
-        val nextIntent = Intent(this@SignUp2, SignUp3::class.java)
-        nextIntent.putExtra("uName1", intent.getStringExtra("uName").toString())
-        nextIntent.putExtra("uEmail1", intent.getStringExtra("uEmail").toString())
-        nextIntent.putExtra("uPw1", intent.getStringExtra("uPw").toString())
-        nextIntent.putExtra("photo1", intent.getStringExtra("photo").toString())
-        nextIntent.putExtra("benchWight1", benchWight.text.toString())
-        nextIntent.putExtra("squatWight1", squatWight.text.toString())
-        nextIntent.putExtra("pullUpCount1", pullUpCount.text.toString())
-        startActivity(nextIntent)
+        if (benchWight.text.isNotEmpty() && squatWight.text.isNotEmpty() && pullUpCount.text.isNotEmpty()) {
+            val nextIntent = Intent(this@SignUp2, SignUp3::class.java)
+            nextIntent.putExtra("uName1", intent.getStringExtra("uName").toString())
+            nextIntent.putExtra("uEmail1", intent.getStringExtra("uEmail").toString())
+            nextIntent.putExtra("uPw1", intent.getStringExtra("uPw").toString())
+            nextIntent.putExtra("photo1", intent.getStringExtra("photo").toString())
+            nextIntent.putExtra("benchWight1", benchWight.text.toString())
+            nextIntent.putExtra("squatWight1", squatWight.text.toString())
+            nextIntent.putExtra("pullUpCount1", pullUpCount.text.toString())
+            startActivity(nextIntent)
+        }
+        else{
+            Toast.makeText(this,"there is empty space", Toast.LENGTH_SHORT).show()
+        }
     }
 }

@@ -14,7 +14,6 @@
     android:layout_marginRight="5dp"
     tools:ignore="ExtraText">
 
-
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/img_rv_photo"
         android:layout_width="100dp"

@@ -1,5 +1,6 @@
 package com.example.chatapplication
 
+import android.app.AlertDialog
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
@@ -8,6 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.core.net.toUri
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.google.firebase.auth.FirebaseAuth
@@ -51,11 +53,17 @@ class UserAdapter(val context: Context, val userList: ArrayList<User>):
             holder.state.text = currentUser.State
 
             holder.itemView.setOnClickListener {//목록의 뷰를 누를시
-                val intent = Intent(context,ChattActivity::class.java)// 화면전환할 액티비티 정의
-                //전환할 엑티비티로 데이터 넘기기 받는쪽에선 getExtra씀
+                val intent = Intent(context,popActivity::class.java)// 화면전환할 액티비티 정의
+                //전환할 엑티비티로 데이터 넘기기 받는쪽에선 getExtraa
                 intent.putExtra("name", currentUser.name)
-                intent.putExtra("uid",currentUser.uid)
-
+                intent.putExtra("State", currentUser.State)
+                intent.putExtra("benchWeight", currentUser.benchWeight)
+                intent.putExtra("level", currentUser.level)
+                intent.putExtra("profileImage", currentUser.profileImage)
+                intent.putExtra("pullUpCount", currentUser.pullUpCount)
+                intent.putExtra("squatWeight", currentUser.squatWeight)
+//                intent.putExtra("bench",currentUser.)
+                intent.putExtra("img",profilefile.absolutePath.toString())
 
                 context.startActivity(intent)//환면전환하기.
             }

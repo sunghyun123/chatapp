@@ -28,7 +28,6 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)//
         setContentView(R.layout.activity_main)
 
-
         //유저,리얼타임데이터베이스에 접근 해서 값얻을수있는 통로뚥기 저 두변수가 길이다.
         mAuth = FirebaseAuth.getInstance()// 나자신의 유저정보 m이 my의 약자다
 
@@ -53,8 +52,7 @@ class MainActivity : AppCompatActivity() {
                 userList.clear()//리스트 초기화
                 for (postSnapshot in snapshot.children) {//user데이터베이스에 있는 모든 리스트들이 처음부터 끝까지 끝날떄 까지
 
-                    val currentUser =
-                        postSnapshot.getValue(User::class.java)//user 데이터 베이스에있는 값을 첫번째 유저 부터 가져옴
+                    val currentUser = postSnapshot.getValue(User::class.java)//user 데이터 베이스에있는 값을 첫번째 유저 부터 가져옴
                     //위의 for문을 볼 때 반복문임.
                     //val user = snapshot.getValue<User>()
 
@@ -165,7 +163,6 @@ class MainActivity : AppCompatActivity() {
             }
         }
     }
-
 }
 
 

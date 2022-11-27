@@ -16,6 +16,7 @@ import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
+import java.util.regex.Pattern
 
 
 class SignUp : AppCompatActivity() {
@@ -27,7 +28,7 @@ class SignUp : AppCompatActivity() {
     private lateinit var btnSignUp: Button
     private lateinit var selectImage: Uri
     private lateinit var ProfileImg : ImageView
-
+    private  lateinit var pattern : Pattern
     @RequiresApi(Build.VERSION_CODES.M)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -42,6 +43,8 @@ class SignUp : AppCompatActivity() {
         btnSignUp.setOnClickListener {
                 myStartActivity(SignUp2::class.java)
         }
+
+        pattern = android.util.Patterns.EMAIL_ADDRESS
         ProfileImg.setOnClickListener{
             val d = Log.d(ContentValues.TAG, "addImageButton called!!")
             when {
@@ -67,13 +70,22 @@ class SignUp : AppCompatActivity() {
     }
 
     private fun myStartActivity(c: Class<*>) {
-        val nextIntent = Intent(this@SignUp, SignUp2::class.java)
-        nextIntent.putExtra("uName", edtName.text.toString())
-        nextIntent.putExtra("uEmail",  edtEmail.text.toString())
-        nextIntent.putExtra("uPw", edtPassword.text.toString())
-        nextIntent.putExtra("photo", selectImage.toString())
 
-        startActivity(nextIntent)
+        if(edtName.text.isNotEmpty() && edtEmail.text.isNotEmpty() && edtPassword.text.isNotEmpty() && pattern.matcher(edtEmail.text).matches()) {
+            val nextIntent = Intent(this@SignUp, SignUp2::class.java)
+            nextIntent.putExtra("uName", edtName.text.toString())
+            nextIntent.putExtra("uEmail", edtEmail.text.toString())
+            nextIntent.putExtra("uPw", edtPassword.text.toString())
+            nextIntent.putExtra("photo", selectImage.toString())
+            startActivity(nextIntent)
+        }
+        else if(!pattern.matcher(edtEmail.text).matches()){
+            Toast.makeText(this,"there is email input type error", Toast.LENGTH_SHORT).show()
+        }
+        else{
+            Toast.makeText(this,"there is empty space", Toast.LENGTH_SHORT).show()
+
+        }
     }
     private fun getImageFromAlbum() {
         var intent = Intent()
