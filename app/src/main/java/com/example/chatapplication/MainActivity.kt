@@ -1,8 +1,13 @@
 package com.example.chatapplication
 
+import android.Manifest
+import android.content.ContentValues
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.location.Location
 import android.os.Bundle
+import android.os.Looper
+import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
@@ -10,8 +15,10 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.gms.location.*
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
+import com.google.firebase.database.ktx.getValue
 
 class MainActivity : AppCompatActivity() {
 
@@ -23,7 +30,13 @@ class MainActivity : AppCompatActivity() {
     var T = false
 
 
+    private var mFusedLocationProviderClient: FusedLocationProviderClient? = null // 현재 위치를 가져오기 위한 변수
+    lateinit var mLastLocation: Location // 위치 값을 가지고 있는 객체
+    internal lateinit var mLocationRequest: LocationRequest // 위치 정보 요청의 매개변수를 저장하는
+    private val REQUEST_PERMISSION_LOCATION = 10
 
+    private  var textlat : Double? = null
+    private  var textlon : Double? = null
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -35,23 +48,12 @@ class MainActivity : AppCompatActivity() {
 
         mDbRef = FirebaseDatabase.getInstance().getReference()
 
-        var lon : Double? = null
+
         //userList 생성자 호출
         userList = ArrayList()
 
-//        mDbRef.child("user").child( mAuth.currentUser?.uid.toString()).child("lon").addValueEventListener(object : ValueEventListener {
-//            override fun onDataChange(dataSnapshot: DataSnapshot) {
-//                 val userlon =
-//                    dataSnapshot.getValue<Double>()
-//                //Log.i(ContentValues.TAG, "$userlon")
-//                lon = userlon
-//           }
-//
-//            override fun onCancelled(error: DatabaseError) {
-//                // Failed to read value
-//                Log.w(ContentValues.TAG, "Failed to read value.", error.toException())
-//            }
-//        })
+        mAuth = FirebaseAuth.getInstance()
+
         //어뎁터 생성자. 여기서 이걸해줌으로 각 어뎁터는 하나의 포지션을같는다 연결해버리니까
 
         adapter = UserAdapter(this, userList)
@@ -64,6 +66,14 @@ class MainActivity : AppCompatActivity() {
         T = true
 
 
+        startLocationUpdates()
+
+
+         // 위도경도 계산 함수 호출
+
+
+//        val name = intent.getStringExtra("name")
+//        Log.i(ContentValues.TAG, "$name")
 
         mDbRef.child("user").addValueEventListener(object: ValueEventListener{// 파이어베이스에서 데이터 읽고 쓸수있는 리스너
             override fun onDataChange(snapshot: DataSnapshot) {
@@ -92,14 +102,16 @@ class MainActivity : AppCompatActivity() {
 
 
             if(ContextCompat.checkSelfPermission(this, android.Manifest.permission.ACTIVITY_RECOGNITION) == PackageManager.PERMISSION_GRANTED
-                && ContextCompat.checkSelfPermission(this, android.Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED){
+                && ContextCompat.checkSelfPermission(this, android.Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED
+                && ContextCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED){
 
             }
 
 
             val permissions: Array<String> = arrayOf(
                 android.Manifest.permission.ACTIVITY_RECOGNITION,
-                android.Manifest.permission.READ_EXTERNAL_STORAGE)
+                android.Manifest.permission.READ_EXTERNAL_STORAGE,
+                android.Manifest.permission.ACCESS_FINE_LOCATION)
 
             ActivityCompat.requestPermissions(this, permissions, 0)
 
@@ -174,7 +186,9 @@ class MainActivity : AppCompatActivity() {
                         if(!ActivityCompat.shouldShowRequestPermissionRationale(this,
                                 android.Manifest.permission.READ_EXTERNAL_STORAGE)
                             || !ActivityCompat.shouldShowRequestPermissionRationale(this,
-                                android.Manifest.permission.ACTIVITY_RECOGNITION)){
+                                android.Manifest.permission.ACTIVITY_RECOGNITION)
+                            || !ActivityCompat.shouldShowRequestPermissionRationale(this,
+                                android.Manifest.permission.ACCESS_FINE_LOCATION)){
                             // 다시 묻지 않기 체크하면서 권한 거부 되었음.
                         } else {
                             // 접근 권한 거부하였음.
@@ -183,6 +197,49 @@ class MainActivity : AppCompatActivity() {
                 }
             }
         }
+    }
+
+    private fun startLocationUpdates() {
+
+        mLocationRequest =  LocationRequest.create().apply {
+
+            priority = LocationRequest.PRIORITY_HIGH_ACCURACY
+
+        }
+
+
+        //FusedLocationProviderClient의 인스턴스를 생성.
+        mFusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this)
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
+            && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            return
+        }
+        // 기기의 위치에 관한 정기 업데이트를 요청하는 메서드 실행
+        // 지정한 루퍼 스레드(Looper.myLooper())에서 콜백(mLocationCallback)으로 위치 업데이트를 요청
+        mFusedLocationProviderClient!!.requestLocationUpdates(mLocationRequest, mLocationCallback, Looper.myLooper())
+    }
+
+    // 시스템으로 부터 위치 정보를 콜백으로 받음
+    private val mLocationCallback = object : LocationCallback() {
+        override fun onLocationResult(locationResult: LocationResult) {
+            // 시스템에서 받은 location 정보를 onLocationChanged()에 전달
+            locationResult.lastLocation
+            onLocationChanged(locationResult.lastLocation)
+        }
+    }
+
+    // 시스템으로 부터 받은 위치정보를 화면에 갱신해주는 메소드
+    fun onLocationChanged(location: Location) {
+        mLastLocation = location
+        textlat = mLastLocation.latitude // 갱신 된 위도
+        textlon = mLastLocation.longitude // 갱신 된 경도
+
+        mDbRef = FirebaseDatabase.getInstance().getReference()
+        mAuth = FirebaseAuth.getInstance()
+
+        mDbRef.child("user").child( mAuth.currentUser?.uid.toString()).child("lon").setValue(textlon)
+        mDbRef.child("user").child( mAuth.currentUser?.uid.toString()).child("lat").setValue(textlat)
+
     }
 
 }

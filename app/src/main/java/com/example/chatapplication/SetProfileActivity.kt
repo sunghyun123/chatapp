@@ -75,6 +75,10 @@ class SetProfileActivity : AppCompatActivity() {
         level = findViewById(R.id.edt_Level)
         btnSignUp = findViewById(R.id.btnSignUp)
         ProfileImg = findViewById(R.id.ProfileImg)
+
+        val name = intent.getStringExtra("name")
+        Log.i(ContentValues.TAG, "$name")
+
         ProfileImg.setOnClickListener{
             val d = Log.d(ContentValues.TAG, "addImageButton called!!")
             when {
