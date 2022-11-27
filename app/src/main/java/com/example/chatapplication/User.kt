@@ -16,9 +16,23 @@ class User {
     var level: String? = null
     var profileImage:String? = null
     var State: String? = null
+    var lat: Double? = null
+    var lon: Double? = null
     constructor(){}
 
-    constructor(name: String?, email: String?, uid: String?, benchWeight: String?, squtWeight : String?, pullUpCount : String?,level: String?,profileImage: String,State: String?){
+    constructor(name: String?,
+                email: String?,
+                uid: String?,
+                benchWeight: String?,
+                squtWeight : String?,
+                pullUpCount : String?,
+                level: String?,
+                profileImage: String,
+                State: String?,
+                lat: Double?,
+                lon: Double?
+                ){
+
         this.name = name
         this.email = email
         this.uid = uid
@@ -28,5 +42,7 @@ class User {
         this.level = level
         this.profileImage = profileImage
         this.State = State
+        this.lat = lat
+        this.lon = lon
     }
 }
