@@ -76,7 +76,7 @@
         android:paddingLeft="13dp" />
     <!--회원가입 버튼, 회원가입 완료시 메인 엑티비티 이동-->
     <Button
-        android:id="@+id/gochat"
+        android:id="@+id/back"
         android:layout_width="150dp"
         android:layout_height="wrap_content"
         android:layout_below="@+id/edt_Level"
@@ -87,7 +87,7 @@
         android:textColor="@color/white"
         android:textSize="20dp" />
     <Button
-        android:id="@+id/back"
+        android:id="@+id/gochat"
         android:layout_width="150dp"
         android:layout_height="wrap_content"
         android:layout_below="@+id/edt_Level"

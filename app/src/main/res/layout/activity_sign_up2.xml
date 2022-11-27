@@ -15,7 +15,6 @@
         android:text="운동 수준"
         android:textSize="50dp"
         android:layout_marginBottom="20dp"
-
         android:gravity="center"/>
 
     <!--로고-->

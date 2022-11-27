@@ -38,9 +38,10 @@ class popActivity : AppCompatActivity() {
     private lateinit var squatWeight: TextView
     private lateinit var pullUpCount: TextView
     private lateinit var level:TextView
-    private lateinit var btnSignUp: Button
+    private lateinit var back: Button
     private lateinit var ProfileImg : ImageView
     private lateinit var file : File
+    private lateinit var chat: Button
 
     @RequiresApi(Build.VERSION_CODES.M)
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -55,7 +56,8 @@ class popActivity : AppCompatActivity() {
         squatWeight = findViewById(R.id.edt_SqutPower)
         pullUpCount = findViewById(R.id.edt_PullUpPower)
         level = findViewById(R.id.edt_Level)
-
+        back = findViewById(R.id.back)
+        chat = findViewById(R.id.gochat)
         ProfileImg = findViewById(R.id.ProfileImg)
         //회원가입 버튼에 온클릭 이벤트 추가(입력된 이름과 이메일과 비밀번호를 String으로 받아와 signup 함수 실행)
 
@@ -64,9 +66,19 @@ class popActivity : AppCompatActivity() {
         squatWeight.text = intent.getStringExtra("squatWeight").toString()
         pullUpCount.text = intent.getStringExtra("pullUpCount").toString()
         level.text = intent.getStringExtra("level").toString()
+
         Glide.with(this)
             .load(File(intent.getStringExtra("img").toString()))
-            .into(ProfileImg);
+            .into(ProfileImg)
+        back.setOnClickListener {
+            val intent = Intent(this@popActivity, MainActivity::class.java)
+            startActivity(intent)
+        }
+        chat.setOnClickListener {
+            val intent = Intent(this@popActivity, ChattActivity::class.java)
+            startActivity(intent)
+        }
+
     }
 
 }

@@ -52,8 +52,10 @@ class UserAdapter(val context: Context, val userList: ArrayList<User>):
                 override fun onDataChange(dataSnapshot: DataSnapshot) { //유저 데이터 데이스의 lon값을 받아옴
                     val userlon =
                         dataSnapshot.getValue<Double>()
+
                     lon = userlon!! //받아온 값을 저장
                     //Log.i(ContentValues.TAG, "$lon")
+
                 }
 
                 override fun onCancelled(error: DatabaseError) {
