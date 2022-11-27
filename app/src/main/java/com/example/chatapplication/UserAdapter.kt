@@ -58,7 +58,7 @@ class UserAdapter(val context: Context, val userList: ArrayList<User>):
                     val userlon =
                         dataSnapshot.getValue<Double>()
                     lon = userlon!!
-                    //Log.i(ContentValues.TAG, "$lon")
+                  
                 }
 
                 override fun onCancelled(error: DatabaseError) {

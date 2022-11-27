@@ -18,18 +18,11 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.ChatApplication"
         tools:targetApi="31">
-
+        <activity
+            android:name=".nboardActivity"
+            android:exported="false" />
         <activity
             android:name=".popActivity"
-            android:exported="false" />
-        <activity
-            android:name=".popupAcivity"
-            android:exported="false" />
-        <activity
-            android:name=".popupActivity"
-            android:exported="false" />
-        <activity
-            android:name=".PopupActivity"
             android:exported="false" />
         <activity
             android:name=".pedometerActivity"

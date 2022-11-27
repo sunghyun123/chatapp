@@ -29,7 +29,7 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)//
         setContentView(R.layout.activity_main)
-
+        startService(Intent(this,ForceTerminationService::class.java))
         //유저,리얼타임데이터베이스에 접근 해서 값얻을수있는 통로뚥기 저 두변수가 길이다.
         mAuth = FirebaseAuth.getInstance()// 나자신의 유저정보 m이 my의 약자다
 
@@ -57,7 +57,7 @@ class MainActivity : AppCompatActivity() {
         adapter = UserAdapter(this, userList)
         //리사이클러뷰 찾아서 잡아주기
         userRecyclerView = findViewById(R.id.userRecyclerView)
-        //유저 리사이클러뷰를 어떤식으로 보이게할지 LinearLayout형식으로 
+        //유저 리사이클러뷰를 어떤식으로 보이게할지 LinearLayout형식으로
         userRecyclerView.layoutManager = LinearLayoutManager(this)
         //어뎁터를 넣어준다. 이거때문에 포지션값이 알아서 정의되는거일지도
         userRecyclerView.adapter = adapter
@@ -102,9 +102,8 @@ class MainActivity : AppCompatActivity() {
                 android.Manifest.permission.READ_EXTERNAL_STORAGE)
 
             ActivityCompat.requestPermissions(this, permissions, 0)
-
-        mDbRef.child("user").child( mAuth.currentUser?.uid.toString()).child("state").setValue("ON")// 온오프 표시
-        startService(Intent(this,ForceTerminationService::class.java))
+        if(mAuth.currentUser?.uid.toString() == null)
+            mDbRef.child("user").child( mAuth.currentUser?.uid.toString()).child("state").setValue("ON")// 온오프 표시
     }
 
     //함수가 호출될때 한번만 실행됨, 상태표시줄에 메뉴가 추가됨
@@ -113,6 +112,10 @@ class MainActivity : AppCompatActivity() {
         return super.onCreateOptionsMenu(menu) // 부모클래스의 onCreateOptionsMenu에 접근, 즉 재귀호출
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        intent.putExtra("uid",mAuth.currentUser?.uid.toString())
+    }
 
     //메뉴가 선택되었을때 호출되는 함수, 화면 전환
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
