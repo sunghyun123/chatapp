@@ -17,7 +17,7 @@ class MessageAdapter(val context: Context, val messageList: ArrayList<Message>):
 
     //채팅방 생성 코드
     //ViewHolder 객체를 생성한다(리스트를 생성한다). 단, 생성되는 객체는 데이터의 전체길이를 초과하지 않는다
-    //viewType에 따라 sentroom일지 receiveroom 일지 결정된다
+    //viewType 에 따라 sentroom일지 receiveroom 일지 결정된다
     //리턴값은 리스트를 만들기위함임. 데이터의 전체길이 초과시 리턴되지 않음
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
 

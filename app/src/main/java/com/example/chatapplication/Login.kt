@@ -1,10 +1,13 @@
 
 package com.example.chatapplication
 
+import android.content.ContentValues
+import android.content.ContentValues.TAG
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Button
+import android.util.Log
 import android.widget.EditText
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
@@ -22,7 +25,6 @@ class Login : AppCompatActivity() {
     private lateinit var btnSignUp: Button
     private  lateinit var  mAuth: FirebaseAuth
     private var auth : FirebaseAuth? = null
-
 
 
     //유니티 wakeup같은 기능을 하는 함수 앱 실행시 단 1번만 실행
@@ -57,6 +59,8 @@ class Login : AppCompatActivity() {
             login(email,password);
         }
 
+
+
     }
     public override fun onStart() { //로그인 액티비티가 처음 실행되면 실행되는 함수
         super.onStart()
@@ -74,9 +78,10 @@ class Login : AppCompatActivity() {
 //                        val intent = Intent(this@Login, MainActivity::class.java)
 //                        finish()
 //                        startActivity(intent)
+
                         moveMainPage(auth?.currentUser)
                     } else {
-                        Toast.makeText(this@Login, "사용자 정보가 없습니다.", Toast.LENGTH_SHORT)
+                        Toast.makeText(this@Login, "로그인 실패", Toast.LENGTH_SHORT)
                             .show() // 인증이 실패하면 토스트 메세지 출력
                     }
                 }
@@ -85,6 +90,7 @@ class Login : AppCompatActivity() {
             Toast.makeText(this,
                 "이메일 또는 비밀번호 입력란이 비어있습니다.",
                 Toast.LENGTH_SHORT).show()
+            Log.i(ContentValues.TAG, "MYLOG")
         }
     }
 

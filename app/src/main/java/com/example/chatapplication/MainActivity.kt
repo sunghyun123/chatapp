@@ -22,7 +22,9 @@ class MainActivity : AppCompatActivity() {
     private  lateinit var mDbRef: DatabaseReference// 파이어베이스 리얼타임베이스 접근하기위한 변수
     var T = false
 
-    val MY_PERMISSION_ACCESS_ALL = 100
+
+
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)//
@@ -32,9 +34,26 @@ class MainActivity : AppCompatActivity() {
         mAuth = FirebaseAuth.getInstance()// 나자신의 유저정보 m이 my의 약자다
 
         mDbRef = FirebaseDatabase.getInstance().getReference()
+
+        var lon : Double? = null
         //userList 생성자 호출
         userList = ArrayList()
+
+//        mDbRef.child("user").child( mAuth.currentUser?.uid.toString()).child("lon").addValueEventListener(object : ValueEventListener {
+//            override fun onDataChange(dataSnapshot: DataSnapshot) {
+//                 val userlon =
+//                    dataSnapshot.getValue<Double>()
+//                //Log.i(ContentValues.TAG, "$userlon")
+//                lon = userlon
+//           }
+//
+//            override fun onCancelled(error: DatabaseError) {
+//                // Failed to read value
+//                Log.w(ContentValues.TAG, "Failed to read value.", error.toException())
+//            }
+//        })
         //어뎁터 생성자. 여기서 이걸해줌으로 각 어뎁터는 하나의 포지션을같는다 연결해버리니까
+
         adapter = UserAdapter(this, userList)
         //리사이클러뷰 찾아서 잡아주기
         userRecyclerView = findViewById(R.id.userRecyclerView)
@@ -98,7 +117,7 @@ class MainActivity : AppCompatActivity() {
     //메뉴가 선택되었을때 호출되는 함수, 화면 전환
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
 
-        if(item.itemId == R.id.logout){
+        if(item.itemId == R.id.logout){ //첫번째 아이템:로그아웃
             T = false
             val intent = Intent(this@MainActivity, Login::class.java)
             mDbRef.child("user").child( mAuth.currentUser?.uid.toString()).child("state").setValue("OFF")// 온오프 표시
@@ -107,13 +126,13 @@ class MainActivity : AppCompatActivity() {
             startActivity(intent)
             return true
         }
-        if(item.itemId == R.id.setProfile){
+        if(item.itemId == R.id.setProfile){ //두번째 아이템:프로필 설정
             val intent = Intent(this@MainActivity, SetProfileActivity::class.java)
 
             startActivity(intent)
             return true
         }
-        if(item.itemId == R.id.pedometerBtn){
+        if(item.itemId == R.id.pedometerBtn){ //세번째 아이템 만보기 버튼
             val intent = Intent(this@MainActivity, pedometerActivity::class.java)
 
             startActivity(intent)
@@ -125,7 +144,9 @@ class MainActivity : AppCompatActivity() {
     }
 
 
-    override fun onRequestPermissionsResult(
+
+
+    override fun onRequestPermissionsResult( //권한 설정 창 뜨게하는 코드
         requestCode: Int,
         permissions: Array<out String>,
         grantResults: IntArray
@@ -163,6 +184,7 @@ class MainActivity : AppCompatActivity() {
             }
         }
     }
+
 }
 
 
