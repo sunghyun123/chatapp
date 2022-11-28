@@ -71,12 +71,17 @@ class popActivity : AppCompatActivity() {
             .load(File(intent.getStringExtra("img").toString()))
             .into(ProfileImg)
         back.setOnClickListener {
-            val intent = Intent(this@popActivity, MainActivity::class.java)
-            startActivity(intent)
+            finish()
+
         }
         chat.setOnClickListener {
+            var uidk = intent.getStringExtra("uid")
+            var namek = intent.getStringExtra("name")
             val intent = Intent(this@popActivity, ChattActivity::class.java)
+            intent.putExtra("uid",uidk)
+            intent.putExtra("name",namek )
             startActivity(intent)
+            finish()
         }
 
     }

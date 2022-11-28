@@ -65,7 +65,11 @@ class MainActivity : AppCompatActivity() {
         userRecyclerView.adapter = adapter
         T = true
 
+        mLocationRequest =  LocationRequest.create().apply {
 
+            priority = LocationRequest.PRIORITY_HIGH_ACCURACY
+
+        }
         startLocationUpdates()
 
 

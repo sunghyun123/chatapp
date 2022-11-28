@@ -113,7 +113,7 @@ class UserAdapter(val context: Context, val userList: ArrayList<User>):
 
                 val intent = Intent(context,popActivity::class.java)// 화면전환할 액티비티 정의
                 //전환할 엑티비티로 데이터 넘기기 받는쪽에선 getExtraa
-
+                intent.putExtra("uid", currentUser.uid)
                 intent.putExtra("name", currentUser.name)
                 intent.putExtra("State", currentUser.State)
                 intent.putExtra("benchWeight", currentUser.benchWeight)
