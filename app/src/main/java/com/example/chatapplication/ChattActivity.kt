@@ -1,6 +1,9 @@
 package com.example.chatapplication
 
+
+import android.content.ContentValues
 import android.os.Bundle
+import android.util.Log
 import android.widget.EditText
 import android.widget.ImageView
 import androidx.appcompat.app.AppCompatActivity
@@ -28,7 +31,7 @@ class ChattActivity : AppCompatActivity() {
         setContentView(R.layout.activity_chatt)
 
         val name = intent.getStringExtra("name") // UserAdapter 액티비티의 31번째 줄의 데이터를 받는 함수
-        val receiverUid = intent.getStringExtra("uid") // UserAdapter 액티비티의 32번째 줄의 데이터를 받는 함수
+        val receiverUid = intent.getStringExtra("uid")// UserAdapter 액티비티의 32번째 줄의 데이터를 받는 함수
 
         val senderUid = FirebaseAuth.getInstance().currentUser?.uid //Firebase 인증 객체 초기화
         mDbRef = FirebaseDatabase.getInstance().getReference() //Firebase에 데이터를 추가하거나 조회하기 위한 코드, 정의
@@ -57,12 +60,16 @@ class ChattActivity : AppCompatActivity() {
                 override fun onDataChange(snapshot: DataSnapshot) {
 
                     messageList.clear()
-                    // 입력받은 메세지를 채팅창에 출력
+
+
+                    //                    // 입력받은 메세지를 채팅창에 출력
                     for(postSnapshot in snapshot.children) {
 
                         val message = postSnapshot.getValue(Message::class.java)
                         //메세지 리스트에 추가
                         messageList.add(message!!)
+
+
                     }
                     messageAdapter.notifyDataSetChanged()
                 }
@@ -74,19 +81,26 @@ class ChattActivity : AppCompatActivity() {
             })
 
 
+
         // 메세지 데이터베이스 추가, 메세지 보내기 버튼 클릭시 이벤트 발생 함수
         sendButton.setOnClickListener{
 
             val message = messageBox.text.toString() // 입력된 메세지를 String으로 읽어옴
-            val messageObject = Message(message, senderUid) // Message클래스에 매개변수 전달
+            Log.i(ContentValues.TAG, "$message")
+            if(message != "") {
+                val messageObject = Message(message, senderUid) // Message클래스에 매개변수 전달
 
-            mDbRef.child("chats").child(senderRoom!!).child("messages").push()
-                // mDbRef의 자식인 chats의 자식의(이 자식은 DB에 의해 생성된 채팅창 고유 Id임) 메세지란 객체에 푸쉬함
-                .setValue(messageObject).addOnSuccessListener {
-                    mDbRef.child("chats").child(receiverRoom!!).child("messages").push()
-                        .setValue(messageObject)
-                } // 보낸 메세지가 성공적으로 Db에 등록될 시 receiverRoom에도(DB) 똑같은 값을 보낸다.
-            messageBox.setText("") // 메세지를 보내면 메세지 박스 초기화
+                mDbRef.child("chats").child(senderRoom!!).child("messages").push()
+                    // mDbRef의 자식인 chats의 자식의(이 자식은 DB에 의해 생성된 채팅창 고유 Id임) 메세지란 객체에 푸쉬함
+                    .setValue(messageObject).addOnSuccessListener {
+                        mDbRef.child("chats").child(receiverRoom!!).child("messages").push()
+                            .setValue(messageObject)
+                    } // 보낸 메세지가 성공적으로 Db에 등록될 시 receiverRoom에도(DB) 똑같은 값을 보낸다.
+                messageBox.setText("") // 메세지를 보내면 메세지 박스 초기화
+                chatRecyclerView.scrollToPosition(messageList.size-2);
+            }
+            else{
+            }
 
         }
     }

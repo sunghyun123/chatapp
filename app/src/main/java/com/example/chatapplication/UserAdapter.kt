@@ -26,11 +26,6 @@ class UserAdapter(val context: Context, val userList: ArrayList<User>):
     RecyclerView.Adapter<UserAdapter.UserViewHolder>() {//Adapter한개 정의
     private lateinit var  storage: FirebaseStorage
     private lateinit var  mAuth: FirebaseAuth
-    private  var clon : Double = 1.0
-    var doubleArray = DoubleArray(3)
-    var i : Int = 1
-    private var currentuserlon : Double? = 1.0
-    private var currentuserlat : Double? = 1.0
     private var mDbRef = FirebaseDatabase.getInstance().getReference()
 
 
@@ -54,11 +49,13 @@ class UserAdapter(val context: Context, val userList: ArrayList<User>):
             var lon : Double = 1.0
             var lat : Double = 1.0
             mDbRef.child("user").child( mAuth.currentUser?.uid.toString()).child("lon").addValueEventListener(object : ValueEventListener {
-                override fun onDataChange(dataSnapshot: DataSnapshot) {
+                override fun onDataChange(dataSnapshot: DataSnapshot) { //유저 데이터 데이스의 lon값을 받아옴
                     val userlon =
                         dataSnapshot.getValue<Double>()
-                    lon = userlon!!
-                  
+
+                    lon = userlon!! //받아온 값을 저장
+                    //Log.i(ContentValues.TAG, "$lon")
+
                 }
 
                 override fun onCancelled(error: DatabaseError) {
@@ -68,7 +65,7 @@ class UserAdapter(val context: Context, val userList: ArrayList<User>):
             })
 
             mDbRef.child("user").child( mAuth.currentUser?.uid.toString()).child("lat").addValueEventListener(object : ValueEventListener {
-                override fun onDataChange(dataSnapshot: DataSnapshot) {
+                override fun onDataChange(dataSnapshot: DataSnapshot) { //lat값을 받아옴
                     val userlat =
                         dataSnapshot.getValue<Double>()
                     lat = userlat!!
@@ -77,6 +74,7 @@ class UserAdapter(val context: Context, val userList: ArrayList<User>):
                     var sum =  DistanceManager.getDistance(currentUser.lat!!, currentUser.lon!!,lat, lon ).toDouble()
                     sum /= 1000;
                     holder.location.text = "나와의 거리 "+sum.toString()+"Km"
+
                 }
 
                 override fun onCancelled(error: DatabaseError) {
@@ -118,7 +116,7 @@ class UserAdapter(val context: Context, val userList: ArrayList<User>):
 
                 val intent = Intent(context,popActivity::class.java)// 화면전환할 액티비티 정의
                 //전환할 엑티비티로 데이터 넘기기 받는쪽에선 getExtraa
-
+                intent.putExtra("uid", currentUser.uid)
                 intent.putExtra("name", currentUser.name)
                 intent.putExtra("State", currentUser.State)
                 intent.putExtra("benchWeight", currentUser.benchWeight)

@@ -30,13 +30,9 @@ class SignUpLast : AppCompatActivity() {
     private lateinit var selectImage:Uri
 
 
-    private var mFusedLocationProviderClient: FusedLocationProviderClient? = null // 현재 위치를 가져오기 위한 변수
-    lateinit var mLastLocation: Location // 위치 값을 가지고 있는 객체
-    internal lateinit var mLocationRequest: LocationRequest // 위치 정보 요청의 매개변수를 저장하는
-    private val REQUEST_PERMISSION_LOCATION = 10
 
-    private  var textlat : Double = 1.0
-    private  var textlon : Double = 1.0
+
+
 
     @RequiresApi(Build.VERSION_CODES.M)
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -67,13 +63,14 @@ class SignUpLast : AppCompatActivity() {
 
             selectImage = Uri.parse(a);
 
-            mLocationRequest =  LocationRequest.create().apply {
 
-                priority = LocationRequest.PRIORITY_HIGH_ACCURACY
 
-            }
-            startLocationUpdates() // 위도경도 계산 함수 호출
+        var priority = LocationRequest.PRIORITY_HIGH_ACCURACY
+
+
             signUp(name, email,password,sex,benchWeight,squatWeight,pullUpCount,level)
+
+
 
     }
     // signup 함수, createUserWithEmailAndPassword(매크로같은거일듯) 입력한 이름과 이메일, 비밀번호,uid, 각종 운동 무게및 갯수, 운동레벨 를 firebase에 전달 후 성공 유무를 확인하여 화면을 전환시키거나 메세지를 출력한다
@@ -99,17 +96,20 @@ class SignUpLast : AppCompatActivity() {
                         pullUpCount,
                         level,
                         "ON",
-                        textlon,
-                        textlat
+                        1.0,
+                        1.0
                     )
 
+
                     val intent = Intent(this@SignUpLast, MainActivity::class.java)
+
                     finish()
                     startActivity(intent)
                 } else {
                     Toast.makeText(this@SignUpLast, "Some error occurred", Toast.LENGTH_SHORT).show()
                 }
             }
+
     }
 
 
@@ -129,35 +129,7 @@ class SignUpLast : AppCompatActivity() {
 
     }
 
-    private fun startLocationUpdates() {
 
-        //FusedLocationProviderClient의 인스턴스를 생성.
-        mFusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this)
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
-            && ActivityCompat.checkSelfPermission(this,Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            return
-        }
-        // 기기의 위치에 관한 정기 업데이트를 요청하는 메서드 실행
-        // 지정한 루퍼 스레드(Looper.myLooper())에서 콜백(mLocationCallback)으로 위치 업데이트를 요청
-        mFusedLocationProviderClient!!.requestLocationUpdates(mLocationRequest, mLocationCallback, Looper.myLooper())
-    }
-
-    // 시스템으로 부터 위치 정보를 콜백으로 받음
-    private val mLocationCallback = object : LocationCallback() {
-        override fun onLocationResult(locationResult: LocationResult) {
-            // 시스템에서 받은 location 정보를 onLocationChanged()에 전달
-            locationResult.lastLocation
-            onLocationChanged(locationResult.lastLocation)
-        }
-    }
-
-    // 시스템으로 부터 받은 위치정보를 화면에 갱신해주는 메소드
-    fun onLocationChanged(location: Location) {
-        mLastLocation = location
-        textlat = mLastLocation.latitude // 갱신 된 위도
-        textlon = mLastLocation.longitude // 갱신 된 경도
-
-    }
 
     //회원가입이 완료된 유저의 데이터베이스를 생성한다
     private fun addUserToDatabase(
