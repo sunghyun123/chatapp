@@ -8,4 +8,19 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="green">#665aa6</color>
+    <color name="colorPrimary">#008577</color>
+    <color name="colorPrimaryDark">#00574B</color>
+    <color name="colorAccent">#D81B60</color>
+    //custom color palette
+    <color name="blanched_almond">#ffeccb</color>
+    <color name="peach">#FFE1AD</color>
+    <color name="old_lace">#fff8eb</color>
+    <color name="light_steel_blue">#b4cae2</color>
+    <color name="spanish_pink">#f9bbbe</color>
+    <color name="cinnabar">#da8261</color>
+    <color name="mauve_taupe">#886176</color>
+    <color name="black_coffee">#3a3335</color>
+    <color name="rocket_metallic">#827376</color>
+    <color name="taupe_grey">#9F9395</color>
+    <color name="isabelline">#edede9</color>
 </resources>

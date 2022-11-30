@@ -2,6 +2,7 @@ package com.example.chatapplication
 
 import android.Manifest
 import android.app.Activity
+import android.app.AlertDialog
 import android.content.ContentValues
 import android.content.ContentValues.TAG
 import android.content.Intent
@@ -10,12 +11,11 @@ import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
-import android.widget.Button
-import android.widget.EditText
-import android.widget.ImageView
-import android.widget.Toast
+import android.view.View
+import android.widget.*
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.ActivityCompat.startActivityForResult
 import androidx.core.content.ContextCompat
 import com.bumptech.glide.Glide
 import com.google.firebase.auth.FirebaseAuth
@@ -28,10 +28,10 @@ import java.io.File
 class SetProfileActivity : AppCompatActivity() {
 
     private lateinit var edtName: EditText
-    private lateinit var benchWight: EditText
-    private lateinit var squatWeight: EditText
-    private lateinit var pullUpCount: EditText
-    private lateinit var level:EditText
+    private lateinit var benchWight: Button
+    private lateinit var squatWeight: Button
+    private lateinit var pullUpCount: Button
+    private lateinit var level:Button
     private lateinit var btnSignUp: Button
     private  lateinit var mAuth: FirebaseAuth
     private lateinit var  storage: FirebaseStorage
@@ -39,7 +39,13 @@ class SetProfileActivity : AppCompatActivity() {
     private lateinit var selectImage: Uri
     private lateinit var ProfileImg : ImageView
     private lateinit var file : File
+    private lateinit var sexbtn : Button
 
+    var bench : Int? = null
+    var squat : Int? = null
+    var pullup : Int? = null
+    var lev : Int? = null
+    var sex : String? = "무"
     @RequiresApi(Build.VERSION_CODES.M)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -59,6 +65,7 @@ class SetProfileActivity : AppCompatActivity() {
         level = findViewById(R.id.edt_Level)
         btnSignUp = findViewById(R.id.btnSignUp)
         ProfileImg = findViewById(R.id.ProfileImg)
+        sexbtn = findViewById(R.id.sex)
         ProfileImg.setOnClickListener{
             val d = Log.d(ContentValues.TAG, "addImageButton called!!")
             when {
@@ -81,16 +88,133 @@ class SetProfileActivity : AppCompatActivity() {
             }
 
         }
+
+        sexbtn.setOnClickListener {
+            var layout = layoutInflater.inflate(R.layout.dialog_num_select, null)
+            var build = AlertDialog.Builder(it.context).apply {
+                setView(layout)
+            }
+            val dialog = build.create()
+            dialog.show()
+            layout.findViewById<NumberPicker>(R.id.number_picker).minValue = 0;
+            layout.findViewById<NumberPicker>(R.id.number_picker).maxValue = 1;
+
+            layout.findViewById<NumberPicker>(R.id.number_picker).displayedValues = arrayOf(
+                "남자","여자"
+            )
+            layout.findViewById<Button>(R.id.btn_cancel).setOnClickListener {
+                dialog.dismiss()
+            }
+            layout.findViewById<Button>(R.id.btn_ok).setOnClickListener {
+                when(layout.findViewById<NumberPicker>(R.id.number_picker).value){
+                    0 -> sex = "남자"
+                    1 -> sex = "여자"
+                }
+                if(sex != "무")
+                sexbtn.text = "신체 성별 : " + sex.toString()
+                dialog.dismiss()
+            }
+
+        }
+
+        benchWight.setOnClickListener {
+            var layout = layoutInflater.inflate(R.layout.dialog_num_select, null)
+            var build = AlertDialog.Builder(it.context).apply {
+                setView(layout)
+            }
+            val dialog = build.create()
+            dialog.show()
+            layout.findViewById<NumberPicker>(R.id.number_picker).minValue = 0;
+            layout.findViewById<NumberPicker>(R.id.number_picker).maxValue = 21;
+
+            layout.findViewById<NumberPicker>(R.id.number_picker).displayedValues = arrayOf(
+                "0", "10", "20", "30", "40", "50", "60","70", "80", "90", "100", "110", "120",
+                "130", "140", "150", "160", "170", "180","190", "200", "210"
+            )
+            layout.findViewById<Button>(R.id.btn_cancel).setOnClickListener {
+                dialog.dismiss()
+            }
+            layout.findViewById<Button>(R.id.btn_ok).setOnClickListener {
+                bench =  layout.findViewById<NumberPicker>(R.id.number_picker).value *10
+                benchWight.text = "벤치프레스 무게 : " + bench.toString()
+                dialog.dismiss()
+            }
+
+        }
+        squatWeight.setOnClickListener {
+            var layout = layoutInflater.inflate(R.layout.dialog_num_select, null)
+            var build = AlertDialog.Builder(it.context).apply {
+                setView(layout)
+            }
+            val dialog = build.create()
+            dialog.show()
+
+            layout.findViewById<NumberPicker>(R.id.number_picker).minValue = 0;
+            layout.findViewById<NumberPicker>(R.id.number_picker).maxValue = 30;
+            layout.findViewById<NumberPicker>(R.id.number_picker).displayedValues = arrayOf(
+                "0","10", "20", "30", "40", "50", "60","70", "80", "90", "100", "110", "120",
+                "130", "140", "150", "160", "170", "180","190", "200", "210","220","230", "240", "250",
+                "260","270", "280", "290","300"
+            )
+            layout.findViewById<Button>(R.id.btn_cancel).setOnClickListener {
+                dialog.dismiss()
+            }
+            layout.findViewById<Button>(R.id.btn_ok).setOnClickListener {
+                squat =  layout.findViewById<NumberPicker>(R.id.number_picker).value * 10
+                squatWeight.text = "스쿼트 무게 : " + squat.toString()
+                dialog.dismiss()
+            }
+        }
+        pullUpCount.setOnClickListener {
+            var layout = layoutInflater.inflate(R.layout.dialog_num_select, null)
+            var build = AlertDialog.Builder(it.context).apply {
+                setView(layout)
+            }
+            val dialog = build.create()
+            dialog.show()
+
+            layout.findViewById<NumberPicker>(R.id.number_picker).minValue = 0
+            layout.findViewById<NumberPicker>(R.id.number_picker).maxValue = 40
+
+            layout.findViewById<Button>(R.id.btn_cancel).setOnClickListener {
+                dialog.dismiss()
+            }
+            layout.findViewById<Button>(R.id.btn_ok).setOnClickListener {
+                pullup =  layout.findViewById<NumberPicker>(R.id.number_picker).value
+                pullUpCount.text = "풀업 개수 : " + pullup.toString()
+                dialog.dismiss()
+            }
+        }
+        level.setOnClickListener {
+            var layout = layoutInflater.inflate(R.layout.dialog_num_select, null)
+            var build = AlertDialog.Builder(it.context).apply {
+                setView(layout)
+            }
+            val dialog = build.create()
+            dialog.show()
+
+            layout.findViewById<NumberPicker>(R.id.number_picker).minValue = 0
+            layout.findViewById<NumberPicker>(R.id.number_picker).maxValue = 300
+
+            layout.findViewById<Button>(R.id.btn_cancel).setOnClickListener {
+                dialog.dismiss()
+            }
+            layout.findViewById<Button>(R.id.btn_ok).setOnClickListener {
+                lev =  layout.findViewById<NumberPicker>(R.id.number_picker).value
+                level.text = "운동 경력 : " + lev.toString()
+                dialog.dismiss()
+            }
+
+        }
+
         //회원가입 버튼에 온클릭 이벤트 추가(입력된 이름과 이메일과 비밀번호를 String으로 받아와 signup 함수 실행)
         btnSignUp.setOnClickListener {
             val name = edtName.text.toString()
             var user =  mAuth.currentUser;
             val email = user?.email.toString();
-            val benchWights = benchWight.text.toString()
-            val squtWights = squatWeight.text.toString()
-            val pullUpCounts = pullUpCount.text.toString()
-            val levels = level.text.toString()
-            signUp(name,email, benchWights, squtWights, pullUpCounts, levels)
+            signUp(name,email, sex.toString(), bench.toString(), squat.toString(), pullup.toString(),
+                lev.toString()
+            )
         }
         loadProfile();
     }
@@ -201,8 +325,8 @@ class SetProfileActivity : AppCompatActivity() {
     }
 
     // signup 함수, createUserWithEmailAndPassword(매크로같은거일듯) 입력한 이름과 이메일, 비밀번호를 firebase에 전달 후 성공 유무를 확인하여 화면을 전환시키거나 메세지를 출력한다
-    private  fun signUp(name:String, email: String,benchWeight: String,squtWeight: String,pullUpCount:String,level:String){
-        if(name.isNotEmpty() && benchWeight.isNotEmpty() && squtWeight.isNotEmpty() && pullUpCount.isNotEmpty() && level.isNotEmpty()) {
+    private  fun signUp(name:String, email: String,sex: String,benchWeight: String,squtWeight: String,pullUpCount:String,level:String){
+        if(name.isNotEmpty() && sex!="무" && benchWeight.isNotEmpty() && squtWeight.isNotEmpty() && pullUpCount.isNotEmpty() && level.isNotEmpty()) {
            // 이미지가 null이 아닐시 즉 앨범에서 얻어오는게 성공했을 시 실행.
             uploadPhoto(selectImage)
 
@@ -210,6 +334,7 @@ class SetProfileActivity : AppCompatActivity() {
                 name,
                 email,
                 mAuth.currentUser?.uid!!,
+                sex,
                 benchWeight,
                 squtWeight,
                 pullUpCount,
@@ -244,11 +369,21 @@ class SetProfileActivity : AppCompatActivity() {
         //회원가입이 완료된 유저의 데이터베이스를 생성한다
 
     }
+    private fun Numberpick(min : Int, max: Int, valueName : String) {
+
+        val nextIntent2 = Intent(this@SetProfileActivity, numberSelectActivity::class.java)
+        nextIntent2.putExtra("min",min)
+        nextIntent2.putExtra("max",max)
+        nextIntent2.putExtra("valueName",valueName)
+        nextIntent2.putExtra("atname","SetProfileActivity")
+        startActivity(nextIntent2)
+    }
     //회원가입이 완료된 유저의 데이터베이스를 생성한다
     private fun addUserToDatabase(
         name: String,
         email: String,
         uid: String,
+        sex : String,
         benchWeight: String,
         squtWeight: String,
         pullUpCount: String,
@@ -261,6 +396,7 @@ class SetProfileActivity : AppCompatActivity() {
         mDbRef.child("user").child(uid).setValue(User(name,
             email,
             uid,
+            sex,
             benchWeight,
             squtWeight,
             pullUpCount,

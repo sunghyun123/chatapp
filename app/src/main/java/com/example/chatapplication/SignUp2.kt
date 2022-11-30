@@ -1,36 +1,27 @@
 package com.example.chatapplication
 
-import android.Manifest
-import android.app.Activity
-import android.content.ContentValues.TAG
+import android.app.AlertDialog
 import android.content.Intent
-import android.content.pm.PackageManager
-import android.net.Uri
 import android.os.Build
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.widget.Button
-import android.widget.EditText
-import android.widget.ImageView
+import android.widget.NumberPicker
 import android.widget.Toast
 import androidx.annotation.RequiresApi
-import androidx.core.content.ContextCompat
-import androidx.core.net.toUri
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.database.DatabaseReference
-import com.google.firebase.database.FirebaseDatabase
-import com.google.firebase.storage.FirebaseStorage
+import androidx.appcompat.app.AppCompatActivity
 
 class SignUp2 : AppCompatActivity() {
 
 
-    private lateinit var benchWight: EditText//벤치 무게
-    private lateinit var squatWight: EditText//스쿼트 무게
-    private lateinit var pullUpCount: EditText// 풀업 갯수
+    private lateinit var benchWight: Button//벤치 무게
+    private lateinit var squatWight: Button//스쿼트 무게
+    private lateinit var pullUpCount: Button// 풀업 갯수
+    private lateinit var level: Button
     private lateinit var btnSignUp: Button
-
-
+    var bench : Int? = null
+    var squat : Int? = null
+    var pullup : Int? = null
+    var lev : Int? = null
     @RequiresApi(Build.VERSION_CODES.M)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -40,6 +31,100 @@ class SignUp2 : AppCompatActivity() {
         squatWight = findViewById(R.id.edt_SqutPower)
         pullUpCount = findViewById(R.id.edt_PullUpPower)
         btnSignUp = findViewById(R.id.btnSignUp)
+        level = findViewById(R.id.edt_Level)
+
+
+
+        benchWight.setOnClickListener {
+            var layout = layoutInflater.inflate(R.layout.dialog_num_select, null)
+            var build = AlertDialog.Builder(it.context).apply {
+                setView(layout)
+            }
+            val dialog = build.create()
+            dialog.show()
+            layout.findViewById<NumberPicker>(R.id.number_picker).minValue = 0;
+            layout.findViewById<NumberPicker>(R.id.number_picker).maxValue = 21;
+
+            layout.findViewById<NumberPicker>(R.id.number_picker).displayedValues = arrayOf(
+                "0", "10", "20", "30", "40", "50", "60","70", "80", "90", "100", "110", "120",
+                "130", "140", "150", "160", "170", "180","190", "200", "210"
+            )
+            layout.findViewById<Button>(R.id.btn_cancel).setOnClickListener {
+                dialog.dismiss()
+            }
+            layout.findViewById<Button>(R.id.btn_ok).setOnClickListener {
+                bench =  layout.findViewById<NumberPicker>(R.id.number_picker).value *10
+                benchWight.text = "벤치프레스 무게 : " + bench.toString()
+                dialog.dismiss()
+            }
+
+        }
+        squatWight.setOnClickListener {
+            var layout = layoutInflater.inflate(R.layout.dialog_num_select, null)
+            var build = AlertDialog.Builder(it.context).apply {
+                setView(layout)
+            }
+            val dialog = build.create()
+            dialog.show()
+
+            layout.findViewById<NumberPicker>(R.id.number_picker).minValue = 0;
+            layout.findViewById<NumberPicker>(R.id.number_picker).maxValue = 30;
+            layout.findViewById<NumberPicker>(R.id.number_picker).displayedValues = arrayOf(
+                "0","10", "20", "30", "40", "50", "60","70", "80", "90", "100", "110", "120",
+                "130", "140", "150", "160", "170", "180","190", "200", "210","220","230", "240", "250",
+                "260","270", "280", "290","300"
+            )
+            layout.findViewById<Button>(R.id.btn_cancel).setOnClickListener {
+                dialog.dismiss()
+            }
+            layout.findViewById<Button>(R.id.btn_ok).setOnClickListener {
+                squat =  layout.findViewById<NumberPicker>(R.id.number_picker).value * 10
+                squatWight.text = "스쿼트 무게 : " + squat.toString()
+                dialog.dismiss()
+            }
+        }
+        pullUpCount.setOnClickListener {
+            var layout = layoutInflater.inflate(R.layout.dialog_num_select, null)
+            var build = AlertDialog.Builder(it.context).apply {
+                setView(layout)
+            }
+            val dialog = build.create()
+            dialog.show()
+
+            layout.findViewById<NumberPicker>(R.id.number_picker).minValue = 0
+            layout.findViewById<NumberPicker>(R.id.number_picker).maxValue = 40
+
+            layout.findViewById<Button>(R.id.btn_cancel).setOnClickListener {
+                dialog.dismiss()
+            }
+            layout.findViewById<Button>(R.id.btn_ok).setOnClickListener {
+                pullup =  layout.findViewById<NumberPicker>(R.id.number_picker).value
+                pullUpCount.text = "풀업 개수 : " + pullup.toString()
+                dialog.dismiss()
+            }
+        }
+        level.setOnClickListener {
+            var layout = layoutInflater.inflate(R.layout.dialog_num_select, null)
+            var build = AlertDialog.Builder(it.context).apply {
+                setView(layout)
+            }
+            val dialog = build.create()
+            dialog.show()
+
+            layout.findViewById<NumberPicker>(R.id.number_picker).minValue = 0
+            layout.findViewById<NumberPicker>(R.id.number_picker).maxValue = 20
+
+            layout.findViewById<Button>(R.id.btn_cancel).setOnClickListener {
+                dialog.dismiss()
+            }
+            layout.findViewById<Button>(R.id.btn_ok).setOnClickListener {
+                lev =  layout.findViewById<NumberPicker>(R.id.number_picker).value
+                level.text = "운동 경력 : " + lev.toString()
+                dialog.dismiss()
+            }
+
+        }
+
         btnSignUp.setOnClickListener {
             myStartActivity()
         }
@@ -52,9 +137,10 @@ class SignUp2 : AppCompatActivity() {
             nextIntent.putExtra("uEmail1", intent.getStringExtra("uEmail").toString())
             nextIntent.putExtra("uPw1", intent.getStringExtra("uPw").toString())
             nextIntent.putExtra("photo1", intent.getStringExtra("photo").toString())
-            nextIntent.putExtra("benchWight1", benchWight.text.toString())
-            nextIntent.putExtra("squatWight1", squatWight.text.toString())
-            nextIntent.putExtra("pullUpCount1", pullUpCount.text.toString())
+            nextIntent.putExtra("benchWight1", bench)
+            nextIntent.putExtra("squatWight1", squat)
+            nextIntent.putExtra("pullUpCount1", pullup)
+            nextIntent.putExtra("lev", lev)
             startActivity(nextIntent)
         }
         else{

@@ -10,11 +10,10 @@
     <!--채팅메세지-->
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/chatRecyclerView"
-        android:layout_above="@+id/linearLayout"
-        android:layout_alignParentTop="true"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        />
+        android:layout_above="@+id/linearLayout"
+        android:layout_alignParentTop="true" />
     <!--메세지 박스 레이아웃-->
     <LinearLayout
         android:id="@+id/linearLayout"

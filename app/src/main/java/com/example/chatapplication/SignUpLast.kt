@@ -1,28 +1,18 @@
 package com.example.chatapplication
 
 import android.Manifest
-import android.app.Activity
-import android.content.ContentValues.TAG
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.location.Location
-import android.location.LocationManager
 import android.net.Uri
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Looper
-import android.util.Log
 import android.widget.Button
-import android.widget.EditText
-import android.widget.ImageView
 import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.core.app.ActivityCompat
-import androidx.core.app.ActivityCompat.startActivityForResult
-import androidx.core.content.ContextCompat
-import androidx.core.content.ContextCompat.startActivity
-import androidx.core.net.toUri
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
@@ -69,8 +59,11 @@ class SignUpLast : AppCompatActivity() {
             val benchWeight =intent.getStringExtra("benchWight2").toString()
             val squatWeight =intent.getStringExtra("squatWight2").toString()
             val pullUpCount = intent.getStringExtra("pullUpCount2").toString()
-            val level =  intent.getStringExtra("level2").toString()
+            val sex = intent.getStringExtra("sex").toString()
+            val level =  intent.getStringExtra("lev2").toString()
             var a =  intent.getStringExtra("photo2")
+
+
 
             selectImage = Uri.parse(a);
 
@@ -80,13 +73,14 @@ class SignUpLast : AppCompatActivity() {
 
             }
             startLocationUpdates() // 위도경도 계산 함수 호출
-            signUp(name, email,password,benchWeight,squatWeight,pullUpCount,level)
+            signUp(name, email,password,sex,benchWeight,squatWeight,pullUpCount,level)
 
     }
     // signup 함수, createUserWithEmailAndPassword(매크로같은거일듯) 입력한 이름과 이메일, 비밀번호,uid, 각종 운동 무게및 갯수, 운동레벨 를 firebase에 전달 후 성공 유무를 확인하여 화면을 전환시키거나 메세지를 출력한다
     private  fun signUp(name:String,
                         email: String,
                         password: String,
+                        sex:String,
                         benchWeight: String,
                         squatWeight: String,
                         pullUpCount:String,
@@ -99,13 +93,14 @@ class SignUpLast : AppCompatActivity() {
                         name,
                         email,
                         mAuth.currentUser?.uid!!,
+                        sex,
                         benchWeight,
                         squatWeight,
                         pullUpCount,
                         level,
                         "ON",
-                        textlat,
-                        textlon
+                        textlon,
+                        textlat
                     )
 
                     val intent = Intent(this@SignUpLast, MainActivity::class.java)
@@ -169,18 +164,20 @@ class SignUpLast : AppCompatActivity() {
         name: String,
         email: String,
         uid: String,
+        sex: String,
         benchWeight: String,
         squatWeight: String,
         pullUpCount: String,
-        level:String,
-        state:String,
-        lat:Double,
-        lon:Double
+        level: String,
+        state: String,
+        lat: Double,
+        lon: Double
     ){
         mDbRef = FirebaseDatabase.getInstance().getReference()
         mDbRef.child("user").child(uid).setValue(User(name,
             email,
             uid,
+            sex,
             benchWeight,
             squatWeight,
             pullUpCount,

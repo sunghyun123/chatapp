@@ -8,6 +8,15 @@
 
     tools:context=".SetProfileActivity">
     <!--로고-->
+    <Button
+        android:id="@+id/sex"
+        android:layout_width="100dp"
+        android:layout_height="50dp"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/edt_background"
+        android:gravity="center"
+        android:hint="sex" />
 
     <ImageView
         android:id="@+id/ProfileImg"
@@ -16,77 +25,102 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="70dp"
         android:src="@drawable/profile" />
-    <!--이름 입력 칸-->
-    <EditText
-        android:id="@+id/edt_name"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:layout_below="@+id/ProfileImg"
-        android:layout_marginLeft="20dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginRight="20dp"
-        android:background="@drawable/edt_background"
-        android:hint="Name"
-        android:paddingLeft="13dp" />
-    <!--이메일 입력 칸-->
-    <EditText
-        android:id="@+id/edt_BenchPower"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:layout_below="@+id/edt_name"
-        android:layout_marginLeft="20dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginRight="20dp"
-        android:background="@drawable/edt_background"
-        android:hint="벤치 프레스 최대무게"
-        android:paddingLeft="13dp" />
-    <EditText
-        android:id="@+id/edt_SqutPower"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:layout_below="@+id/edt_BenchPower"
-        android:layout_marginTop="10dp"
-        android:hint="스쿼트 최대 무게"
-        android:paddingLeft="13dp"
-        android:background="@drawable/edt_background"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp" />
 
-    <EditText
-        android:id="@+id/edt_PullUpPower"
+    <ScrollView
+        android:id="@+id/scroll"
         android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:layout_below="@+id/edt_SqutPower"
-        android:layout_marginLeft="20dp"
+        android:layout_height="250dp"
+        android:layout_below="@+id/ProfileImg"
+        android:layout_marginStart="10dp"
         android:layout_marginTop="10dp"
-        android:layout_marginRight="20dp"
-        android:background="@drawable/edt_background"
-        android:hint="풀업 최대 갯수"
-        android:paddingLeft="13dp" />
-    <!--비밀번호 입력 칸-->
-    <EditText
-        android:id="@+id/edt_Level"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:layout_below="@+id/edt_PullUpPower"
-        android:layout_marginLeft="20dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginRight="20dp"
-        android:background="@drawable/edt_background"
-        android:hint="Level"
-        android:paddingLeft="13dp" />
+        android:layout_marginEnd="10dp"
+        android:layout_marginBottom="10dp"
+        android:background="@drawable/scrollview"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <EditText
+                android:id="@+id/edt_name"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginRight="20dp"
+                android:background="@drawable/edt_background"
+                android:gravity="center"
+                android:hint="Name"
+                android:paddingLeft="13dp" />
+
+            <Button
+                android:id="@+id/edt_BenchPower"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginRight="20dp"
+                android:background="@drawable/edt_background"
+                android:hint="벤치 프레스 최대무게"
+                android:paddingLeft="13dp" />
+
+            <Button
+                android:id="@+id/edt_SqutPower"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginRight="20dp"
+                android:background="@drawable/edt_background"
+                android:hint="스쿼트 최대 무게"
+                android:paddingLeft="13dp" />
+
+            <Button
+                android:id="@+id/edt_PullUpPower"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginRight="20dp"
+                android:background="@drawable/edt_background"
+                android:hint="풀업 최대 갯수"
+                android:paddingLeft="13dp" />
+            <!--비밀번호 입력 칸-->
+            <Button
+                android:id="@+id/edt_Level"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginRight="20dp"
+                android:background="@drawable/edt_background"
+                android:hint="Level"
+                android:paddingLeft="13dp" />
+
+
+        </LinearLayout>
+        <!--이름 입력 칸-->
+
+
+        <!--이메일 입력 칸-->
+
+    </ScrollView>
     <!--회원가입 버튼, 회원가입 완료시 메인 엑티비티 이동-->
     <Button
         android:id="@+id/btnSignUp"
         android:layout_width="150dp"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/edt_Level"
-        android:text="Set up"
-        android:background="@drawable/btn_background"
-        android:textColor="@color/white"
-        android:textSize="20dp"
+        android:layout_below="@+id/scroll"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="10dp"/>
+        android:layout_marginTop="10dp"
+        android:background="@drawable/btn_background"
+        android:text="Set up"
+        android:textColor="@color/white"
+        android:textSize="20dp" />
 
 
 </RelativeLayout>

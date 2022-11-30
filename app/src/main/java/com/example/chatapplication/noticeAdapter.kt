@@ -68,12 +68,7 @@ class noticeAdapter(val context: Context, val noticeList: ArrayList<notice>):
                 }
             })
 
-
-
-
-
         storage = FirebaseStorage.getInstance()
-
 //        val fileName = currentUser.uid.toString()
 //
 //
@@ -117,30 +112,6 @@ class noticeAdapter(val context: Context, val noticeList: ArrayList<notice>):
     }
 
 
-    object DistanceManager {
-
-        private const val R = 6372.8 * 1000
-
-        /**
-         * 두 좌표의 거리를 계산한다.
-         *
-         * @param lat1 위도1
-         * @param lon1 경도1
-         * @param lat2 위도2
-         * @param lon2 경도2
-         * @return 두 좌표의 거리(m)
-         */
-        fun getDistance(lat1: Double, lon1: Double, lat2: Double, lon2: Double): Int {
-            val dLat = Math.toRadians(lat2 - lat1)
-            val dLon = Math.toRadians(lon2 - lon1)
-            val a =
-                sin(dLat / 2).pow(2.0) + sin(dLon / 2).pow(2.0) * cos(Math.toRadians(lat1)) * cos(
-                    Math.toRadians(lat2)
-                )
-            val c = 2 * asin(sqrt(a))
-            return (R * c).toInt()
-        }
-    }
 
 
     override fun getItemCount(): Int {//유저리스트가 몇개인가 회원가입 한사람 수
@@ -149,11 +120,9 @@ class noticeAdapter(val context: Context, val noticeList: ArrayList<notice>):
 
     class noticeViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {// 누를수있는 뷰로 만들기
 
-        val textName = itemView.findViewById<TextView>(R.id.txt_name)
-        val state = itemView.findViewById<TextView>(R.id.state)
-        val location = itemView.findViewById<TextView>(R.id.location)
-        val profileimg =
-            itemView.findViewById<de.hdodenhof.circleimageview.CircleImageView>(R.id.img_rv_photo)
+        val title = itemView.findViewById<TextView>(R.id.title)
+        val location = itemView.findViewById<TextView>(R.id.contents)
+        val img = itemView.findViewById<de.hdodenhof.circleimageview.CircleImageView>(R.id.img_rv_photo)
 
     }
 }

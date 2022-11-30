@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="catrgories">
+        <item>건설</item>
+        <item>배달</item>
+        <item>외식</item>
+        <item>전문</item>
+        <item>기타</item>
+    </string-array>
+</resources>

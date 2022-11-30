@@ -2,10 +2,8 @@ package com.example.chatapplication
 
 import android.content.Intent
 import android.content.pm.PackageManager
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.view.Menu
-import android.view.MenuItem
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -23,7 +21,7 @@ class nboardActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)//
-        setContentView(R.layout.activity_main)
+        setContentView(R.layout.activity_nboard)
         startService(Intent(this,ForceTerminationService::class.java))
         //유저,리얼타임데이터베이스에 접근 해서 값얻을수있는 통로뚥기 저 두변수가 길이다.
         mAuth = FirebaseAuth.getInstance()// 나자신의 유저정보 m이 my의 약자다
@@ -35,7 +33,7 @@ class nboardActivity : AppCompatActivity() {
 
         adapter = noticeAdapter(this, noticeList)
         //리사이클러뷰 찾아서 잡아주기
-        noticeRecyclerView = findViewById(R.id.userRecyclerView)
+        noticeRecyclerView = findViewById(R.id.noticeRecyclerView)
         //유저 리사이클러뷰를 어떤식으로 보이게할지 LinearLayout형식으로
         noticeRecyclerView.layoutManager = LinearLayoutManager(this)
         //어뎁터를 넣어준다. 이거때문에 포지션값이 알아서 정의되는거일지도
@@ -50,12 +48,12 @@ class nboardActivity : AppCompatActivity() {
                 noticeList.clear()//리스트 초기화
                 for (postSnapshot in snapshot.children) {//user데이터베이스에 있는 모든 리스트들이 처음부터 끝까지 끝날떄 까지
 
-                    val currentUser = postSnapshot.getValue(notice::class.java)//user 데이터 베이스에있는 값을 첫번째 유저 부터 가져옴
+                    val currentnotice = postSnapshot.getValue(notice::class.java)//user 데이터 베이스에있는 값을 첫번째 유저 부터 가져옴
                     //위의 for문을 볼 때 반복문임.
                     //val user = snapshot.getValue<User>()
 
 
-                        noticeList.add(currentUser!!)//유저리스트에 내자신은 없다. 유저리스트에 참조된 유저 넣기, 이 코드 두번 쓰면 중복출력
+                        noticeList.add(currentnotice!!)//유저리스트에 내자신은 없다. 유저리스트에 참조된 유저 넣기, 이 코드 두번 쓰면 중복출력
                         //userList.add(user!!)
 
                 }
@@ -86,10 +84,6 @@ class nboardActivity : AppCompatActivity() {
     }
 
     //함수가 호출될때 한번만 실행됨, 상태표시줄에 메뉴가 추가됨
-    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        menuInflater.inflate(R.menu.menu, menu) // 생성된 메뉴를 객체화
-        return super.onCreateOptionsMenu(menu) // 부모클래스의 onCreateOptionsMenu에 접근, 즉 재귀호출
-    }
 
 
     //메뉴가 선택되었을때 호출되는 함수, 화면 전환

@@ -14,7 +14,6 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
 
 class MainActivity : AppCompatActivity() {
-
     private  lateinit var  userRecyclerView: RecyclerView
     private lateinit var userList: ArrayList<User>//각 유저들의 데이터를 가지고있는 배열
     private  lateinit var adapter: UserAdapter// 데이터와 뷰를 이어주는 중간다리
@@ -23,18 +22,13 @@ class MainActivity : AppCompatActivity() {
     var T = false
 
 
-
-
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)//
         setContentView(R.layout.activity_main)
         startService(Intent(this,ForceTerminationService::class.java))
         //유저,리얼타임데이터베이스에 접근 해서 값얻을수있는 통로뚥기 저 두변수가 길이다.
         mAuth = FirebaseAuth.getInstance()// 나자신의 유저정보 m이 my의 약자다
-
         mDbRef = FirebaseDatabase.getInstance().getReference()
-
         var lon : Double? = null
         //userList 생성자 호출
         userList = ArrayList()
@@ -62,9 +56,6 @@ class MainActivity : AppCompatActivity() {
         //어뎁터를 넣어준다. 이거때문에 포지션값이 알아서 정의되는거일지도
         userRecyclerView.adapter = adapter
         T = true
-
-
-
         mDbRef.child("user").addValueEventListener(object: ValueEventListener{// 파이어베이스에서 데이터 읽고 쓸수있는 리스너
             override fun onDataChange(snapshot: DataSnapshot) {
             if (T == true) {
@@ -85,22 +76,14 @@ class MainActivity : AppCompatActivity() {
             }
         }
             override fun onCancelled(error: DatabaseError) {
-
-
         }
         })
-
-
             if(ContextCompat.checkSelfPermission(this, android.Manifest.permission.ACTIVITY_RECOGNITION) == PackageManager.PERMISSION_GRANTED
                 && ContextCompat.checkSelfPermission(this, android.Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED){
-
             }
-
-
             val permissions: Array<String> = arrayOf(
                 android.Manifest.permission.ACTIVITY_RECOGNITION,
                 android.Manifest.permission.READ_EXTERNAL_STORAGE)
-
             ActivityCompat.requestPermissions(this, permissions, 0)
         if(mAuth.currentUser?.uid.toString() == null)
             mDbRef.child("user").child( mAuth.currentUser?.uid.toString()).child("state").setValue("ON")// 온오프 표시
@@ -137,17 +120,18 @@ class MainActivity : AppCompatActivity() {
         }
         if(item.itemId == R.id.pedometerBtn){ //세번째 아이템 만보기 버튼
             val intent = Intent(this@MainActivity, pedometerActivity::class.java)
-
             startActivity(intent)
             return true
         }
+        if(item.itemId == R.id.notice){ //세번째 아이템 만보기 버튼
+            val intent = Intent(this@MainActivity, nboardActivity::class.java)
+            startActivity(intent)
+            return true
+
+        }
         //여기서 처리
-//
         return true
     }
-
-
-
 
     override fun onRequestPermissionsResult( //권한 설정 창 뜨게하는 코드
         requestCode: Int,
@@ -167,7 +151,6 @@ class MainActivity : AppCompatActivity() {
                             break;
                         }
                     }
-
                     // 요청한 권한을 모두 허용했음.
                     if (isAllGranted) {
                         // 다음 step으로 ~
