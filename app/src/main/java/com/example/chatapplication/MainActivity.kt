@@ -1,29 +1,39 @@
 package com.example.chatapplication
 
 import android.Manifest
+import android.app.AlertDialog
 import android.content.ContentValues
+import android.content.ContentValues.TAG
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.graphics.Insets.add
 import android.location.Location
 import android.os.Bundle
 import android.os.Looper
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
+import android.widget.SearchView
+import android.widget.SeekBar
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.SortedList
+import com.example.chatapplication.databinding.ActivityMainBinding
 import com.google.android.gms.location.*
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
 import com.google.firebase.database.ktx.getValue
+import kotlin.math.*
+
 
 class MainActivity : AppCompatActivity() {
 
     private  lateinit var  userRecyclerView: RecyclerView
     private lateinit var userList: ArrayList<User>//각 유저들의 데이터를 가지고있는 배열
+
     private  lateinit var adapter: UserAdapter// 데이터와 뷰를 이어주는 중간다리
     private lateinit var  mAuth: FirebaseAuth // 파이어베이스 유저관련 접속하기위한 변수
     private  lateinit var mDbRef: DatabaseReference// 파이어베이스 리얼타임베이스 접근하기위한 변수
@@ -33,15 +43,21 @@ class MainActivity : AppCompatActivity() {
     private var mFusedLocationProviderClient: FusedLocationProviderClient? = null // 현재 위치를 가져오기 위한 변수
     lateinit var mLastLocation: Location // 위치 값을 가지고 있는 객체
     internal lateinit var mLocationRequest: LocationRequest // 위치 정보 요청의 매개변수를 저장하는
-    private val REQUEST_PERMISSION_LOCATION = 10
 
+    private val REQUEST_PERMISSION_LOCATION = 10
     private  var textlat : Double? = null
     private  var textlon : Double? = null
+    private  var distance : Int = 1000
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)//
         setContentView(R.layout.activity_main)
+
+        val setSearchView = findViewById<SearchView>(R.id.search_view_phone_book)
+        setSearchView.setOnQueryTextListener(searchViewTextListener)
+
+
         startService(Intent(this,ForceTerminationService::class.java))
         //유저,리얼타임데이터베이스에 접근 해서 값얻을수있는 통로뚥기 저 두변수가 길이다.
         mAuth = FirebaseAuth.getInstance()// 나자신의 유저정보 m이 my의 약자다
@@ -51,7 +67,7 @@ class MainActivity : AppCompatActivity() {
 
         //userList 생성자 호출
         userList = ArrayList()
-
+        //sortuserList = ArrayList()
         mAuth = FirebaseAuth.getInstance()
 
         //어뎁터 생성자. 여기서 이걸해줌으로 각 어뎁터는 하나의 포지션을같는다 연결해버리니까
@@ -82,7 +98,9 @@ class MainActivity : AppCompatActivity() {
         mDbRef.child("user").addValueEventListener(object: ValueEventListener{// 파이어베이스에서 데이터 읽고 쓸수있는 리스너
             override fun onDataChange(snapshot: DataSnapshot) {
             if (T == true) {
+
                 userList.clear()//리스트 초기화
+                onadapterStart()
                 for (postSnapshot in snapshot.children) {//user데이터베이스에 있는 모든 리스트들이 처음부터 끝까지 끝날떄 까지
 
                     val currentUser = postSnapshot.getValue(User::class.java)//user 데이터 베이스에있는 값을 첫번째 유저 부터 가져옴
@@ -91,9 +109,11 @@ class MainActivity : AppCompatActivity() {
 
                     if (mAuth.currentUser?.uid != currentUser?.uid) {//내가 현재 참조된 유저가 아니면
                         userList.add(currentUser!!)//유저리스트에 내자신은 없다. 유저리스트에 참조된 유저 넣기, 이 코드 두번 쓰면 중복출력
-                        //userList.add(user!!)
+
                     }
+
                 }
+
                 adapter.notifyDataSetChanged()//어뎁터에게 새로운 유저정보가 리스트에 들어와서 리스트의 크기와 정보가 바뀔거라는 알림.
                 // 이녀석이 포지션 잡아줌
             }
@@ -120,7 +140,27 @@ class MainActivity : AppCompatActivity() {
             ActivityCompat.requestPermissions(this, permissions, 0)
         if(mAuth.currentUser?.uid.toString() == null)
             mDbRef.child("user").child( mAuth.currentUser?.uid.toString()).child("state").setValue("ON")// 온오프 표시
+
+
+
     }
+    var searchViewTextListener: SearchView.OnQueryTextListener =
+        object : SearchView.OnQueryTextListener {
+            //검색버튼 입력시 호출, 검색버튼이 없으므로 사용하지 않음
+            override fun onQueryTextSubmit(s: String): Boolean {
+                return false
+            }
+
+            //텍스트 입력/수정시에 호출
+            override fun onQueryTextChange(s: String): Boolean {
+                adapter.filter.filter(s)
+                //Log.d(TAG, "SearchVies Text is changed : $s")
+                return false
+
+            }
+        }
+
+
 
     //함수가 호출될때 한번만 실행됨, 상태표시줄에 메뉴가 추가됨
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -157,9 +197,59 @@ class MainActivity : AppCompatActivity() {
             startActivity(intent)
             return true
         }
+        if(item.itemId == R.id.setdistance){ //세번째 아이템 만보기 버튼
+            val items = arrayOf("10", "100", "1000", "10000")
+            var selectedItem: String? = null
+            val builder = AlertDialog.Builder(this)
+                .setTitle("Select Item")
+                .setSingleChoiceItems(items, -1) { dialog, which ->
+                    selectedItem = items[which]
+                    if(selectedItem == "10")
+                        adapter.filter.filter("100")
+                    Log.i(ContentValues.TAG,"$selectedItem")
+                    adapter.filter.filter("$selectedItem")
+                }
+//                .setPositiveButton("OK") { dialog, which ->
+//                    toast("${selectedItem.toString()} is Selected")
+//                }
+                .show()
+
+            return true
+        }
+        if(item.itemId == R.id.testseekbar){ //세번째 아이템 만보기 버튼
+//            val items = SeekBar(this)
+//            var selectedItem: String? = null
+//            val builder = AlertDialog.Builder(this)
+//                .setTitle("Select Item")
+//                .setSingleChoiceItems(items, -1) { dialog, which ->
+//                    selectedItem = items[which]
+//                    if(selectedItem == "10")
+//                        adapter.filter.filter("100")
+//                    Log.i(ContentValues.TAG,"$selectedItem")
+//                    adapter.filter.filter("$selectedItem")
+//                }
+////                .setPositiveButton("OK") { dialog, which ->
+////                    toast("${selectedItem.toString()} is Selected")
+////                }
+//                .show()
+
+
+            return true
+
+        }
+
+
         //여기서 처리
 //
         return true
+    }
+
+
+    fun onadapterStart():Boolean{
+        adapter.filter.filter(" ")
+        //Log.d(TAG, "SearchVies Text is changed : $s")
+        return false
+
     }
 
 
@@ -205,6 +295,7 @@ class MainActivity : AppCompatActivity() {
             }
         }
     }
+
 
     private fun startLocationUpdates() {
 

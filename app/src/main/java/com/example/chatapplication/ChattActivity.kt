@@ -102,6 +102,7 @@ class ChattActivity : AppCompatActivity() {
                     } // 보낸 메세지가 성공적으로 Db에 등록될 시 receiverRoom에도(DB) 똑같은 값을 보낸다.
                 messageBox.setText("") // 메세지를 보내면 메세지 박스 초기화
                 chatRecyclerView.scrollToPosition(messageList.size-2);
+
             }
             else{
             }

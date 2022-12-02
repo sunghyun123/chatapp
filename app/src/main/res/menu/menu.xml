@@ -3,6 +3,9 @@
     <item android:id="@+id/logout" android:title="로그아웃"/>
     <item android:id="@+id/setProfile" android:title="프로필 수정"/>
     <item android:id="@+id/pedometerBtn" android:title="만보기"/>
+    <item android:id="@+id/setdistance" android:title="탐색범위설정"/>
+    <item android:id="@+id/testseekbar" android:title="시크바 생성"/>
+
 
 
 </menu>

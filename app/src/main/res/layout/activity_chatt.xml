@@ -7,6 +7,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".ChattActivity">
+
     <!--채팅메세지-->
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/chatRecyclerView"
@@ -15,6 +16,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         />
+
     <!--메세지 박스 레이아웃-->
     <LinearLayout
         android:id="@+id/linearLayout"
@@ -24,6 +26,7 @@
         android:orientation="horizontal"
         android:layout_marginBottom="5dp"
         android:weightSum="100">
+
         <!--메세지 박스-->
         <EditText
             android:id="@+id/messageBox"
