@@ -41,10 +41,10 @@ class SetProfileActivity : AppCompatActivity() {
     private lateinit var file : File
     private lateinit var sexbtn : Button
 
-    var bench : Int? = null
-    var squat : Int? = null
-    var pullup : Int? = null
-    var lev : Int? = null
+    var bench : Int? = -1
+    var squat : Int? = -1
+    var pullup : Int? = -1
+    var lev : Int? = -1
     var sex : String? = "무"
     @RequiresApi(Build.VERSION_CODES.M)
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -96,6 +96,7 @@ class SetProfileActivity : AppCompatActivity() {
             var build = AlertDialog.Builder(it.context).apply {
                 setView(layout)
             }
+
             val dialog = build.create()
             dialog.show()
             layout.findViewById<NumberPicker>(R.id.number_picker).minValue = 0;
@@ -116,7 +117,6 @@ class SetProfileActivity : AppCompatActivity() {
                 sexbtn.text = "신체 성별 : " + sex.toString()
                 dialog.dismiss()
             }
-
         }
 
         benchWight.setOnClickListener {
@@ -124,6 +124,7 @@ class SetProfileActivity : AppCompatActivity() {
             var build = AlertDialog.Builder(it.context).apply {
                 setView(layout)
             }
+
             val dialog = build.create()
             dialog.show()
             layout.findViewById<NumberPicker>(R.id.number_picker).minValue = 0;
@@ -328,10 +329,9 @@ class SetProfileActivity : AppCompatActivity() {
 
     // signup 함수, createUserWithEmailAndPassword(매크로같은거일듯) 입력한 이름과 이메일, 비밀번호를 firebase에 전달 후 성공 유무를 확인하여 화면을 전환시키거나 메세지를 출력한다
     private  fun signUp(name:String, email: String,sex: String,benchWeight: String,squtWeight: String,pullUpCount:String,level:String){
-        if(name.isNotEmpty() && sex!="무" && benchWeight.isNotEmpty() && squtWeight.isNotEmpty() && pullUpCount.isNotEmpty() && level.isNotEmpty()) {
+        if(name.isNotEmpty() && sex!="무" && bench != -1 && squat!= -1 && pullup!= -1 && lev!= -1) {
            // 이미지가 null이 아닐시 즉 앨범에서 얻어오는게 성공했을 시 실행.
             uploadPhoto(selectImage)
-
             addUserToDatabase(
                 name,
                 email,
@@ -344,7 +344,6 @@ class SetProfileActivity : AppCompatActivity() {
                 "on",
                 2.0,
                 1.0
-
                 )
             val intent = Intent(this@SetProfileActivity, MainActivity::class.java)
             finish()
@@ -372,7 +371,6 @@ class SetProfileActivity : AppCompatActivity() {
 
     }
     private fun Numberpick(min : Int, max: Int, valueName : String) {
-
         val nextIntent2 = Intent(this@SetProfileActivity, numberSelectActivity::class.java)
         nextIntent2.putExtra("min",min)
         nextIntent2.putExtra("max",max)

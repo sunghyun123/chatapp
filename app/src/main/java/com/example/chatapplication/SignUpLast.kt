@@ -57,7 +57,7 @@ class SignUpLast : AppCompatActivity() {
             val pullUpCount = intent.getStringExtra("pullUpCount2").toString()
             val sex = intent.getStringExtra("sex").toString()
             val level =  intent.getStringExtra("lev2").toString()
-            var a =  intent.getStringExtra("photo2")
+            var a =  intent.getStringExtra("photo2").toString()
 
 
 

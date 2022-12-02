@@ -36,7 +36,7 @@
 
         <TextView
             android:id="@+id/txt_name"
-            android:layout_width="200dp"
+            android:layout_width="150dp"
             android:layout_height="match_parent"
             android:gravity="center"
             android:text=""
@@ -47,11 +47,10 @@
 
         <TextView
             android:id="@+id/sex"
-            android:layout_width="wrap_content"
+            android:layout_width="80dp"
             android:gravity="center"
             android:layout_height="match_parent"
-            android:text="성별"
-
+            android:text="성 별"
             android:textColor="@color/black"
             android:textSize="20dp"
             android:textStyle="bold"

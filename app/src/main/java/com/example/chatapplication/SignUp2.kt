@@ -1,5 +1,4 @@
 package com.example.chatapplication
-
 import android.app.AlertDialog
 import android.content.Intent
 import android.os.Build
@@ -18,10 +17,10 @@ class SignUp2 : AppCompatActivity() {
     private lateinit var pullUpCount: Button// 풀업 갯수
     private lateinit var level: Button
     private lateinit var btnSignUp: Button
-    var bench : Int? = null
-    var squat : Int? = null
-    var pullup : Int? = null
-    var lev : Int? = null
+    var bench : Int? = -1
+    var squat : Int? = -1
+    var pullup : Int? = -1
+    var lev : Int? = -1
     @RequiresApi(Build.VERSION_CODES.M)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -44,7 +43,6 @@ class SignUp2 : AppCompatActivity() {
             dialog.show()
             layout.findViewById<NumberPicker>(R.id.number_picker).minValue = 0;
             layout.findViewById<NumberPicker>(R.id.number_picker).maxValue = 21;
-
             layout.findViewById<NumberPicker>(R.id.number_picker).displayedValues = arrayOf(
                 "0", "10", "20", "30", "40", "50", "60","70", "80", "90", "100", "110", "120",
                 "130", "140", "150", "160", "170", "180","190", "200", "210"
@@ -131,16 +129,16 @@ class SignUp2 : AppCompatActivity() {
     }
 
     private fun myStartActivity() {
-        if (benchWight.text.isNotEmpty() && squatWight.text.isNotEmpty() && pullUpCount.text.isNotEmpty()) {
+        if (bench!= -1 && squat!= -1 && pullup!= -1 &&   lev!= -1) {
             val nextIntent = Intent(this@SignUp2, SignUp3::class.java)
             nextIntent.putExtra("uName1", intent.getStringExtra("uName").toString())
             nextIntent.putExtra("uEmail1", intent.getStringExtra("uEmail").toString())
             nextIntent.putExtra("uPw1", intent.getStringExtra("uPw").toString())
             nextIntent.putExtra("photo1", intent.getStringExtra("photo").toString())
-            nextIntent.putExtra("benchWight1", bench)
-            nextIntent.putExtra("squatWight1", squat)
-            nextIntent.putExtra("pullUpCount1", pullup)
-            nextIntent.putExtra("lev", lev)
+            nextIntent.putExtra("benchWight1", bench.toString())
+            nextIntent.putExtra("squatWight1", squat.toString())
+            nextIntent.putExtra("pullUpCount1", pullup.toString())
+            nextIntent.putExtra("lev", lev.toString())
             startActivity(nextIntent)
         }
         else{

@@ -30,6 +30,7 @@ class SignUp3 : AppCompatActivity() {
     var sex : String? = "무"
 
     @RequiresApi(Build.VERSION_CODES.M)
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_sign_up3)
@@ -42,6 +43,7 @@ class SignUp3 : AppCompatActivity() {
             var build = AlertDialog.Builder(it.context).apply {
                 setView(layout)
             }
+
             val dialog = build.create()
             dialog.show()
             layout.findViewById<NumberPicker>(R.id.number_picker).minValue = 0;
@@ -79,7 +81,7 @@ class SignUp3 : AppCompatActivity() {
                 nextIntent.putExtra("squatWight2", intent.getStringExtra("squatWight1").toString())
                 nextIntent.putExtra("pullUpCount2", intent.getStringExtra("pullUpCount1").toString())
                 nextIntent.putExtra("lev2", intent.getStringExtra("lev").toString())
-                nextIntent.putExtra("sex", sex)
+                nextIntent.putExtra("sex", sex.toString())
                 startActivity(nextIntent)
             }
         else{

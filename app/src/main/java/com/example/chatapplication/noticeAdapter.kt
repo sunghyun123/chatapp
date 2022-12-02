@@ -93,7 +93,7 @@ class noticeAdapter(val context: Context, val noticeList: ArrayList<notice>):
 
         holder.itemView.setOnClickListener {//목록의 뷰를 누를시
 
-            val intent = Intent(context, popActivity::class.java)// 화면전환할 액티비티 정의
+            val intent = Intent(context, ViewPostActivity::class.java)// 화면전환할 액티비티 정의
             //전환할 엑티비티로 데이터 넘기기 받는쪽에선 getExtraa
 
 //            intent.putExtra("name", currentUser.name)

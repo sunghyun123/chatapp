@@ -68,14 +68,11 @@ class ChattActivity : AppCompatActivity() {
                         val message = postSnapshot.getValue(Message::class.java)
                         //메세지 리스트에 추가
                         messageList.add(message!!)
-
-
                     }
                     messageAdapter.notifyDataSetChanged()
                 }
 
                 override fun onCancelled(error: DatabaseError) {
-
                 }
 
             })

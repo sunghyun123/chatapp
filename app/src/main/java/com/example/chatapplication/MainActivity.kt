@@ -66,7 +66,6 @@ class MainActivity : AppCompatActivity() {
         mLocationRequest =  LocationRequest.create().apply {
 
             priority = LocationRequest.PRIORITY_HIGH_ACCURACY
-
         }
         startLocationUpdates()
 
