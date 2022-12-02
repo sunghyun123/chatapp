@@ -9,7 +9,7 @@ class User {
     var name: String? = null
     var email: String? = null
     var uid: String? = null
-
+    var sex:String? = null
     var benchWeight: String? = null
     var squatWeight:String? = null
     var pullUpCount:String? = null
@@ -19,10 +19,10 @@ class User {
     var lat: Double? = null
     var lon: Double? = null
     constructor(){}
-
     constructor(name: String?,
                 email: String?,
                 uid: String?,
+                sex:String?,
                 benchWeight: String?,
                 squtWeight : String?,
                 pullUpCount : String?,
@@ -36,6 +36,7 @@ class User {
         this.name = name
         this.email = email
         this.uid = uid
+        this.sex = sex
         this.benchWeight = benchWeight
         this.squatWeight = squtWeight
         this.pullUpCount = pullUpCount

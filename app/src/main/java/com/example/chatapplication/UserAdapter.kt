@@ -97,10 +97,12 @@ class UserAdapter(val context: Context, val userList: ArrayList<User>):
                     val userlat =
                         dataSnapshot.getValue<Double>()
                     lat = userlat!!
-                    setLat(lat)
-                    val sum =  DistanceManager.getDistance(currentUser.lat!!, currentUser.lon!!,lat, lon ).toString()
-                    holder.location.text = "나와의 거리 "+sum+"m"
-                    setSum(sum.toInt())
+
+
+                    var sum =  DistanceManager.getDistance(currentUser.lat!!, currentUser.lon!!,lat, lon ).toDouble()
+                    sum /= 1000;
+                    holder.location.text = "나와의 거리 "+sum.toString()+"Km"
+
                 }
 
                 override fun onCancelled(error: DatabaseError) {

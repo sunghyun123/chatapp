@@ -30,7 +30,6 @@ import kotlin.math.*
 
 
 class MainActivity : AppCompatActivity() {
-
     private  lateinit var  userRecyclerView: RecyclerView
     private lateinit var userList: ArrayList<User>//각 유저들의 데이터를 가지고있는 배열
 
@@ -38,6 +37,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var  mAuth: FirebaseAuth // 파이어베이스 유저관련 접속하기위한 변수
     private  lateinit var mDbRef: DatabaseReference// 파이어베이스 리얼타임베이스 접근하기위한 변수
     var T = false
+
 
 
     private var mFusedLocationProviderClient: FusedLocationProviderClient? = null // 현재 위치를 가져오기 위한 변수
@@ -48,6 +48,7 @@ class MainActivity : AppCompatActivity() {
     private  var textlat : Double? = null
     private  var textlon : Double? = null
     private  var distance : Int = 1000
+
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -61,10 +62,7 @@ class MainActivity : AppCompatActivity() {
         startService(Intent(this,ForceTerminationService::class.java))
         //유저,리얼타임데이터베이스에 접근 해서 값얻을수있는 통로뚥기 저 두변수가 길이다.
         mAuth = FirebaseAuth.getInstance()// 나자신의 유저정보 m이 my의 약자다
-
         mDbRef = FirebaseDatabase.getInstance().getReference()
-
-
         //userList 생성자 호출
         userList = ArrayList()
         //sortuserList = ArrayList()
@@ -84,16 +82,8 @@ class MainActivity : AppCompatActivity() {
         mLocationRequest =  LocationRequest.create().apply {
 
             priority = LocationRequest.PRIORITY_HIGH_ACCURACY
-
         }
         startLocationUpdates()
-
-
-         // 위도경도 계산 함수 호출
-
-
-//        val name = intent.getStringExtra("name")
-//        Log.i(ContentValues.TAG, "$name")
 
         mDbRef.child("user").addValueEventListener(object: ValueEventListener{// 파이어베이스에서 데이터 읽고 쓸수있는 리스너
             override fun onDataChange(snapshot: DataSnapshot) {
@@ -119,24 +109,17 @@ class MainActivity : AppCompatActivity() {
             }
         }
             override fun onCancelled(error: DatabaseError) {
-
-
         }
         })
-
-
             if(ContextCompat.checkSelfPermission(this, android.Manifest.permission.ACTIVITY_RECOGNITION) == PackageManager.PERMISSION_GRANTED
                 && ContextCompat.checkSelfPermission(this, android.Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED
                 && ContextCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED){
 
             }
-
-
             val permissions: Array<String> = arrayOf(
                 android.Manifest.permission.ACTIVITY_RECOGNITION,
                 android.Manifest.permission.READ_EXTERNAL_STORAGE,
                 android.Manifest.permission.ACCESS_FINE_LOCATION)
-
             ActivityCompat.requestPermissions(this, permissions, 0)
         if(mAuth.currentUser?.uid.toString() == null)
             mDbRef.child("user").child( mAuth.currentUser?.uid.toString()).child("state").setValue("ON")// 온오프 표시
@@ -193,10 +176,10 @@ class MainActivity : AppCompatActivity() {
         }
         if(item.itemId == R.id.pedometerBtn){ //세번째 아이템 만보기 버튼
             val intent = Intent(this@MainActivity, pedometerActivity::class.java)
-
             startActivity(intent)
             return true
         }
+
         if(item.itemId == R.id.setdistance){ //세번째 아이템 만보기 버튼
             val items = arrayOf("10", "100", "1000", "10000")
             var selectedItem: String? = null
@@ -216,33 +199,18 @@ class MainActivity : AppCompatActivity() {
 
             return true
         }
-        if(item.itemId == R.id.testseekbar){ //세번째 아이템 만보기 버튼
-//            val items = SeekBar(this)
-//            var selectedItem: String? = null
-//            val builder = AlertDialog.Builder(this)
-//                .setTitle("Select Item")
-//                .setSingleChoiceItems(items, -1) { dialog, which ->
-//                    selectedItem = items[which]
-//                    if(selectedItem == "10")
-//                        adapter.filter.filter("100")
-//                    Log.i(ContentValues.TAG,"$selectedItem")
-//                    adapter.filter.filter("$selectedItem")
-//                }
-////                .setPositiveButton("OK") { dialog, which ->
-////                    toast("${selectedItem.toString()} is Selected")
-////                }
-//                .show()
 
 
+        if(item.itemId == R.id.notice){ //세번째 아이템 만보기 버튼
+            val intent = Intent(this@MainActivity, nboardActivity::class.java)
+            startActivity(intent)
             return true
 
         }
-
-
         //여기서 처리
-//
         return true
     }
+
 
 
     fun onadapterStart():Boolean{
@@ -273,7 +241,6 @@ class MainActivity : AppCompatActivity() {
                             break;
                         }
                     }
-
                     // 요청한 권한을 모두 허용했음.
                     if (isAllGranted) {
                         // 다음 step으로 ~

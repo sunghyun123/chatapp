@@ -19,7 +19,18 @@
         android:theme="@style/Theme.ChatApplication"
         tools:targetApi="31">
         <activity
+
             android:name=".SeekerbarActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ViewPostActivity"
+            android:exported="false" />
+        <activity
+            android:name=".UploadNotice"
+            android:exported="false" />
+        <activity
+            android:name=".WriteActivity"
+
             android:exported="false" />
         <activity
             android:name=".nboardActivity"

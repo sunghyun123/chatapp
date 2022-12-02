@@ -38,9 +38,12 @@
         android:layout_marginRight="20dp"
         android:background="@drawable/edt_background"
         android:hint="Name"
+        android:gravity="center"
         android:paddingLeft="13dp" />
     <!--이메일 입력 칸-->
     <EditText
+
+        android:gravity="center"
         android:id="@+id/edt_email"
         android:layout_width="match_parent"
         android:layout_height="50dp"
@@ -53,6 +56,8 @@
         android:layout_marginRight="20dp" />
     <!--비밀번호 입력 칸-->
     <EditText
+
+        android:gravity="center"
         android:id="@+id/edt_password"
         android:layout_width="match_parent"
         android:layout_height="50dp"

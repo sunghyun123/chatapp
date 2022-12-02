@@ -25,7 +25,7 @@
         android:layout_marginTop="10dp"
         android:layout_marginRight="20dp"
         android:background="@drawable/edt_background"
-        android:paddingLeft="13dp"
+        android:paddingLeft="10dp"
         android:text="Name" />
     <!--이메일 입력 칸-->
     <TextView
@@ -72,31 +72,39 @@
         android:layout_marginTop="10dp"
         android:layout_marginRight="20dp"
         android:background="@drawable/edt_background"
-        android:text="Level"
-        android:paddingLeft="13dp" />
+        android:paddingLeft="13dp"
+        android:text="Level"/>
     <!--회원가입 버튼, 회원가입 완료시 메인 엑티비티 이동-->
-    <Button
-        android:id="@+id/back"
-        android:layout_width="150dp"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/edt_Level"
-        android:layout_marginLeft="40dp"
-        android:layout_marginTop="10dp"
-        android:background="@drawable/btn_background"
-        android:text="back"
-        android:textColor="@color/white"
-        android:textSize="20dp" />
-    <Button
-        android:id="@+id/gochat"
-        android:layout_width="150dp"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/edt_Level"
-        android:layout_marginTop="10dp"
-        android:background="@drawable/btn_background"
-        android:text="Chat"
-        android:textColor="@color/white"
-        android:layout_marginLeft="220dp"
-        android:textSize="20dp" />
 
+    <LinearLayout
+        android:layout_marginTop="13sp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/edt_Level"
+        android:orientation="horizontal"
+        android:gravity="center">
+
+
+        <Button
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:text="Back"
+            android:id="@+id/back"
+            android:background="@drawable/edt_background"
+            ></Button>
+
+
+        <Button
+            android:id="@+id/chat"
+            android:text="Chat"
+            android:background="@drawable/edt_background"
+            android:layout_width="100dp"
+            android:layout_marginLeft="70dp"
+            android:layout_height="wrap_content">
+
+        </Button>
+
+
+    </LinearLayout>
 
 </RelativeLayout>

@@ -7,6 +7,7 @@
     android:layout_height="match_parent"
 
     tools:context=".SignUp">
+
     <TextView
         android:layout_marginTop="70dp"
         android:id="@+id/title"
@@ -18,17 +19,17 @@
         android:gravity="center"/>
 
     <!--로고-->
-    <EditText
+    <Button
         android:id="@+id/edt_BenchPower"
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:layout_marginLeft="20dp"
         android:layout_below="@+id/title"
+        android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
         android:background="@drawable/edt_background"
         android:hint="벤치 프레스 최대무게"
         android:paddingLeft="13dp" />
-    <EditText
+    <Button
         android:id="@+id/edt_SqutPower"
         android:layout_width="match_parent"
         android:layout_height="50dp"
@@ -40,7 +41,7 @@
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp" />
 
-    <EditText
+    <Button
         android:id="@+id/edt_PullUpPower"
         android:layout_width="match_parent"
         android:layout_height="50dp"
@@ -52,13 +53,23 @@
         android:hint="풀업 최대 갯수"
         android:paddingLeft="13dp" />
     <!--비밀번호 입력 칸-->
-
+    <Button
+        android:id="@+id/edt_Level"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_below="@+id/edt_PullUpPower"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginRight="20dp"
+        android:background="@drawable/edt_background"
+        android:hint="운동경력"
+        android:paddingLeft="13dp" />
     <!--회원가입 버튼, 회원가입 완료시 메인 엑티비티 이동-->
     <Button
         android:id="@+id/btnSignUp"
         android:layout_width="150dp"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/edt_PullUpPower"
+        android:layout_below="@+id/edt_Level"
         android:text="next"
         android:background="@drawable/btn_background"
         android:textColor="@color/white"
