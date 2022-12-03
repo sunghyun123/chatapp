@@ -120,6 +120,7 @@ class WriteActivity : AppCompatActivity() {
             else
                 nextIntent.putExtra("img","null")
             startActivity(nextIntent)
+            finish()
         }
         else{
             Toast.makeText(this,"there is empty space", Toast.LENGTH_SHORT).show()

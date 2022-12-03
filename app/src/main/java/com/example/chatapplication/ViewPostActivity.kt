@@ -39,7 +39,7 @@ class ViewPostActivity : AppCompatActivity() {
 
         Title.text = intent.getStringExtra("Title").toString()
         contents.text = intent.getStringExtra("Content").toString()
-
+        storage =  FirebaseStorage.getInstance()
 
         val fileName = mAuth.currentUser?.uid.toString()
         var uri_ = intent.getStringExtra("key").toString()
