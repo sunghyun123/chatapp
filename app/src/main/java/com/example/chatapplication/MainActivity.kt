@@ -2,22 +2,26 @@ package com.example.chatapplication
 
 import android.Manifest
 import android.app.AlertDialog
+import android.app.Dialog
 import android.app.ProgressDialog.show
+import android.content.ContentValues
+import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.location.Location
 import android.os.Bundle
 import android.os.Looper
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.Menu
 import android.view.MenuItem
-import android.widget.SearchView
+import android.view.WindowManager
+import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.chatapplication.databinding.ActivityMainBinding
 import com.google.android.gms.location.*
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
@@ -31,7 +35,7 @@ class MainActivity : AppCompatActivity() {
     private  lateinit var adapter: UserAdapter// 데이터와 뷰를 이어주는 중간다리
     private lateinit var  mAuth: FirebaseAuth // 파이어베이스 유저관련 접속하기위한 변수
     private  lateinit var mDbRef: DatabaseReference// 파이어베이스 리얼타임베이스 접근하기위한 변수
-    private lateinit var binding: ActivityMainBinding
+
     var T = false
 
 
@@ -43,7 +47,7 @@ class MainActivity : AppCompatActivity() {
     private val REQUEST_PERMISSION_LOCATION = 10
     private  var textlat : Double? = null
     private  var textlon : Double? = null
-    private  var distance : Int = 1000
+    private  var distance : String = ""
 
 
 
@@ -54,8 +58,7 @@ class MainActivity : AppCompatActivity() {
         val setSearchView = findViewById<SearchView>(R.id.search_view_phone_book)
         setSearchView.setOnQueryTextListener(searchViewTextListener)
 
-        binding = ActivityMainBinding.inflate(layoutInflater)
-        setContentView(binding.root)
+
 
 
         startService(Intent(this,ForceTerminationService::class.java))
@@ -110,6 +113,7 @@ class MainActivity : AppCompatActivity() {
             override fun onCancelled(error: DatabaseError) {
         }
         })
+
             if(ContextCompat.checkSelfPermission(this, android.Manifest.permission.ACTIVITY_RECOGNITION) == PackageManager.PERMISSION_GRANTED
                 && ContextCompat.checkSelfPermission(this, android.Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED
                 && ContextCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED){
@@ -181,36 +185,19 @@ class MainActivity : AppCompatActivity() {
 
         if(item.itemId == R.id.setdistance){ //거리설정 버튼
 
-            val seekview = LayoutInflater.from(this).inflate(R.layout.seekbar,null)
-            val mBuilder = androidx.appcompat.app.AlertDialog.Builder(this)
-                .setView(seekview)
-                .setTitle("거리 설정")
-
-            seekview.show()
-            return true
 
 
+            val dialog = CustSeekbar(this)
+            dialog.showSeekbar()
+            dialog.setOnClickListener(object: CustSeekbar.ButtonClickListener{
+                override fun onClicked(text: String) {
+                    var split = text.split("k")
+                    var dis = ((split[0].toFloat())*1000).toInt()
+                    Log.i(ContentValues.TAG,"$dis")
+                    adapter.filter.filter(dis.toString())
+                }
+            })
 
-
-
-//            val items = arrayOf("10", "100", "1000", "10000")
-//            var selectedItem: String? = null
-//            val builder = AlertDialog.Builder(this)
-//                .setTitle("Select Item")
-//                .setSingleChoiceItems(items, -1) { dialog, which ->
-//                    selectedItem = items[which]
-//
-//                }
-//                .setPositiveButton("OK") { dialog, which ->
-//                    Toast.makeText(this,"${selectedItem.toString()} is Selected", Toast.LENGTH_SHORT).show()
-//                    if(selectedItem == "10")
-//                        adapter.filter.filter("100")
-//                    Log.i(ContentValues.TAG,"$selectedItem")
-//                    adapter.filter.filter("$selectedItem")
-//                }
-//                .show()
-//
-//            return true
         }
 
 
@@ -232,7 +219,6 @@ class MainActivity : AppCompatActivity() {
         return false
 
     }
-
 
 
 
