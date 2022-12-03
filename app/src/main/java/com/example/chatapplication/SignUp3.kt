@@ -67,6 +67,7 @@ class SignUp3 : AppCompatActivity() {
         }
         btnSignUp.setOnClickListener {
             myStartActivity()
+
         }
     }
 

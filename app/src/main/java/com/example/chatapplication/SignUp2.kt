@@ -140,6 +140,7 @@ class SignUp2 : AppCompatActivity() {
             nextIntent.putExtra("pullUpCount1", pullup.toString())
             nextIntent.putExtra("lev", lev.toString())
             startActivity(nextIntent)
+
         }
         else{
             Toast.makeText(this,"there is empty space", Toast.LENGTH_SHORT).show()

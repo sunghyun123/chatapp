@@ -103,7 +103,7 @@ class SignUpLast : AppCompatActivity() {
 
                     val intent = Intent(this@SignUpLast, MainActivity::class.java)
 
-                    finish()
+                    ActivityCompat.finishAffinity(this);
                     startActivity(intent)
                 } else {
                     Toast.makeText(this@SignUpLast, "Some error occurred", Toast.LENGTH_SHORT).show()

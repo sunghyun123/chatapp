@@ -108,6 +108,7 @@ class nboardActivity : AppCompatActivity() {
         if (item.itemId == R.id.WritePost) { //두번째 아이템:프로필 설정
             val intent = Intent(this@nboardActivity, WriteActivity::class.java)
             startActivity(intent)
+            finish()
             return true
         }
         if (item.itemId == R.id.home) { //세번째 아이템 만보기 버튼

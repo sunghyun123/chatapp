@@ -52,16 +52,6 @@ class ViewPostActivity : AppCompatActivity() {
         }
 
 
-//        val fileName = mAuth.currentUser?.uid.toString()
-//        var profilefile = File.createTempFile("images","jpeg");
-//
-//        var sref = storage.reference.child("article/notice").child(fileName)//지금은 로컬인데 메모리로 바꿀것 좀 느리다.
-//        sref.getFile(profilefile).addOnCompleteListener{
-//            Glide.with(this)
-//                .load(File(profilefile.absolutePath))
-//                .into(ProfileImg);
-//        }
-
 
     }
 }

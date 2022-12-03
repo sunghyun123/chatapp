@@ -78,6 +78,7 @@ class SignUp : AppCompatActivity() {
             nextIntent.putExtra("uPw", edtPassword.text.toString())
             nextIntent.putExtra("photo", selectImage.toString())
             startActivity(nextIntent)
+
         }
         else if(!pattern.matcher(edtEmail.text).matches()){
             Toast.makeText(this,"there is email input type error", Toast.LENGTH_SHORT).show()
