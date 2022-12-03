@@ -67,7 +67,7 @@ class SetProfileActivity : AppCompatActivity() {
         ProfileImg = findViewById(R.id.ProfileImg)
 
         sexbtn = findViewById(R.id.sex)
-
+        sexbtn.hint = "성별"
         ProfileImg.setOnClickListener{
             val d = Log.d(ContentValues.TAG, "addImageButton called!!")
             when {
@@ -115,6 +115,7 @@ class SetProfileActivity : AppCompatActivity() {
                 }
                 if(sex != "무")
                 sexbtn.text = "신체 성별 : " + sex.toString()
+
                 dialog.dismiss()
             }
         }
@@ -282,6 +283,7 @@ class SetProfileActivity : AppCompatActivity() {
                 // This method is called once with the initial value and again
                 // whenever data at this location is updated.
                 benchWight.hint = "벤치 무게 : "+ dataSnapshot.getValue<String>()
+                bench = dataSnapshot.getValue<String>()!!.toInt()
             }
 
             override fun onCancelled(error: DatabaseError) {
@@ -294,6 +296,7 @@ class SetProfileActivity : AppCompatActivity() {
                 // This method is called once with the initial value and again
                 // whenever data at this location is updated.
                 squatWeight.hint = "스쿼트 무게 : "+ dataSnapshot.getValue<String>()
+                squat = dataSnapshot.getValue<String>()!!.toInt()
             }
 
             override fun onCancelled(error: DatabaseError) {
@@ -305,7 +308,9 @@ class SetProfileActivity : AppCompatActivity() {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
                 // This method is called once with the initial value and again
                 // whenever data at this location is updated.
+                pullup = dataSnapshot.getValue<String>()!!.toInt()
                 pullUpCount.hint = "풀업 갯수 : "+dataSnapshot.getValue<String>()
+
             }
 
             override fun onCancelled(error: DatabaseError) {
@@ -318,6 +323,7 @@ class SetProfileActivity : AppCompatActivity() {
                 // This method is called once with the initial value and again
                 // whenever data at this location is updated.
                 level.hint = "운동 수준 : "+dataSnapshot.getValue<String>()
+                lev = dataSnapshot.getValue<String>()!!.toInt()
             }
 
             override fun onCancelled(error: DatabaseError) {

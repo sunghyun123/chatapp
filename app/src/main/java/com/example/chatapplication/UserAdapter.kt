@@ -101,7 +101,6 @@ class UserAdapter(val context: Context, val userList: ArrayList<User>):
                     var sum =  DistanceManager.getDistance(currentUser.lat!!, currentUser.lon!!,lat, lon ).toDouble()
                     sum /= 1000;
                     holder.location.text = "나와의 거리 "+sum.toString()+"Km"
-
                 }
 
                 override fun onCancelled(error: DatabaseError) {
@@ -109,9 +108,6 @@ class UserAdapter(val context: Context, val userList: ArrayList<User>):
                     Log.w(ContentValues.TAG, "Failed to read value.", error.toException())
                 }
             })
-
-
-
             storage = FirebaseStorage.getInstance()
 
             val fileName = currentUser.uid.toString()
@@ -135,7 +131,8 @@ class UserAdapter(val context: Context, val userList: ArrayList<User>):
 
 
             holder.textName.text = currentUser.name//커런트유터 데이터에서 화면인 홀더로 이름을 넘겨줘서 띄울수있게함
-            holder.state.text = currentUser.State
+
+        holder.state.text = currentUser.State
 
 
 
