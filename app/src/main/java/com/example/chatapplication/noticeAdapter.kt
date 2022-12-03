@@ -51,6 +51,7 @@ class noticeAdapter(val context: Context, val noticeList: ArrayList<notice>):
             intent.putExtra("uid",currentnotice.uid.toString())
             intent.putExtra("likes",currentnotice.likes.toString())
             intent.putExtra("key",currentnotice.number.toString())
+
             context.startActivity(intent)//환면전환하기.
 
         }
