@@ -37,10 +37,12 @@ class noticeAdapter(val context: Context, val noticeList: ArrayList<notice>):
     }
 
     override fun onBindViewHolder(holder: noticeViewHolder, position: Int) {// 뷰 생성시 홀더와 포지션값은 정해짐
+
         // 방금 생성한 뷰가 화면에서 몇번쨰인지포지션을통해 알아내고 user의정보가 들어있는
         // userlist도 순서는동일하기에 유저리스트[position]을 통해 값을 커런트 유저로 넣어줌
         val currentnotice = noticeList[position]//커런트유저는 데이터임
         mAuth = FirebaseAuth.getInstance()
+        Log.i(ContentValues.TAG,"------${currentnotice.title}")
         holder.itemView.setOnClickListener {//목록의 뷰를 누를시
             val intent = Intent(context, ViewPostActivity::class.java)// 화면전환할 액티비티 정의
             intent.putExtra("Title",currentnotice.title.toString())
@@ -48,9 +50,10 @@ class noticeAdapter(val context: Context, val noticeList: ArrayList<notice>):
             intent.putExtra("Img",currentnotice.Image.toString())
             intent.putExtra("uid",currentnotice.uid.toString())
             intent.putExtra("likes",currentnotice.likes.toString())
+            intent.putExtra("key",currentnotice.number.toString())
             context.startActivity(intent)//환면전환하기.
         }
-        Log.i(ContentValues.TAG,"------${currentnotice.title}")
+
 
         holder.title.text = currentnotice.title.toString()//커런트유터 데이터에서 화면인 홀더로 이름을 넘겨줘서 띄울수있게함
     }
