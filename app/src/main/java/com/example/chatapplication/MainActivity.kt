@@ -2,30 +2,25 @@ package com.example.chatapplication
 
 import android.Manifest
 import android.app.AlertDialog
-import android.content.ContentValues
-import android.content.ContentValues.TAG
+import android.app.ProgressDialog.show
 import android.content.Intent
 import android.content.pm.PackageManager
-import android.graphics.Insets.add
 import android.location.Location
 import android.os.Bundle
 import android.os.Looper
-import android.util.Log
+import android.view.LayoutInflater
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.SearchView
-import android.widget.SeekBar
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import androidx.recyclerview.widget.SortedList
 import com.example.chatapplication.databinding.ActivityMainBinding
 import com.google.android.gms.location.*
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
-import com.google.firebase.database.ktx.getValue
 import kotlin.math.*
 
 
@@ -36,6 +31,7 @@ class MainActivity : AppCompatActivity() {
     private  lateinit var adapter: UserAdapter// 데이터와 뷰를 이어주는 중간다리
     private lateinit var  mAuth: FirebaseAuth // 파이어베이스 유저관련 접속하기위한 변수
     private  lateinit var mDbRef: DatabaseReference// 파이어베이스 리얼타임베이스 접근하기위한 변수
+    private lateinit var binding: ActivityMainBinding
     var T = false
 
 
@@ -57,6 +53,9 @@ class MainActivity : AppCompatActivity() {
 
         val setSearchView = findViewById<SearchView>(R.id.search_view_phone_book)
         setSearchView.setOnQueryTextListener(searchViewTextListener)
+
+        binding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
 
         startService(Intent(this,ForceTerminationService::class.java))
@@ -180,24 +179,38 @@ class MainActivity : AppCompatActivity() {
             return true
         }
 
-        if(item.itemId == R.id.setdistance){ //세번째 아이템 만보기 버튼
-            val items = arrayOf("10", "100", "1000", "10000")
-            var selectedItem: String? = null
-            val builder = AlertDialog.Builder(this)
-                .setTitle("Select Item")
-                .setSingleChoiceItems(items, -1) { dialog, which ->
-                    selectedItem = items[which]
-                    if(selectedItem == "10")
-                        adapter.filter.filter("100")
-                    Log.i(ContentValues.TAG,"$selectedItem")
-                    adapter.filter.filter("$selectedItem")
-                }
-//                .setPositiveButton("OK") { dialog, which ->
-//                    toast("${selectedItem.toString()} is Selected")
-//                }
-                .show()
+        if(item.itemId == R.id.setdistance){ //거리설정 버튼
 
+            val seekview = LayoutInflater.from(this).inflate(R.layout.seekbar,null)
+            val mBuilder = androidx.appcompat.app.AlertDialog.Builder(this)
+                .setView(seekview)
+                .setTitle("거리 설정")
+
+            seekview.show()
             return true
+
+
+
+
+
+//            val items = arrayOf("10", "100", "1000", "10000")
+//            var selectedItem: String? = null
+//            val builder = AlertDialog.Builder(this)
+//                .setTitle("Select Item")
+//                .setSingleChoiceItems(items, -1) { dialog, which ->
+//                    selectedItem = items[which]
+//
+//                }
+//                .setPositiveButton("OK") { dialog, which ->
+//                    Toast.makeText(this,"${selectedItem.toString()} is Selected", Toast.LENGTH_SHORT).show()
+//                    if(selectedItem == "10")
+//                        adapter.filter.filter("100")
+//                    Log.i(ContentValues.TAG,"$selectedItem")
+//                    adapter.filter.filter("$selectedItem")
+//                }
+//                .show()
+//
+//            return true
         }
 
 
