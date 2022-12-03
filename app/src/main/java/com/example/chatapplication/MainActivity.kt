@@ -94,7 +94,6 @@ class MainActivity : AppCompatActivity() {
                 userList.clear()//리스트 초기화
                 onadapterStart()
                 for (postSnapshot in snapshot.children) {//user데이터베이스에 있는 모든 리스트들이 처음부터 끝까지 끝날떄 까지
-
                     val currentUser = postSnapshot.getValue(User::class.java)//user 데이터 베이스에있는 값을 첫번째 유저 부터 가져옴
                     //위의 for문을 볼 때 반복문임.
                     //val user = snapshot.getValue<User>()
@@ -140,7 +139,8 @@ class MainActivity : AppCompatActivity() {
             //텍스트 입력/수정시에 호출
             override fun onQueryTextChange(s: String): Boolean {
                 adapter.filter.filter(s)
-                //Log.d(TAG, "SearchVies Text is changed : $s")
+
+
                 return false
 
             }
@@ -183,8 +183,9 @@ class MainActivity : AppCompatActivity() {
             return true
         }
 
-        if(item.itemId == R.id.setdistance){ //거리설정 버튼
 
+        if(item.itemId == R.id.setdistance){ //거리설정 버튼
+            
 
 
             val dialog = CustSeekbar(this)
@@ -198,12 +199,14 @@ class MainActivity : AppCompatActivity() {
                 }
             })
 
+
         }
 
 
         if(item.itemId == R.id.notice){ //세번째 아이템 만보기 버튼
             val intent = Intent(this@MainActivity, nboardActivity::class.java)
             startActivity(intent)
+
             return true
 
         }

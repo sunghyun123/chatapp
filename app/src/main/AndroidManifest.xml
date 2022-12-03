@@ -20,6 +20,11 @@
         tools:targetApi="31">
 
         <activity
+            android:name=".MainActivity"
+            android:exported="true" />
+
+
+        <activity
             android:name=".ViewPostActivity"
             android:exported="false" />
         <activity
@@ -29,9 +34,7 @@
             android:name=".WriteActivity"
 
             android:exported="false" />
-        <activity
-            android:name=".nboardActivity"
-            android:exported="false" />
+
         <activity
             android:name=".popActivity"
             android:exported="false" />
@@ -66,8 +69,9 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".MainActivity"
-            android:exported="true" />
+            android:name=".nboardActivity"
+            android:exported="false" />
+
 
         <service
             android:name=".ForceTerminationService"

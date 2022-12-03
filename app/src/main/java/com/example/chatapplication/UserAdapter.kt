@@ -118,9 +118,6 @@ class UserAdapter(val context: Context, val userList: ArrayList<User>):
                     Log.w(ContentValues.TAG, "Failed to read value.", error.toException())
                 }
             })
-
-
-
             storage = FirebaseStorage.getInstance()
 
             val fileName = currentUser.uid.toString()
@@ -144,6 +141,7 @@ class UserAdapter(val context: Context, val userList: ArrayList<User>):
 
 
             holder.textName.text = currentUser.name//커런트유터 데이터에서 화면인 홀더로 이름을 넘겨줘서 띄울수있게함
+
             holder.state.text = currentUser.State //현재 상태 띄우기
             holder.gender.text = currentUser.sex //성별띄우기
 

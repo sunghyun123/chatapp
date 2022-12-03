@@ -50,11 +50,19 @@
                         android:layout_height="match_parent"
                         android:orientation="vertical">
 
-                        <include
-                            android:id="@id/contents"
-                            layout="@layout/view_contents_edit_text"
+                        <EditText xmlns:android="http://schemas.android.com/apk/res/android"
+                            android:id="@+id/contentsEditText"
                             android:layout_width="match_parent"
-                            android:layout_height="match_parent" />
+                            android:layout_height="wrap_content"
+                            android:ems="10"
+                            android:gravity="top"
+                            android:hint="내용"
+                            android:inputType="textMultiLine" />
+
+                        <ImageView
+                            android:id="@+id/img"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"></ImageView>
 
                     </LinearLayout>
 
@@ -89,15 +97,7 @@
                 android:text="이미지"
                 android:textColor="#fff" />
 
-            <Button
-                android:id="@+id/video"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="3dp"
-                android:layout_weight="1"
-                android:backgroundTint="#000"
-                android:text="비디오"
-                android:textColor="#fff" />
+
         </LinearLayout>
 
         <Button
