@@ -84,7 +84,7 @@ class UploadNotice : AppCompatActivity() {
     ){
         mDbRef = FirebaseDatabase.getInstance().getReference()
 
-            mDbRef.child("notice").child(uid).child(key.toString()).setValue(notice(Title,Contents,Img,uid,0,key.toString()))
+            mDbRef.child("notice").child(key.toString()).setValue(notice(Title,Contents,Img,uid,0,key.toString()))
 
 
 

@@ -41,10 +41,10 @@ class ViewPostActivity : AppCompatActivity() {
         contents.text = intent.getStringExtra("Content").toString()
         storage =  FirebaseStorage.getInstance()
 
-        val fileName = mAuth.currentUser?.uid.toString()
+        uid = intent.getStringExtra("uid").toString()
         var uri_ = intent.getStringExtra("key").toString()
         var profilefile = File.createTempFile("images","jpeg");
-        var sref = storage.reference.child("article/notice").child(fileName).child(uri_)//지금은 로컬인데 메모리로 바꿀것 좀 느리다.
+        var sref = storage.reference.child("article/notice").child(uid).child(uri_)//지금은 로컬인데 메모리로 바꿀것 좀 느리다.
         sref.getFile(profilefile).addOnCompleteListener{
             Glide.with(this)
                 .load(File(profilefile.absolutePath))

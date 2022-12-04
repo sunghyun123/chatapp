@@ -46,57 +46,30 @@ class nboardActivity : AppCompatActivity() {
         //어뎁터를 넣어준다. 이거때문에 포지션값이 알아서 정의되는거일지도
         noticeRecyclerView.adapter = adapter
         T = true
-
-        mDbRef.child("notice"  ).addValueEventListener(object : ValueEventListener {
-            override fun onDataChange(snapshot: DataSnapshot) {
-                mDbRef.child("user").addValueEventListener(object : ValueEventListener {
-                    // 파이어베이스에서 데이터 읽고 쓸수있는 리스너
-                    override fun onDataChange(snapshot: DataSnapshot) {
-                        if (T == true) {
-                            for (postSnapshot in snapshot.children) {//user데이터베이스에 있는 모든 리스트들이 처음부터 끝까지 끝날떄 까지
-                                val currentUser =
-                                    postSnapshot.getValue(User::class.java)//user 데이터 베이스에있는 값을 첫번째 유저 부터 가져옴
-
-                                mDbRef.child("notice").child(currentUser?.uid.toString())
-                                    .addValueEventListener(object : ValueEventListener {
-                                        // 파이어베이스에서 데이터 읽고 쓸수있는 리스너
-                                        override fun onDataChange(snapshot: DataSnapshot) {
-                                            if (T == true) {
-                                                noticeList.clear()//리스트 초기화
-                                                for (postSnapshot in snapshot.children) {//user데이터베이스에 있는 모든 리스트들이 처음부터 끝까지 끝날떄 까지
-                                                    val currentnotice_ =
-                                                        postSnapshot.getValue(notice::class.java)//user 데이터 베이스에있는 값을 첫번째 유저 부터 가져옴
-                                                    //위의 for문을 볼 때 반복문임.
-                                                    //val user = snapshot.getValue<User>()
-                                                    Log.i(
-                                                        ContentValues.TAG,
-                                                        "${currentnotice_?.Contents}"
-                                                    )
-                                                    noticeList.add(currentnotice_!!)
-                                                    //유저리스트에 내자신은 없다. 유저리스트에 참조된 유저 넣기, 이 코드 두번 쓰면 중복출력
-                                                    //userList.add(user!!)
-                                                }
-                                                adapter.notifyDataSetChanged()//어뎁터에게 새로운 유저정보가 리스트에 들어와서 리스트의 크기와 정보가 바뀔거라는 알림.
-                                                // 이녀석이 포지션 잡아줌
-                                            }
-                                        }
-
-                                        override fun onCancelled(error: DatabaseError) {
-
-                                        }
-                                    })
+                        mDbRef.child("notice").addValueEventListener(object : ValueEventListener {
+                            // 파이어베이스에서 데이터 읽고 쓸수있는 리스너
+                            override fun onDataChange(snapshot: DataSnapshot) {
+                                if (T == true) {
+                                    noticeList.clear()//리스트 초기화
+                                    for (postSnapshot in snapshot.children) {//user데이터베이스에 있는 모든 리스트들이 처음부터 끝까지 끝날떄 까지
+                                        val currentnotice_ =
+                                            postSnapshot.getValue(notice::class.java)//user 데이터 베이스에있는 값을 첫번째 유저 부터 가져옴
+                                        //위의 for문을 볼 때 반복문임.
+                                        //val user = snapshot.getValue<User>()
+                                        Log.i(ContentValues.TAG, "${currentnotice_?.Contents}")
+                                        noticeList.add(currentnotice_!!)
+                                        //유저리스트에 내자신은 없다. 유저리스트에 참조된 유저 넣기, 이 코드 두번 쓰면 중복출력
+                                        //userList.add(user!!)
+                                    }
+                                    adapter.notifyDataSetChanged()//어뎁터에게 새로운 유저정보가 리스트에 들어와서 리스트의 크기와 정보가 바뀔거라는 알림.
+                                    // 이녀석이 포지션 잡아줌
+                                }
                             }
-                        }
-                    }
+                            override fun onCancelled(error: DatabaseError) {
 
-                    override fun onCancelled(error: DatabaseError) {
-                    }
-                })
-            }
-
-            override fun onCancelled(error: DatabaseError) {
-            }
+                            }
         })
+
         var i : Int? = 0
 
 
@@ -116,7 +89,6 @@ class nboardActivity : AppCompatActivity() {
         if (item.itemId == R.id.WritePost) { //두번째 아이템:프로필 설정
             val intent = Intent(this@nboardActivity, WriteActivity::class.java)
             startActivity(intent)
-            finish()
             return true
         }
         if (item.itemId == R.id.home) { //세번째 아이템 만보기 버튼
