@@ -1,10 +1,9 @@
-package com.example.chatapplication
+package com.example.chatapplication.Activity
 
 import android.Manifest
 import androidx.appcompat.app.AppCompatActivity
 import android.content.Context
 import android.content.pm.PackageManager
-import android.content.pm.PackageManager.PERMISSION_GRANTED
 import android.hardware.Sensor
 import android.hardware.SensorEvent
 import android.hardware.SensorEventListener
@@ -15,8 +14,8 @@ import android.util.Log
 import android.widget.TextView
 import android.widget.Toast
 import androidx.annotation.RequiresApi
-import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import com.example.chatapplication.R
 
 class pedometerActivity : AppCompatActivity(),SensorEventListener {
     // mainactivity class에 SensorEventListener추가

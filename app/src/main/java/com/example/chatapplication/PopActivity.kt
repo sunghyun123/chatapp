@@ -1,34 +1,15 @@
-package com.example.chatapplication
+package com.example.chatapplication.Activity
 
-import android.Manifest
-import android.app.Activity
-import android.content.ContentValues
-import android.content.ContentValues.TAG
 import android.content.Intent
-import android.content.pm.PackageManager
-import android.net.Uri
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.os.Environment
-import android.util.Log
-import android.view.View
 import android.widget.*
-import androidx.annotation.NonNull
 import androidx.annotation.RequiresApi
-import androidx.core.content.ContextCompat
-import androidx.core.content.ContextCompat.startActivity
-import androidx.core.net.toFile
-import androidx.core.net.toUri
 import com.bumptech.glide.Glide
-import com.google.android.gms.tasks.Task
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.database.*
-import com.google.firebase.database.ktx.getValue
-import com.google.firebase.storage.FirebaseStorage
-import com.google.firebase.storage.StorageReference
+import com.example.chatapplication.ChattActivity
+import com.example.chatapplication.R
 import java.io.File
-import java.net.URI
 
 
 class popActivity : AppCompatActivity() {

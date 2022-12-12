@@ -1,23 +1,17 @@
 package com.example.chatapplication
 
 import android.annotation.SuppressLint
-import android.content.ContentValues
 import android.content.Intent
-import android.icu.text.CaseMap
 import android.net.Uri
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
-import android.widget.Toast
 import androidx.annotation.RequiresApi
-import androidx.core.content.ContextCompat.startActivity
 import androidx.core.net.toUri
+import com.example.chatapplication.Activity.nboardActivity
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
-import com.google.firebase.database.ktx.getValue
 import com.google.firebase.storage.FirebaseStorage
-import java.time.LocalDateTime
 
 class UploadNotice : AppCompatActivity() {
     private  lateinit var  mAuth: FirebaseAuth

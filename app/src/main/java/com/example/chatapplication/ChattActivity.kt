@@ -6,11 +6,19 @@ import android.os.Bundle
 import android.util.Log
 import android.widget.EditText
 import android.widget.ImageView
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
+import com.google.gson.Gson
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import java.lang.Exception
+
+
 
 //채팅창 클래스, 채팅방 생성, 채팅한 메세지 표시 등의 기능을 수행하는 액티비티
 class ChattActivity : AppCompatActivity() {
@@ -21,9 +29,12 @@ class ChattActivity : AppCompatActivity() {
     private  lateinit var messageAdapter: MessageAdapter
     private  lateinit var messageList: ArrayList<Message>
     private  lateinit var mDbRef: DatabaseReference
+    private lateinit var  mAuth: FirebaseAuth
 
     var receiverRoom: String? = null
     var senderRoom: String? = null
+
+
 
     //유니티 wakeup같은 기능을 하는 함수 앱 실행시 단 1번만 실행
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -40,6 +51,7 @@ class ChattActivity : AppCompatActivity() {
         receiverRoom = senderUid + receiverUid
 
 
+
         supportActionBar?.title = name // 채팅방 상단에 상대방 이름 표시
 
         //findViewById(R.id.~)를 하게되면 xml 레이아웃에서 id가 ~인 객체에 접근하여 값을 변경할 수 있다
@@ -51,6 +63,7 @@ class ChattActivity : AppCompatActivity() {
 
         chatRecyclerView.layoutManager = LinearLayoutManager(this) // 수직(상하)로 리스트를 보여줌
         chatRecyclerView.adapter = messageAdapter
+
 
 
 
@@ -68,6 +81,7 @@ class ChattActivity : AppCompatActivity() {
                         val message = postSnapshot.getValue(Message::class.java)
                         //메세지 리스트에 추가
                         messageList.add(message!!)
+                        chatRecyclerView.scrollToPosition(messageList.size-1);
                     }
                     messageAdapter.notifyDataSetChanged()
                 }
@@ -81,7 +95,7 @@ class ChattActivity : AppCompatActivity() {
 
         // 메세지 데이터베이스 추가, 메세지 보내기 버튼 클릭시 이벤트 발생 함수
         sendButton.setOnClickListener{
-
+            chatRecyclerView.scrollToPosition(messageList.size-1);
             val message = messageBox.text.toString() // 입력된 메세지를 String으로 읽어옴
             Log.i(ContentValues.TAG, "$message")
             if(message != "") {
@@ -94,23 +108,11 @@ class ChattActivity : AppCompatActivity() {
                             .setValue(messageObject)
                     } // 보낸 메세지가 성공적으로 Db에 등록될 시 receiverRoom에도(DB) 똑같은 값을 보낸다.
                 messageBox.setText("") // 메세지를 보내면 메세지 박스 초기화
-                chatRecyclerView.scrollToPosition(messageList.size-2);
-
-            }
-            else{
-            }
+                chatRecyclerView.scrollToPosition(messageList.size-1);
+                }
 
         }
+
     }
-//    뒤로가기 버튼 2번 눌러야 이전 액티비티로 넘어가는 코드(일단은 비활성화 시켜놓음)
-//    var waitTime = 0L
-//
-//    override fun onBackPressed() {
-//        if(System.currentTimeMillis() - waitTime >=1500 ) {
-//            waitTime = System.currentTimeMillis()
-//            Toast.makeText(this,"뒤로가기 버튼을 한번 더 누르면 종료됩니다.", Toast.LENGTH_SHORT).show()
-//        } else {
-//            finish() // 액티비티 종료
-//        }
-//    }
+
 }

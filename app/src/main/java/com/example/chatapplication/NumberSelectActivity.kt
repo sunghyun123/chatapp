@@ -1,10 +1,11 @@
-package com.example.chatapplication
+package com.example.chatapplication.Activity
 
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Button
 import android.widget.NumberPicker
+import com.example.chatapplication.R
 
 class numberSelectActivity : AppCompatActivity() {
     private lateinit var btnok: Button

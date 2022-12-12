@@ -1,19 +1,17 @@
-package com.example.chatapplication
+package com.example.chatapplication.Activity
 
 import android.content.ContentValues
 import android.content.Intent
-import android.content.pm.PackageManager
-import android.icu.lang.UCharacter.GraphemeClusterBreak.T
 import android.os.Bundle
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
+import android.widget.SearchView
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.app.ActivityCompat
-import androidx.core.content.ContextCompat
-import androidx.core.content.ContextCompat.startActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.chatapplication.*
+import com.example.chatapplication.R
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
 
@@ -35,7 +33,10 @@ class nboardActivity : AppCompatActivity() {
         mAuth = FirebaseAuth.getInstance()// 나자신의 유저정보 m이 my의 약자다
         mDbRef = FirebaseDatabase.getInstance().getReference()
 
-        var lon: Double? = null
+
+        val setSearchView = findViewById<SearchView>(R.id.search_view)
+        setSearchView.setOnQueryTextListener(searchViewTextListener)
+
         //userList 생성자 호출
         noticeList = ArrayList()
         adapter = noticeAdapter(this, noticeList)
@@ -51,6 +52,7 @@ class nboardActivity : AppCompatActivity() {
                             override fun onDataChange(snapshot: DataSnapshot) {
                                 if (T == true) {
                                     noticeList.clear()//리스트 초기화
+                                    onadapterStart()
                                     for (postSnapshot in snapshot.children) {//user데이터베이스에 있는 모든 리스트들이 처음부터 끝까지 끝날떄 까지
                                         val currentnotice_ =
                                             postSnapshot.getValue(notice::class.java)//user 데이터 베이스에있는 값을 첫번째 유저 부터 가져옴
@@ -71,13 +73,31 @@ class nboardActivity : AppCompatActivity() {
         })
 
         var i : Int? = 0
+    }
+    var searchViewTextListener: SearchView.OnQueryTextListener =
+        object : SearchView.OnQueryTextListener {
+            //검색버튼 입력시 호출, 검색버튼이 없으므로 사용하지 않음
+            override fun onQueryTextSubmit(s: String): Boolean {
+                return false
+            }
+
+            //텍스트 입력/수정시에 호출
+            override fun onQueryTextChange(s: String): Boolean {
+                adapter.filter.filter(s)
 
 
+                return false
 
+            }
+        }
 
-
+    fun onadapterStart():Boolean{
+        adapter.filter.filter(" ")
+        //Log.d(TAG, "SearchVies Text is changed : $s")
+        return false
 
     }
+
 
     //함수가 호출될때 한번만 실행됨, 상태표시줄에 메뉴가 추가됨
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {

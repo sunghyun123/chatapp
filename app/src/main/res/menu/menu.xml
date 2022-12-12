@@ -1,10 +1,36 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:id="@+id/logout" android:title="로그아웃"/>
-    <item android:id="@+id/setProfile" android:title="프로필 수정"/>
-    <item android:id="@+id/pedometerBtn" android:title="만보기"/>
-    <item android:id="@+id/setdistance" android:title="탐색범위설정"/>
-    <item android:id="@+id/notice" android:title="게시판"/>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="navigation_view">
+
+<group
+
+    android:checkableBehavior="single">
+
+
+    <item android:title="메뉴">
+    <menu>
+        <item android:id="@+id/setProfile" android:title="프로필 수정"
+              android:icon="@drawable/ic_person"/>
+        <item android:id="@+id/pedometerBtn" android:title="만보기"
+              android:icon="@drawable/ic_run"/>
+        <item android:id="@+id/setdistance" android:title="탐색범위설정"
+              android:icon="@drawable/ic_set"/>
+        <item android:id="@+id/notice" android:title="게시판"
+              android:icon="@drawable/ic_notice"/>
+
+    </menu>
+
+    </item>
+</group>
+
+    <item android:title="기타">
+        <menu>
+            <item android:id="@+id/logout" android:title="로그아웃"
+                 android:icon="@drawable/ic_exit"/>
+
+        </menu>
+    </item>
 
 
 

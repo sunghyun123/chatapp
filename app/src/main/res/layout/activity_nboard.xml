@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--메인화면, 사용자 목록이 뜬다-->
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".nboardActivity">
+    tools:context=".Activity.nboardActivity">
 
     <!--리사이클 뷰, 친구목록-->
     <androidx.recyclerview.widget.RecyclerView
@@ -15,7 +15,18 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        tools:listitem="@layout/noticelayout"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:layout_marginTop="50dp"
+        tools:listitem="@layout/noticelayout" />
 
-</LinearLayout>
+    <SearchView
+        android:id="@+id/search_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
+        android:paddingTop="5dp"
+        android:queryHint="검색어를 입력해주세요"
+        android:paddingBottom="5dp"
+        android:iconifiedByDefault="false"/>
+
+
+</RelativeLayout>

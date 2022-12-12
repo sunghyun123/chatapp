@@ -12,7 +12,7 @@
         android:layout_width="76dp"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="150dp"
-        android:hint="거리"
+        android:text="거리"
         android:textSize="20sp" />
 
     <LinearLayout
@@ -25,7 +25,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="0dp"
-            android:max="10"
+            android:max="20"
             android:min="0"
             android:progress="1" />
     </LinearLayout>

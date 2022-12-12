@@ -21,9 +21,8 @@
 
         <activity
             android:name=".MainActivity"
-            android:exported="true" />
-
-
+            android:exported="true"
+            android:theme="@style/Theme.ChatApplication.NoActionBar"/>
         <activity
             android:name=".ViewPostActivity"
             android:exported="false" />
@@ -32,14 +31,12 @@
             android:exported="false" />
         <activity
             android:name=".WriteActivity"
-
-            android:exported="false" />
-
-        <activity
-            android:name=".popActivity"
             android:exported="false" />
         <activity
-            android:name=".pedometerActivity"
+            android:name=".Activity.popActivity"
+            android:exported="false" />
+        <activity
+            android:name=".Activity.pedometerActivity"
             android:exported="false" />
         <activity
             android:name=".SignUpLast"
@@ -69,9 +66,8 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".nboardActivity"
+            android:name=".Activity.nboardActivity"
             android:exported="false" />
-
 
         <service
             android:name=".ForceTerminationService"

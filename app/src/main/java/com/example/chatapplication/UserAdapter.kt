@@ -14,6 +14,7 @@ import android.widget.Filterable
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.example.chatapplication.Activity.popActivity
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
@@ -149,7 +150,7 @@ class UserAdapter(val context: Context, val userList: ArrayList<User>):
 
             holder.itemView.setOnClickListener {//목록의 뷰를 누를시
 
-                val intent = Intent(context,popActivity::class.java)// 화면전환할 액티비티 정의
+                val intent = Intent(context, popActivity::class.java)// 화면전환할 액티비티 정의
                 //전환할 엑티비티로 데이터 넘기기 받는쪽에선 getExtraa
                 intent.putExtra("uid", currentUser.uid)
                 intent.putExtra("name", currentUser.name)
@@ -163,6 +164,11 @@ class UserAdapter(val context: Context, val userList: ArrayList<User>):
                 intent.putExtra("img",profilefile.absolutePath.toString())
 
                 context.startActivity(intent)//환면전환하기.
+
+                val intent1 = Intent(context, ChattActivity::class.java)
+                intent1.putExtra("uid", currentUser.uid)
+                intent1.putExtra("name", currentUser.name)
+
             }
 
     }

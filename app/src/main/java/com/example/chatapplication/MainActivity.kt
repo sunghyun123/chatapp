@@ -1,37 +1,36 @@
 package com.example.chatapplication
 
 import android.Manifest
-import android.app.AlertDialog
-import android.app.Dialog
-import android.app.ProgressDialog.show
 import android.content.ContentValues
-import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.location.Location
 import android.os.Bundle
 import android.os.Looper
 import android.util.Log
-import android.view.LayoutInflater
 import android.view.Menu
 import android.view.MenuItem
-import android.view.WindowManager
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import androidx.core.view.GravityCompat
+import androidx.drawerlayout.widget.DrawerLayout
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.chatapplication.Activity.nboardActivity
+import com.example.chatapplication.Activity.pedometerActivity
+import com.example.chatapplication.databinding.ActivityMainBinding
 import com.google.android.gms.location.*
+import com.google.android.material.navigation.NavigationView
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
-import kotlin.math.*
+import com.google.firebase.database.ktx.getValue
 
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener{
     private  lateinit var  userRecyclerView: RecyclerView
     private lateinit var userList: ArrayList<User>//각 유저들의 데이터를 가지고있는 배열
-
     private  lateinit var adapter: UserAdapter// 데이터와 뷰를 이어주는 중간다리
     private lateinit var  mAuth: FirebaseAuth // 파이어베이스 유저관련 접속하기위한 변수
     private  lateinit var mDbRef: DatabaseReference// 파이어베이스 리얼타임베이스 접근하기위한 변수
@@ -49,19 +48,39 @@ class MainActivity : AppCompatActivity() {
     private  var textlon : Double? = null
     private  var distance : String = ""
 
+    lateinit var binding : ActivityMainBinding
 
+    var waitTime = 0L
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)//
         setContentView(R.layout.activity_main)
 
+        binding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+
         val setSearchView = findViewById<SearchView>(R.id.search_view_phone_book)
         setSearchView.setOnQueryTextListener(searchViewTextListener)
 
 
+        val btn_navi = findViewById<ImageView>(R.id.btn_menu)
+        val layout_drawer = findViewById<DrawerLayout>(R.id.layout_drawer)
+        val navView = findViewById<NavigationView>(R.id.navView)
+
+        val nav_header_view = navView.getHeaderView(0)
+
+        val myname = nav_header_view.findViewById<TextView>(R.id.myname)
+        val myemail = nav_header_view.findViewById<TextView>(R.id.myeamil)
+        btn_navi.setOnClickListener {
+            layout_drawer.openDrawer(GravityCompat.START)
+
+        }
+
+        navView.setNavigationItemSelectedListener(this)
 
 
-        startService(Intent(this,ForceTerminationService::class.java))
+
+        startService(Intent(this, ForceTerminationService::class.java))
         //유저,리얼타임데이터베이스에 접근 해서 값얻을수있는 통로뚥기 저 두변수가 길이다.
         mAuth = FirebaseAuth.getInstance()// 나자신의 유저정보 m이 my의 약자다
         mDbRef = FirebaseDatabase.getInstance().getReference()
@@ -71,6 +90,8 @@ class MainActivity : AppCompatActivity() {
         mAuth = FirebaseAuth.getInstance()
 
         //어뎁터 생성자. 여기서 이걸해줌으로 각 어뎁터는 하나의 포지션을같는다 연결해버리니까
+
+        myemail.text = "이메일 : " + mAuth.currentUser?.email
 
         adapter = UserAdapter(this, userList)
         //리사이클러뷰 찾아서 잡아주기
@@ -126,9 +147,41 @@ class MainActivity : AppCompatActivity() {
         if(mAuth.currentUser?.uid.toString() == null)
             mDbRef.child("user").child( mAuth.currentUser?.uid.toString()).child("state").setValue("ON")// 온오프 표시
 
+        mDbRef.child("user").child( mAuth.currentUser?.uid.toString()).child("name").addValueEventListener(object : ValueEventListener {
+            override fun onDataChange(dataSnapshot: DataSnapshot) { //유저 데이터 데이스의 lon값을 받아옴
+                myname.text =
+                    "접속자 : " + dataSnapshot.getValue<String>()
 
+
+                //Log.i(ContentValues.TAG, "$lon")
+
+
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+                // Failed to read value
+                Log.w(ContentValues.TAG, "Failed to read value.", error.toException())
+            }
+        })
 
     }
+
+    override fun onBackPressed() {
+        val layout_drawer = findViewById<DrawerLayout>(R.id.layout_drawer)
+
+
+        if (layout_drawer.isDrawerOpen(GravityCompat.START)){
+            layout_drawer.closeDrawers()
+        }
+        if(System.currentTimeMillis() - waitTime >=1500 ) {
+            waitTime = System.currentTimeMillis()
+            Toast.makeText(this,"뒤로가기 버튼을 한번 더 누르면  앱이 종료됩니다.",Toast.LENGTH_SHORT).show()
+        } else {
+            finish() // 액티비티 종료
+        }
+
+    }
+
     var searchViewTextListener: SearchView.OnQueryTextListener =
         object : SearchView.OnQueryTextListener {
             //검색버튼 입력시 호출, 검색버튼이 없으므로 사용하지 않음
@@ -158,62 +211,6 @@ class MainActivity : AppCompatActivity() {
         super.onDestroy()
         intent.putExtra("uid",mAuth.currentUser?.uid.toString())
     }
-
-    //메뉴가 선택되었을때 호출되는 함수, 화면 전환
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-
-        if(item.itemId == R.id.logout){ //첫번째 아이템:로그아웃
-            T = false
-            val intent = Intent(this@MainActivity, Login::class.java)
-            mDbRef.child("user").child( mAuth.currentUser?.uid.toString()).child("state").setValue("OFF")// 온오프 표시
-            mAuth.signOut()
-            finish()
-            startActivity(intent)
-            return true
-        }
-        if(item.itemId == R.id.setProfile){ //두번째 아이템:프로필 설정
-            val intent = Intent(this@MainActivity, SetProfileActivity::class.java)
-
-            startActivity(intent)
-            return true
-        }
-        if(item.itemId == R.id.pedometerBtn){ //세번째 아이템 만보기 버튼
-            val intent = Intent(this@MainActivity, pedometerActivity::class.java)
-            startActivity(intent)
-            return true
-        }
-
-
-        if(item.itemId == R.id.setdistance){ //거리설정 버튼
-            
-
-
-            val dialog = CustSeekbar(this)
-            dialog.showSeekbar()
-            dialog.setOnClickListener(object: CustSeekbar.ButtonClickListener{
-                override fun onClicked(text: String) {
-                    var split = text.split("k")
-                    var dis = ((split[0].toFloat())*1000).toInt()
-                    Log.i(ContentValues.TAG,"$dis")
-                    adapter.filter.filter(dis.toString())
-                }
-            })
-
-
-        }
-
-
-        if(item.itemId == R.id.notice){ //세번째 아이템 만보기 버튼
-            val intent = Intent(this@MainActivity, nboardActivity::class.java)
-            startActivity(intent)
-
-            return true
-
-        }
-        //여기서 처리
-        return true
-    }
-
 
 
     fun onadapterStart():Boolean{
@@ -308,6 +305,63 @@ class MainActivity : AppCompatActivity() {
         mDbRef.child("user").child( mAuth.currentUser?.uid.toString()).child("lat").setValue(textlat)
 
     }
+
+
+    override fun onNavigationItemSelected(item: MenuItem): Boolean {
+
+
+        val layout_drawer = findViewById<DrawerLayout>(R.id.layout_drawer)
+        when(item.itemId){
+            R.id.logout -> {
+
+                T = false
+                val intent = Intent(this@MainActivity, Login::class.java)
+                mDbRef.child("user").child(mAuth.currentUser?.uid.toString()).child("state")
+                    .setValue("OFF")// 온오프 표시
+                mAuth.signOut()
+                finish()
+                startActivity(intent)
+
+                return false
+            }
+            R.id.setProfile -> {
+                val intent = Intent(this@MainActivity, SetProfileActivity::class.java)
+
+                startActivity(intent)
+                return false
+            }
+            R.id.pedometerBtn -> {
+                val intent = Intent(this@MainActivity, pedometerActivity::class.java)
+                startActivity(intent)
+
+                return false
+            }
+            R.id.setdistance ->{
+                val dialog = CustSeekbar(this)
+                dialog.showSeekbar()
+                dialog.setOnClickListener(object: CustSeekbar.ButtonClickListener {
+                    override fun onClicked(text: String) {
+                        var split = text.split("k")
+                        var dis = ((split[0].toFloat())*1000).toInt()
+                        //  Log.i(ContentValues.TAG,"$text")
+                        adapter.filter.filter(dis.toString())
+                    }
+                })
+
+            }
+            R.id.notice ->{
+                val intent = Intent(this@MainActivity, nboardActivity::class.java)
+                startActivity(intent)
+                return false
+
+            }
+        }
+        layout_drawer.closeDrawers()
+        return false
+    }
+
+
+
 
 }
 

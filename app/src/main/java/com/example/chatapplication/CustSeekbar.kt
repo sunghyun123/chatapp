@@ -42,6 +42,7 @@ class CustSeekbar(context: Context) {
             override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
                 var d : Float = ((progress*500).toFloat())/1000
                 textView.text = d.toString() + "km"
+
             }
 
             override fun onStartTrackingTouch(seekBar: SeekBar?) {
@@ -53,6 +54,8 @@ class CustSeekbar(context: Context) {
 
 
         okbtn.setOnClickListener {
+            if(textView.text == "거리")
+                textView.text = "0.5km"
             onClickListener.onClicked(textView.text.toString())
             dialog.dismiss()
         }
