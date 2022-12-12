@@ -8,6 +8,7 @@ import android.os.Bundle
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
@@ -88,15 +89,26 @@ class nboardActivity : AppCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         if (item.itemId == R.id.WritePost) { //두번째 아이템:프로필 설정
             val intent = Intent(this@nboardActivity, WriteActivity::class.java)
+            intent.putExtra("key","null")
             startActivity(intent)
             return true
         }
         if (item.itemId == R.id.home) { //세번째 아이템 만보기 버튼
             val intent = Intent(this@nboardActivity, MainActivity::class.java)
-            startActivity(intent)
             finish()
+            startActivity(intent)
             return true
         }
         return true
+    }
+    var waitTime = 0L
+
+    override fun onBackPressed() {
+        if(System.currentTimeMillis() - waitTime >=1500 ) {
+            waitTime = System.currentTimeMillis()
+            Toast.makeText(this,"뒤로가기 버튼을 한번 더 누르면 종료됩니다.", Toast.LENGTH_SHORT).show()
+        } else {
+            finish() // 액티비티 종료
+        }
     }
 }

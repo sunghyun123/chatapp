@@ -154,10 +154,7 @@ class MainActivity : AppCompatActivity() {
         return super.onCreateOptionsMenu(menu) // 부모클래스의 onCreateOptionsMenu에 접근, 즉 재귀호출
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
-        intent.putExtra("uid",mAuth.currentUser?.uid.toString())
-    }
+
 
     //메뉴가 선택되었을때 호출되는 함수, 화면 전환
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
