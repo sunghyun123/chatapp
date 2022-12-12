@@ -1,4 +1,4 @@
-package com.example.chatapplication
+package com.example.chatapplication.Adapter
 
 
 import android.annotation.SuppressLint
@@ -14,7 +14,10 @@ import android.widget.Filterable
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.example.chatapplication.Activity.popActivity
+import com.example.chatapplication.ChattActivity
+import com.example.chatapplication.R
+import com.example.chatapplication.View.User
+import com.example.chatapplication.popActivity
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
@@ -100,7 +103,12 @@ class UserAdapter(val context: Context, val userList: ArrayList<User>):
                         dataSnapshot.getValue<Double>()
                     lat = userlat!!
                     setLat(lat) //데이터베이스에서 읽어온 위도를 전역변수에 저장하는 함수
-                    var sum =  DistanceManager.getDistance(currentUser.lat!!, currentUser.lon!!,lat, lon ).toDouble()
+                    var sum =  DistanceManager.getDistance(
+                        currentUser.lat!!,
+                        currentUser.lon!!,
+                        lat,
+                        lon
+                    ).toDouble()
 
                     //여기서 뷰홀더를 호출하는 이유는 데이터베이스에서 값을 읽어오는 것이 함수내에서 무조건 후순위로 배치되기때문에 밑에 다른 뷰홀더들과 같은 곳에서 호출하면
                     //데이터베이스에서 값을 읽어오지 못하고 출력을 하게되므로 이곳에서 호출
@@ -240,7 +248,8 @@ class UserAdapter(val context: Context, val userList: ArrayList<User>):
 
                 //반복문을 돌려 user리스트안의 모든 유저의 위도경도를 받아와 거리구하기 공식을 사용
                 for (person in userList) {
-                    val msum = DistanceManager.getDistance(person.lat!!, person.lon!!, lat4!!, lon4!! )
+                    val msum =
+                        DistanceManager.getDistance(person.lat!!, person.lon!!, lat4!!, lon4!!)
 
                     //만약에 설정한 거리보다 현재 거리가 작거나 같을시에만 거리 표시
                     if (filterString.toInt() >= msum ) {

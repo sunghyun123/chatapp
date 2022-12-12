@@ -1,17 +1,14 @@
 package com.example.chatapplication
 
-import android.Manifest
-import android.content.pm.PackageManager
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.*
-import androidx.core.content.ContextCompat
 import com.bumptech.glide.Glide
+import com.example.chatapplication.View.notice
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.storage.FirebaseStorage
-import org.w3c.dom.Text
 import java.io.File
 
 class ViewPostActivity : AppCompatActivity() {

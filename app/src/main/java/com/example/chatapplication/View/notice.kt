@@ -1,4 +1,4 @@
-package com.example.chatapplication
+package com.example.chatapplication.View
 
 class notice {
     var title: String? = null

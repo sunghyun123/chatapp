@@ -36,19 +36,11 @@
             android:name=".WriteActivity"
             android:exported="false" />
         <activity
-            android:name=".Activity.popActivity"
-            android:exported="false" />
-        <activity
-            android:name=".Activity.pedometerActivity"
-            android:screenOrientation="portrait"
-            android:exported="false" />
-        <activity
-            android:screenOrientation="portrait"
             android:name=".popActivity"
             android:exported="false" />
         <activity
-            android:screenOrientation="portrait"
             android:name=".pedometerActivity"
+            android:screenOrientation="portrait"
             android:exported="false" />
         <activity
             android:screenOrientation="portrait"

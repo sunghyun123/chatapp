@@ -18,8 +18,8 @@ import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.chatapplication.Activity.nboardActivity
-import com.example.chatapplication.Activity.pedometerActivity
+import com.example.chatapplication.Adapter.UserAdapter
+import com.example.chatapplication.View.User
 import com.example.chatapplication.databinding.ActivityMainBinding
 import com.google.android.gms.location.*
 import com.google.android.material.navigation.NavigationView

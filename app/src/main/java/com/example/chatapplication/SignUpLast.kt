@@ -9,6 +9,7 @@ import android.widget.Button
 import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.core.app.ActivityCompat
+import com.example.chatapplication.View.User
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
@@ -142,7 +143,8 @@ class SignUpLast : AppCompatActivity() {
         lon: Double
     ){
         mDbRef = FirebaseDatabase.getInstance().getReference()
-        mDbRef.child("user").child(uid).setValue(User(name,
+        mDbRef.child("user").child(uid).setValue(
+            User(name,
             email,
             uid,
             sex,
@@ -154,6 +156,7 @@ class SignUpLast : AppCompatActivity() {
             state,
             lat,
             lon
-        ))
+        )
+        )
     }
 }

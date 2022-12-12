@@ -16,7 +16,7 @@ import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import com.bumptech.glide.Glide
-import com.example.chatapplication.Activity.numberSelectActivity
+import com.example.chatapplication.View.User
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
 import com.google.firebase.database.ktx.getValue
@@ -396,7 +396,8 @@ class SetProfileActivity : AppCompatActivity() {
         lon:Double
     ){
 
-        mDbRef.child("user").child(uid).setValue(User(name,
+        mDbRef.child("user").child(uid).setValue(
+            User(name,
             email,
             uid,
             sex,
@@ -407,7 +408,8 @@ class SetProfileActivity : AppCompatActivity() {
             selectImage.toString(),
             state,
             lat,
-            lon))
+            lon)
+        )
     }
 
     var waitTime = 0L

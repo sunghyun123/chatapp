@@ -1,4 +1,4 @@
-package com.example.chatapplication
+package com.example.chatapplication.Adapter
 
 import android.annotation.SuppressLint
 import android.content.ContentValues
@@ -15,16 +15,14 @@ import android.widget.Filterable
 import android.widget.PopupMenu
 
 import android.widget.TextView
-import android.widget.Toast
-import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.Glide
+import com.example.chatapplication.R
+import com.example.chatapplication.ViewPostActivity
+import com.example.chatapplication.WriteActivity
+import com.example.chatapplication.View.notice
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
-import com.google.firebase.database.ktx.getValue
 import com.google.firebase.storage.FirebaseStorage
-import java.io.File
-import kotlin.math.*
 
 
 class noticeAdapter(val context: Context, val noticeList: ArrayList<notice>):
@@ -85,6 +83,9 @@ class noticeAdapter(val context: Context, val noticeList: ArrayList<notice>):
             popup.setOnMenuItemClickListener { item ->
                 if(item.itemId == R.id.delete){
                     storage = FirebaseStorage.getInstance()
+                    mDbRef=FirebaseDatabase.getInstance().getReference()
+                    mDbRef.child("notice").child(currentnotice.number.toString()).removeValue()
+                    storage.reference.child("article/notice").child(currentnotice.uid.toString()).child(currentnotice.number.toString()).delete()
                 }
                 if(item.itemId == R.id.replace){
                     val intent = Intent(context, WriteActivity::class.java)// 화면전환할 액티비티 정의

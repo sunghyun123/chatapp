@@ -1,4 +1,4 @@
-package com.example.chatapplication.Activity
+package com.example.chatapplication
 
 import android.content.ContentValues
 import android.content.Intent
@@ -11,8 +11,8 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.chatapplication.*
-import com.example.chatapplication.R
+import com.example.chatapplication.Adapter.noticeAdapter
+import com.example.chatapplication.View.notice
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
 
@@ -126,7 +126,7 @@ class nboardActivity : AppCompatActivity() {
     override fun onBackPressed() {
         if(System.currentTimeMillis() - waitTime >=1500 ) {
             waitTime = System.currentTimeMillis()
-            Toast.makeText(this,"뒤로가기 버튼을 한번 더 누르면 종료됩니다.", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this,"뒤로가기 버튼을 한번 더 누르면 메인화면으로 돌아갑니다.", Toast.LENGTH_SHORT).show()
         } else {
             finish() // 액티비티 종료
         }

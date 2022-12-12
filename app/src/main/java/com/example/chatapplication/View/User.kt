@@ -1,4 +1,4 @@
-package com.example.chatapplication
+package com.example.chatapplication.View
 
 import android.content.Context
 import android.net.Uri

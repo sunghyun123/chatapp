@@ -1,4 +1,4 @@
-package com.example.chatapplication.Activity
+package com.example.chatapplication
 
 import android.content.Intent
 import android.os.Build
@@ -10,7 +10,6 @@ import com.bumptech.glide.Glide
 import com.example.chatapplication.ChattActivity
 import com.example.chatapplication.R
 import java.io.File
-
 
 class popActivity : AppCompatActivity() {
 
