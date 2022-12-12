@@ -23,12 +23,15 @@
             android:name=".MainActivity"
             android:exported="true"
             android:theme="@style/Theme.ChatApplication.NoActionBar"/>
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".ViewPostActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".UploadNotice"
-            android:exported="false" />
+            android:exported="false"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".WriteActivity"
             android:exported="false" />
@@ -37,26 +40,42 @@
             android:exported="false" />
         <activity
             android:name=".Activity.pedometerActivity"
+            android:screenOrientation="portrait"
             android:exported="false" />
         <activity
+            android:screenOrientation="portrait"
+            android:name=".popActivity"
+            android:exported="false" />
+        <activity
+            android:screenOrientation="portrait"
+            android:name=".pedometerActivity"
+            android:exported="false" />
+        <activity
+            android:screenOrientation="portrait"
             android:name=".SignUpLast"
             android:exported="false" />
         <activity
+            android:screenOrientation="portrait"
             android:name=".SignUp3"
             android:exported="false" />
         <activity
+            android:screenOrientation="portrait"
             android:name=".SignUp2"
             android:exported="false" />
         <activity
+            android:screenOrientation="portrait"
             android:name=".SetProfileActivity"
             android:exported="false" />
         <activity
+            android:screenOrientation="portrait"
             android:name=".ChattActivity"
             android:exported="false" />
         <activity
+            android:screenOrientation="portrait"
             android:name=".SignUp"
             android:exported="true" />
         <activity
+            android:screenOrientation="portrait"
             android:name=".Login"
             android:exported="true">
             <intent-filter>
@@ -66,7 +85,8 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".Activity.nboardActivity"
+            android:screenOrientation="portrait"
+            android:name=".nboardActivity"
             android:exported="false" />
 
         <service

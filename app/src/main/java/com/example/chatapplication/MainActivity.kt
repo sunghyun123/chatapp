@@ -207,10 +207,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         return super.onCreateOptionsMenu(menu) // 부모클래스의 onCreateOptionsMenu에 접근, 즉 재귀호출
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
-        intent.putExtra("uid",mAuth.currentUser?.uid.toString())
-    }
+
 
 
     fun onadapterStart():Boolean{

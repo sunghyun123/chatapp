@@ -5,7 +5,10 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Button
 import android.widget.NumberPicker
+
 import com.example.chatapplication.R
+import android.widget.Toast
+
 
 class numberSelectActivity : AppCompatActivity() {
     private lateinit var btnok: Button
@@ -29,6 +32,16 @@ class numberSelectActivity : AppCompatActivity() {
             val nextIntent = Intent(this@numberSelectActivity, ActivityName::class.java)
             nextIntent.putExtra(valueName.toString(),np.value)
             startActivity(nextIntent)
+        }
+    }
+    var waitTime = 0L
+
+    override fun onBackPressed() {
+        if(System.currentTimeMillis() - waitTime >=1500 ) {
+            waitTime = System.currentTimeMillis()
+            Toast.makeText(this,"뒤로가기 버튼을 한번 더 누르면 종료됩니다.", Toast.LENGTH_SHORT).show()
+        } else {
+            finish() // 액티비티 종료
         }
     }
 }

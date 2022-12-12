@@ -357,9 +357,7 @@ class SetProfileActivity : AppCompatActivity() {
         else{
             Toast.makeText(this,"there is empty space", Toast.LENGTH_SHORT).show()
         }
-
     }
-
 
     private fun uploadPhoto(selectImage: Uri) {// 파이어베이스에 이미지 파일 올리고, 올린파일 다시 받아오는 코드.
         val fileName = mAuth.currentUser?.uid.toString()

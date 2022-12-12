@@ -5,6 +5,7 @@ import android.app.Activity
 import android.content.ContentValues
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.graphics.Color
 import android.icu.text.CaseMap
 import android.net.Uri
 import android.os.Build
@@ -18,10 +19,12 @@ import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.core.content.ContextCompat
 import androidx.core.content.ContextCompat.startActivity
+import com.bumptech.glide.Glide
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.storage.FirebaseStorage
+import java.io.File
 
 class WriteActivity : AppCompatActivity() {
     private  lateinit var  mAuth: FirebaseAuth
@@ -35,6 +38,7 @@ class WriteActivity : AppCompatActivity() {
     private lateinit var noti : notice
     private lateinit var subtn : Button
     private lateinit var imgbtn : Button
+    private lateinit var key2 : String
     private  var imgon : Boolean = false
     @RequiresApi(Build.VERSION_CODES.M)
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -70,12 +74,37 @@ class WriteActivity : AppCompatActivity() {
                 }
             }
         }
+
         subtn.setOnClickListener {
+            if(key2 != "null"){
+                mDbRef=FirebaseDatabase.getInstance().getReference()
+                mDbRef.child("notice").child(key2).removeValue()
+                storage.reference.child("article/notice").child(intent.getStringExtra("uid").toString()).child(key2  ).delete()
+
+            }
             uploadPost(Title.text.toString(), contents.text.toString())
         }
 
+        key2=intent.getStringExtra("key").toString()
+        if(key2 != "null"){
+            loadNotice()
+        }
     }
+    private fun loadNotice(){
+        Title.hint = intent.getStringExtra("Title").toString()
+        contents.hint = intent.getStringExtra("Content").toString()
+        storage =  FirebaseStorage.getInstance()
+        uid = intent.getStringExtra("uid").toString()
+        var uri_ = intent.getStringExtra("key").toString()
+        var profilefile = File.createTempFile("images","jpeg");
+        var sref = storage.reference.child("article/notice").child(uid).child(uri_)//지금은 로컬인데 메모리로 바꿀것 좀 느리다.
+        sref.getFile(profilefile).addOnCompleteListener{
+            Glide.with(this)
+                .load(File(profilefile.absolutePath))
+                .into(MainImage);
+        }
 
+    }
     private fun getImageFromAlbum() {
         var intent = Intent()
         intent.action = Intent.ACTION_GET_CONTENT
@@ -128,7 +157,16 @@ class WriteActivity : AppCompatActivity() {
         }
     }
 
+    var waitTime = 0L
 
+    override fun onBackPressed() {
+        if(System.currentTimeMillis() - waitTime >=1500 ) {
+            waitTime = System.currentTimeMillis()
+            Toast.makeText(this,"뒤로가기 버튼을 한번 더 누르면 종료됩니다.", Toast.LENGTH_SHORT).show()
+        } else {
+            finish() // 액티비티 종료
+        }
+    }
 
 }
 
