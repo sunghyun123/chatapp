@@ -5,13 +5,17 @@ import android.annotation.SuppressLint
 import android.content.ContentValues
 import android.content.Context
 import android.content.Intent
+import android.graphics.Color
+import android.graphics.drawable.GradientDrawable
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Filter
 import android.widget.Filterable
+import android.widget.LinearLayout
 import android.widget.TextView
+import androidx.core.content.ContextCompat.getColor
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.chatapplication.ChattActivity
@@ -37,6 +41,7 @@ class UserAdapter(val context: Context, val userList: ArrayList<User>):
     private lateinit var namelist : ArrayList<String>
     var filteredDistance = ArrayList<User>()
 
+
     var TAG = "UserAdapter"
     var itemFilter = ItemFilter()
 
@@ -60,9 +65,17 @@ class UserAdapter(val context: Context, val userList: ArrayList<User>):
         filteredDistance.addAll(userList)
     }
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): UserViewHolder {//화면에 띄울 뷰 한개 생성
+
+
         val con = parent.context
         val inflater = con.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
         val view: View = LayoutInflater.from(context).inflate(R.layout.user_layout, parent, false)
+
+//        val useview =  view.findViewById<LinearLayout>(R.id.userview)
+//
+//
+//        var bgShape : GradientDrawable = useview.background as GradientDrawable
+//        bgShape.setColor(Color.BLUE)
         return UserViewHolder(view)
 
 
@@ -73,8 +86,13 @@ class UserAdapter(val context: Context, val userList: ArrayList<User>):
             // 방금 생성한 뷰가 화면에서 몇번쨰인지포지션을통해 알아내고 user의정보가 들어있는
             // userlist도 순서는동일하기에 유저리스트[position]을 통해 값을 커런트 유저로 넣어줌
             val pos = position
-            setPosition(position)
 
+            setPosition(position)
+//            if(position == 1) {
+//                val useview = onCreateViewHolder().itemView.findViewById<LinearLayout>(R.id.userview)
+//                var bgShape: GradientDrawable = useview.background as GradientDrawable
+//                bgShape.setColor(Color.BLUE)
+//            }
             val currentUser = filteredDistance[position]//커런트유저는 데이터임
             mAuth = FirebaseAuth.getInstance()
             var lon : Double = 1.0
@@ -119,6 +137,7 @@ class UserAdapter(val context: Context, val userList: ArrayList<User>):
                     }
                     else //1000보다 작다면 m단위로 출력
                         holder.location.text = "나와의 거리 " + (sum.toInt()).toString() + "m"
+
 
                 }
 
