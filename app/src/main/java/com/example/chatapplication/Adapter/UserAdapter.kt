@@ -11,6 +11,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Filter
 import android.widget.Filterable
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
@@ -54,7 +55,7 @@ class UserAdapter(val context: Context, val userList: ArrayList<User>):
         val location = itemView.findViewById<TextView>(R.id.location)
         val profileimg = itemView.findViewById<de.hdodenhof.circleimageview.CircleImageView>(R.id.img_rv_photo)
         val gender = itemView.findViewById<TextView>(R.id.sex)
-
+        var star = itemView.findViewById<ImageView>(R.id.star)
     }
     init {
         filteredDistance.addAll(userList)
@@ -64,9 +65,6 @@ class UserAdapter(val context: Context, val userList: ArrayList<User>):
         val inflater = con.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
         val view: View = LayoutInflater.from(context).inflate(R.layout.user_layout, parent, false)
         return UserViewHolder(view)
-
-
-
     }
 
     override fun onBindViewHolder(holder: UserViewHolder, position: Int) {// 뷰 생성시 홀더와 포지션값은 정해짐
@@ -74,7 +72,7 @@ class UserAdapter(val context: Context, val userList: ArrayList<User>):
             // userlist도 순서는동일하기에 유저리스트[position]을 통해 값을 커런트 유저로 넣어줌
             val pos = position
             setPosition(position)
-
+            if(position != 0) holder.star.visibility = View.GONE
             val currentUser = filteredDistance[position]//커런트유저는 데이터임
             mAuth = FirebaseAuth.getInstance()
             var lon : Double = 1.0
@@ -87,8 +85,6 @@ class UserAdapter(val context: Context, val userList: ArrayList<User>):
                     lon = userlon!!
                     setLon(lon) //데이터베이스에서 읽어온 경도를 전역변수에 저장하는 함수
                     //Log.i(ContentValues.TAG, "$lon")
-
-
                 }
 
                 override fun onCancelled(error: DatabaseError) {

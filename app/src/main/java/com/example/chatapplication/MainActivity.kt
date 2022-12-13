@@ -26,6 +26,8 @@ import com.google.android.material.navigation.NavigationView
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
 import com.google.firebase.database.ktx.getValue
+import java.util.*
+import kotlin.collections.ArrayList
 
 
 class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener{
@@ -34,9 +36,12 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     private  lateinit var adapter: UserAdapter// 데이터와 뷰를 이어주는 중간다리
     private lateinit var  mAuth: FirebaseAuth // 파이어베이스 유저관련 접속하기위한 변수
     private  lateinit var mDbRef: DatabaseReference// 파이어베이스 리얼타임베이스 접근하기위한 변수
-
+    private lateinit var star : ImageView
     var T = false
-
+    private var time = 0
+    private var isRunning = false
+    private var timerTask: Timer? = null
+    private var index :Int = 1
 
 
     private var mFusedLocationProviderClient: FusedLocationProviderClient? = null // 현재 위치를 가져오기 위한 변수
@@ -53,6 +58,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     var waitTime = 0L
 
     override fun onCreate(savedInstanceState: Bundle?) {
+
         super.onCreate(savedInstanceState)//
         setContentView(R.layout.activity_main)
 
@@ -106,6 +112,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
             priority = LocationRequest.PRIORITY_HIGH_ACCURACY
         }
+
         startLocationUpdates()
 
         mDbRef.child("user").addValueEventListener(object: ValueEventListener{// 파이어베이스에서 데이터 읽고 쓸수있는 리스너
@@ -137,7 +144,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             if(ContextCompat.checkSelfPermission(this, android.Manifest.permission.ACTIVITY_RECOGNITION) == PackageManager.PERMISSION_GRANTED
                 && ContextCompat.checkSelfPermission(this, android.Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED
                 && ContextCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED){
-
             }
             val permissions: Array<String> = arrayOf(
                 android.Manifest.permission.ACTIVITY_RECOGNITION,
