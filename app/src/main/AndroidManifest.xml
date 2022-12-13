@@ -34,10 +34,12 @@
             android:screenOrientation="portrait"/>
         <activity
             android:name=".WriteActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".popActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".pedometerActivity"
             android:screenOrientation="portrait"

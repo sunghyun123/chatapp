@@ -87,7 +87,13 @@
 
 
     </LinearLayout>
-
+        <ImageView
+            android:id="@+id/star"
+            android:layout_gravity="center"
+            android:src="@drawable/star"
+            android:layout_width="match_parent"
+            android:layout_height="26dp"
+            ></ImageView>
     </LinearLayout>
 
 </LinearLayout>
